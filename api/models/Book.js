@@ -29,5 +29,9 @@ module.exports = (db, DataType) => {
       type: DataType.FLOAT,
       allowNull: false,
     },
+    status: {
+      type: DataType.BOOLEAN,
+      allowNull: false,
+    },
   });
 };

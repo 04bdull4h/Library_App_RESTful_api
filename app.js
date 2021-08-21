@@ -28,4 +28,8 @@ dbConnection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+/*--------- Setting up routes ---------*/
+const bookRouter = require('./api/routes/bookRouter');
+app.use('/api/v1/books', bookRouter);
+
 module.exports = app;
