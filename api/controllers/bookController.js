@@ -28,7 +28,7 @@ const fetchAllBooks = async (req, res) => {
   }
 };
 
-const fetchedBookById = async (req, res) => {
+const fetchBookById = async (req, res) => {
   try {
     const id = req.params.id;
     const book = await Book.findByPk(id);
@@ -175,7 +175,7 @@ const deleteBookById = async (req, res) => {
 module.exports = {
   createBook,
   fetchAllBooks,
-  fetchedBookById,
+  fetchBookById,
   updateBookById,
   deleteBookById,
 };
