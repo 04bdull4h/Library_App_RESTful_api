@@ -62,15 +62,6 @@ const createBook = async (req, res) => {
       publisher: req.body.publisher,
       price: req.body.price,
     };
-    const v = new Validator();
-    const validationResponse = v.validate(reqBody, createBookValidationSchema);
-    if (validationResponse !== true) {
-      return res.status(400).json({
-        success: false,
-        message: 'invalid inputs',
-        errors: validationResponse,
-      });
-    }
     const createdBook = await Book.create(reqBody);
     res.status(201).json({
       success: true,
@@ -78,6 +69,13 @@ const createBook = async (req, res) => {
       result: createdBook,
     });
   } catch (err) {
+    if (err.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: 'invalid inputs',
+        errors: err.errors.map((e) => e.message),
+      });
+    }
     if (err.errors[0].type === 'unique violation') {
       return res.status(409).json({
         success: false,

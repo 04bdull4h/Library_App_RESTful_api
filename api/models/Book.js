@@ -1,10 +1,8 @@
-const { Sequelize } = require('sequelize/types');
-
 module.exports = (db, DataType) => {
   return db.define('books', {
     id: {
-      type: DataType.UUID4,
-      defaultValue: Sequelize.UUID4,
+      type: DataType.UUID,
+      defaultValue: db.UUIDV4,
       primaryKey: true,
       allowNull: false,
       unique: true,
@@ -68,8 +66,10 @@ module.exports = (db, DataType) => {
         notNull: {
           msg: 'The ISBN is required',
         },
-        len: [10, 13],
-        msg: 'The ISBN should be between 10 and 13 characters long',
+        len: {
+          args: [10, 13],
+          msg: 'The ISBN should be between 10 and 13 characters long',
+        },
       },
     },
     publisher: {
@@ -79,8 +79,10 @@ module.exports = (db, DataType) => {
         notNull: {
           msg: 'The publisher is required',
         },
-        len: [4, 64],
-        msg: "The publisher's name should be between 4 and 64 characters long",
+        len: {
+          args: [4, 64],
+          msg: "The publisher's name should be between 4 and 64 characters long",
+        },
       },
     },
     price: {
@@ -90,10 +92,8 @@ module.exports = (db, DataType) => {
         notNull: {
           msg: 'The price is required',
         },
-        validate: {
-          isFloat: {
-            msg: 'The price should be float',
-          },
+        isFloat: {
+          msg: 'The price should be float',
         },
       },
     },
