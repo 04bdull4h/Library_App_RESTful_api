@@ -38,13 +38,27 @@ $ npm start // for production env
 
 ```
 
+## endpoints
+
 ```javascript
 /**
+ * @prefix api/v1/authors
+ * @route authorRouter
+ * @controller authorController
+ */
+
+router.post('/', authorController.createAuthor);
+router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
+router.get('/', authorController.fetchAllAuthors);
+router.get('/:id', authorController.fetchAuthorById);
+```
+
+```javascript
+/**
+ * @prefix api/v1/books
  * @route bookRouter
  * @controller bookController
  */
-
-'/api/v1/books';
 
 router.post('/', bookController.createBook);
 router.get('/', bookController.fetchAllBooks);
