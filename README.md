@@ -4,18 +4,6 @@ this is a RESTful api for library app developed using express js and MySQL for t
 
 ### status: incomplete ❌
 
-### npm packages
-
-```
-1. express
-2. dotenv
-3. colors
-4. morgan
-5. mysql2
-6. sequelize
-7. nodemon
-```
-
 ### .env.example
 
 Before running the app you should fill these fields with your own credentials
