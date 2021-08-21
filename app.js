@@ -12,8 +12,16 @@ app.use(cors());
 const db = require('./config/db');
 const dbConnection = async () => {
   try {
-  } catch (err) {}
+    await db.authenticate();
+    console.log(
+      `MySQL database connection has been established successfully`.bgBlue.black
+    );
+  } catch (err) {
+    console.log(`MySQL database connection has been failed due to ${err}`);
+  }
 };
+
+dbConnection();
 
 /*--------- Setting up express body parser middleware ---------*/
 

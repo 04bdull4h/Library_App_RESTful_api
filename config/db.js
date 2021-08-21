@@ -9,6 +9,6 @@ module.exports = new Sequelize(
   {
     host: 'localhost',
     dialect: 'mysql',
-    logging: config.logging,
+    logging: false,
   }
 );
