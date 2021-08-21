@@ -76,7 +76,7 @@ const createBook = async (req, res) => {
         errors: err.errors.map((e) => e.message),
       });
     }
-    if (err.errors[0].type === 'unique violation') {
+    if (err.name === 'SequelizeUniqueConstraintError') {
       return res.status(409).json({
         success: false,
         message: 'ISBN must be unique',
@@ -85,6 +85,7 @@ const createBook = async (req, res) => {
       return res.status(500).json({
         success: false,
         message: 'something went wrong',
+        error: err.errors.map((e) => e.message),
       });
     }
   }

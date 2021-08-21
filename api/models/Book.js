@@ -5,7 +5,6 @@ module.exports = (db, DataType) => {
       defaultValue: DataType.UUIDV4,
       primaryKey: true,
       allowNull: false,
-      unique: true,
       validate: {
         notNull: {
           msg: 'The id is required',
