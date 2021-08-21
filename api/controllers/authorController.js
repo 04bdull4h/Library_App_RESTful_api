@@ -1,5 +1,10 @@
 const { Book, Author } = require('../models/');
 
+/**
+ * @description To create an author
+ * @route POST => api/v1/authors
+ */
+
 const createAuthor = async (req, res) => {
   try {
     const reqBody = {
@@ -37,6 +42,11 @@ const createAuthor = async (req, res) => {
   }
 };
 
+/**
+ * @description To fetch all books related to an author by its id
+ * @route GET => api/v1/author/:id/books
+ */
+
 const fetchAllBooksByAuthorId = async (req, res) => {
   try {
     const authorId = req.body.AuthorId;
@@ -58,6 +68,11 @@ const fetchAllBooksByAuthorId = async (req, res) => {
     });
   }
 };
+
+/**
+ * @description To fetch all authors
+ * @route GET => api/v1/books/
+ */
 
 const fetchAllAuthors = async (req, res) => {
   try {
@@ -82,6 +97,12 @@ const fetchAllAuthors = async (req, res) => {
     });
   }
 };
+
+/**
+ * @description To fetch a author by id
+ * @route GET => api/v1/authors/:id
+ */
+
 const fetchAuthorById = async (req, res) => {
   try {
     const authorId = req.params.id;
