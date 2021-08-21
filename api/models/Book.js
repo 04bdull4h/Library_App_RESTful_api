@@ -1,12 +1,12 @@
 module.exports = (db, DataType) => {
   return db.define('books', {
     id: {
-      type: type.INTEGER,
+      type: DataType.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataType.STRING,
       allowNull: false,
     },
     description: {
