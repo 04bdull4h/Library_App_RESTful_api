@@ -37,7 +37,7 @@ module.exports = (db, DataType) => {
         },
         len: {
           args: [30, 300],
-          msg: 'The description should be between 30 and 30 characters long',
+          msg: 'The description should be between 30 and 300 characters long',
         },
       },
     },

@@ -5,6 +5,11 @@ const {
 } = require('../validations/schemas');
 const Validator = require('fastest-validator');
 
+/**
+ * @description To fetch all books
+ * @route GET => api/v1/books
+ */
+
 const fetchAllBooks = async (req, res) => {
   try {
     const books = await Book.findAll();
@@ -27,6 +32,11 @@ const fetchAllBooks = async (req, res) => {
     });
   }
 };
+
+/**
+ * @description To fetch a book by id
+ * @route GET => api/v1/books/:id
+ */
 
 const fetchBookById = async (req, res) => {
   try {
@@ -51,6 +61,11 @@ const fetchBookById = async (req, res) => {
     });
   }
 };
+
+/**
+ * @description To create a new book
+ * @route POST => api/v1/books/
+ */
 
 const createBook = async (req, res) => {
   try {
@@ -90,6 +105,11 @@ const createBook = async (req, res) => {
     }
   }
 };
+
+/**
+ * @description To update a book by id
+ * @route UPDATE => api/v1/books/:id
+ */
 
 const updateBookById = async (req, res) => {
   try {
@@ -145,6 +165,11 @@ const updateBookById = async (req, res) => {
     }
   }
 };
+
+/**
+ * @description To delete a book by id
+ * @route UPDATE => api/v1/books/:id
+ */
 
 const deleteBookById = async (req, res) => {
   try {
