@@ -8,7 +8,7 @@ const createAuthor = async (req, res) => {
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
     };
-    const createdAuthor = await Book.create(reqBody);
+    const createdAuthor = await Author.create(reqBody);
     res.status(201).json({
       success: true,
       message: 'author created successfully',
