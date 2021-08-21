@@ -76,6 +76,7 @@ const createBook = async (req, res) => {
       isbn: req.body.isbn,
       publisher: req.body.publisher,
       price: req.body.price,
+      status: req.body.status,
     };
     const createdBook = await Book.create(reqBody);
     res.status(201).json({

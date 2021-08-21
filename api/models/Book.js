@@ -1,19 +1,9 @@
 module.exports = (db, DataType) => {
   return db.define('books', {
     id: {
+      primaryKey: true,
       type: DataType.UUID,
       defaultValue: DataType.UUIDV4,
-      primaryKey: true,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'The id is required',
-        },
-        isUUID: {
-          args: 4,
-          msg: 'The id must be a UUID4 string',
-        },
-      },
     },
     title: {
       type: DataType.STRING,
@@ -99,7 +89,6 @@ module.exports = (db, DataType) => {
     status: {
       type: DataType.BOOLEAN,
       allowNull: false,
-      defaultValue: true,
       validate: {
         notNull: {
           msg: 'The status is required',
