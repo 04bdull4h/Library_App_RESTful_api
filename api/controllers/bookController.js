@@ -1,8 +1,5 @@
 const { Book } = require('../models');
-const {
-  createBookValidationSchema,
-  updateBookValidationSchema,
-} = require('../validations/schemas');
+const { updateBookValidationSchema } = require('../validations/schemas');
 const Validator = require('fastest-validator');
 
 /**
@@ -88,14 +85,14 @@ const createBook = async (req, res) => {
     if (err.name === 'SequelizeValidationError') {
       return res.status(400).json({
         success: false,
-        message: 'invalid inputs',
+        message: 'Validation errors',
         errors: err.errors.map((e) => e.message),
       });
     }
     if (err.name === 'SequelizeUniqueConstraintError') {
       return res.status(409).json({
         success: false,
-        message: 'ISBN must be unique',
+        message: err.errors.map((e) => e.message),
       });
     } else {
       return res.status(500).json({
@@ -122,16 +119,8 @@ const updateBookById = async (req, res) => {
       isbn: req.body.isbn,
       publisher: req.body.publisher,
       price: req.body.price,
+      status: req.body.status,
     };
-    const v = new Validator();
-    const validationResponse = v.validate(reqBody, updateBookValidationSchema);
-    if (validationResponse !== true) {
-      return res.status(400).json({
-        success: false,
-        message: 'invalid inputs',
-        errors: validationResponse,
-      });
-    }
     const updatedBook = await Book.update(reqBody, {
       where: {
         id: id,
@@ -155,13 +144,13 @@ const updateBookById = async (req, res) => {
       return res.status(409).json({
         success: false,
         message: 'ISBN must be unique',
-        error: err,
+        error: err.errors.map((e) => e.message),
       });
     } else {
       return res.status(500).json({
         success: false,
         message: 'something went wrong',
-        error: err,
+        error: err.errors.map((e) => e.message),
       });
     }
   }
