@@ -24,14 +24,16 @@ $ npm start // for production env
 ```
 
 ```javascript
-book routes
+/**
+ * @route bookRouter
+ * @controller bookController
+ */
 
-"/api/v1/books"
+'/api/v1/books';
 
 router.post('/', bookController.createBook);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
 router.put('/:id', bookController.updateBookById);
 router.delete('/:id', bookController.deleteBookById);
-
 ```
