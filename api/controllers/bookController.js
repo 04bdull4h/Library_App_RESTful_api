@@ -25,7 +25,8 @@ const fetchAllBooks = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: 'something went wrong',
+      message: 'server issue',
+      error: err.errors.map((e) => e.message),
     });
   }
 };
@@ -54,7 +55,8 @@ const fetchBookById = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: 'something went wrong',
+      message: 'server issue',
+      error: err.errors.map((e) => e.message),
     });
   }
 };
@@ -97,7 +99,7 @@ const createBook = async (req, res) => {
     } else {
       return res.status(500).json({
         success: false,
-        message: 'something went wrong',
+        message: 'server issue',
         error: err.errors.map((e) => e.message),
       });
     }
@@ -149,7 +151,7 @@ const updateBookById = async (req, res) => {
     } else {
       return res.status(500).json({
         success: false,
-        message: 'something went wrong',
+        message: 'server issue',
         error: err.errors.map((e) => e.message),
       });
     }
@@ -180,8 +182,8 @@ const deleteBookById = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: 'something went wrong',
-      error: err,
+      message: 'server issue',
+      error: err.errors.map((e) => e.message),
     });
   }
 };
