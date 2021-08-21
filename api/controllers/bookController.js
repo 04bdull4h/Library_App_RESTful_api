@@ -4,7 +4,6 @@ const {
   updateBookValidationSchema,
 } = require('../validations/schemas');
 const Validator = require('fastest-validator');
-const boom = require('@hapi/boom');
 
 const fetchAllBooks = async (req, res) => {
   try {
@@ -148,9 +147,29 @@ const updateBookById = async (req, res) => {
   }
 };
 
-const deleteBookById = async () => {
+const deleteBookById = async (req, res) => {
   try {
-  } catch (err) {}
+    const id = req.params.id;
+    const deletedBook = await Book.destroy({ where: { id: id } });
+    if (!deletedBook) {
+      return res.status(404).json({
+        success: false,
+        message: `book with id ${id} not found in the database`,
+        error: err,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `book with id ${id} deleted successfully`,
+      result: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      error: err,
+    });
+  }
 };
 
 module.exports = {
