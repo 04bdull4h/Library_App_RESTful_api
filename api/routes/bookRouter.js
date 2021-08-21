@@ -3,7 +3,8 @@ const router = express.Router();
 const bookController = require('../controllers/bookController');
 
 /**
- *@doc RESTful api endpoints
+ *@doc api/v1/books/ endpoints
+ *@controller bookController
  */
 
 router.post('/', bookController.createBook);
