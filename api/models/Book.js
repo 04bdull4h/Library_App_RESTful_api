@@ -2,7 +2,7 @@ module.exports = (db, DataType) => {
   return db.define('books', {
     id: {
       type: DataType.UUID,
-      defaultValue: db.UUIDV4,
+      defaultValue: DataType.UUIDV4,
       primaryKey: true,
       allowNull: false,
       unique: true,
