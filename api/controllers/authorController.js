@@ -31,15 +31,35 @@ const createAuthor = async (req, res) => {
       return res.status(500).json({
         success: false,
         message: 'server issue',
-        error: err,
-        // error: err.errors.map((e) => e.message),
+        error: err.errors.map((e) => e.message),
       });
     }
   }
 };
+
+const fetchAllBooksByAuthorId = async (req, res) => {
+  try {
+    const id = req.body.params;
+    const books = await Author.findAll({
+      where: { id: id },
+      include: [Book],
+    });
+    res.status(201).json({
+      success: true,
+      message: `Book related to author with id ${id} fetched successfully`,
+      result: books,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'server issue',
+      error: err.errors.map((e) => e.message),
+    });
+  }
+};
+
 const fetchAllAuthors = async () => {};
 const fetchAuthorById = async () => {};
-const fetchAllBooksByAuthorId = async () => {};
 
 module.exports = {
   createAuthor,
