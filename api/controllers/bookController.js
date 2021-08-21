@@ -1,4 +1,4 @@
-const { Book } = require('../models');
+const { Book, Author } = require('../models');
 
 /**
  * @description To fetch all books
@@ -74,7 +74,15 @@ const createBook = async (req, res) => {
       publisher: req.body.publisher,
       price: req.body.price,
       status: req.body.status,
+      AuthorId: req.body.AuthorId,
     };
+    const author = await Author.findByPk(reqBody.AuthorId);
+    if (!author) {
+      return res.status(404).json({
+        success: false,
+        message: `author with id ${reqBody.AuthorId} not found`,
+      });
+    }
     const createdBook = await Book.create(reqBody);
     res.status(201).json({
       success: true,
@@ -95,6 +103,7 @@ const createBook = async (req, res) => {
         message: err.errors.map((e) => e.message),
       });
     } else {
+      console.log(err);
       return res.status(500).json({
         success: false,
         message: 'server issue',

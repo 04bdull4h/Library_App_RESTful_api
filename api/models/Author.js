@@ -2,10 +2,8 @@ module.exports = (sequelize, DataTypes) => {
   const Author = sequelize.define('Authors', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      autoIncrement: false,
+      primaryKey: true,
     },
     firstName: {
       type: DataTypes.STRING,
@@ -59,16 +57,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   });
-
-  Author.associate = (models) => {
-    User.hasMany(
-      models.Book,
-      { as: 'books' },
-      {
-        onDelete: 'cascade',
-      }
-    );
-  };
 
   return Author;
 };

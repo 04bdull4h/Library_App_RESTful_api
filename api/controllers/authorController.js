@@ -39,7 +39,7 @@ const createAuthor = async (req, res) => {
 
 const fetchAllBooksByAuthorId = async (req, res) => {
   try {
-    const id = req.body.params;
+    const id = req.body.AuthorId;
     const books = await Author.findAll({
       where: { id: id },
       include: [Book],
@@ -50,6 +50,31 @@ const fetchAllBooksByAuthorId = async (req, res) => {
       result: books,
     });
   } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: 'server issue',
+      error: err,
+    });
+  }
+};
+
+const fetchAllAuthors = async (req, res) => {
+  try {
+    const authors = await Author.findAll();
+    if (!authors) {
+      return res.status(404).json({
+        success: false,
+        error: 'There is no authors right now in the database',
+        result: {},
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'authors fetched successfully',
+      result: authors,
+    });
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'server issue',
@@ -57,8 +82,6 @@ const fetchAllBooksByAuthorId = async (req, res) => {
     });
   }
 };
-
-const fetchAllAuthors = async () => {};
 const fetchAuthorById = async () => {};
 
 module.exports = {
