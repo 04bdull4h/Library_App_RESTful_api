@@ -5,7 +5,7 @@ const boom = require('@hapi/boom');
 
 const createBook = async (req, res) => {
   try {
-    const createdBook = {
+    const query = {
       title: req.body.title,
       description: req.body.description,
       author: req.body.author,
@@ -14,7 +14,7 @@ const createBook = async (req, res) => {
       price: req.body.price,
     };
     const v = new Validator();
-    const validationResponse = v.validate(createdBook, bookValidationSchema);
+    const validationResponse = v.validate(query, bookValidationSchema);
     if (validationResponse !== true) {
       return res.status(400).json({
         success: false,
@@ -22,11 +22,11 @@ const createBook = async (req, res) => {
         errors: validationResponse,
       });
     }
-    const query = await Book.create(createdBook);
+    const createdBook = await Book.create(query);
     res.status(201).json({
       success: true,
       message: 'book created successfully',
-      result: query,
+      result: createdBook,
     });
   } catch (err) {
     console.log(err);
@@ -44,7 +44,29 @@ const createBook = async (req, res) => {
   }
 };
 
-const fetchAllBooks = async () => {};
+const fetchAllBooks = async (req, res) => {
+  try {
+    const books = await Book.findAll();
+    if (!books) {
+      return res.status(404).json({
+        success: false,
+        error: 'There is no books right now in the database',
+        result: {},
+      });
+    }
+    res.status(200).json({
+      success: false,
+      message: 'books fetched successfully',
+      result: books,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+    });
+  }
+};
+
 const fetchedBookById = async () => {};
 const updateBookById = async () => {};
 const deleteBookById = async () => {};
