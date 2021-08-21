@@ -67,9 +67,38 @@ const fetchAllBooks = async (req, res) => {
   }
 };
 
-const fetchedBookById = async () => {};
-const updateBookById = async () => {};
-const deleteBookById = async () => {};
+const fetchedBookById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const book = await Book.findByPk(id);
+    if (!book) {
+      return res.status(404).json({
+        success: false,
+        message: `book with id ${id} not in the database`,
+        result: {},
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'user fetched successfully',
+      result: book,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+    });
+  }
+};
+
+const updateBookById = async () => {
+  try {
+  } catch (err) {}
+};
+const deleteBookById = async () => {
+  try {
+  } catch (err) {}
+};
 
 module.exports = {
   createBook,
