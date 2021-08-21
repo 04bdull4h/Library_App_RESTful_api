@@ -16,6 +16,21 @@ this is a RESTful api for library app developed using express js and MySQL for t
 7. nodemon
 ```
 
+### .env.example
+
+Before running the app you should fill these fields with your own credentials
+
+```
+PORT=
+HOST=
+NODE_ENV=
+DB_USERNAME=
+DB_PASSWORD=
+DB_DATABASE=
+DIALECT=
+LOGGING=
+```
+
 ```
 $ npm i
 $ npm run dev // for development env
