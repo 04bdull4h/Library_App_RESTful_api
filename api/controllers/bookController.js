@@ -29,7 +29,7 @@ const createBook = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'book created successfully',
-      result: createdBook,
+      result: query,
     });
   } catch (err) {
     throw boom.boomify(err, { statusCode: 500 });
