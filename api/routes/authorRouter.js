@@ -10,5 +10,6 @@ const authorController = require('../controllers/authorController');
 router.post('/', authorController.createAuthor);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
+router.get('/:id', authorController.fetchAuthorById);
 
 module.exports = router;

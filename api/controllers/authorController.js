@@ -39,14 +39,14 @@ const createAuthor = async (req, res) => {
 
 const fetchAllBooksByAuthorId = async (req, res) => {
   try {
-    const id = req.body.AuthorId;
+    const authorId = req.body.AuthorId;
     const books = await Author.findAll({
-      where: { id: id },
+      where: { id: authorId },
       include: [Book],
     });
     res.status(201).json({
       success: true,
-      message: `Book related to author with id ${id} fetched successfully`,
+      message: `Book related to author with id ${authorId} fetched successfully`,
       result: books,
     });
   } catch (err) {
@@ -82,7 +82,30 @@ const fetchAllAuthors = async (req, res) => {
     });
   }
 };
-const fetchAuthorById = async () => {};
+const fetchAuthorById = async (req, res) => {
+  try {
+    const authorId = req.params.id;
+    const author = await Author.findByPk(authorId);
+    if (!author) {
+      return res.status(404).json({
+        success: false,
+        message: `author with id ${authorId} no found`,
+        result: {},
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `author with id ${authorId} fetched successfully`,
+      result: author,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'server issue',
+      error: err.errors.map((e) => e.message),
+    });
+  }
+};
 
 module.exports = {
   createAuthor,
