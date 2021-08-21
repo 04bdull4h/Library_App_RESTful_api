@@ -33,6 +33,11 @@ app.use(express.urlencoded({ extended: false }));
 /*--------- Setting up routes ---------*/
 
 const bookRouter = require('./api/routes/bookRouter');
+const authorRouter = require('./api/routes/authorRouter');
+
 app.use('/api/v1/books', bookRouter);
+app.use('/api/v1/authors', authorRouter);
+
+/*--------- Exporting express app for the server ---------*/
 
 module.exports = app;

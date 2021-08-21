@@ -9,4 +9,5 @@ const Author = AuthorModel(db, Sequelize);
 db.sync({ force: false });
 module.exports = {
   Book,
+  Author,
 };
