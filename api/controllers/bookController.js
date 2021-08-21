@@ -1,6 +1,6 @@
 const { Book } = require('../models');
 const { bookValidationSchema } = require('../validations/schemas');
-const validator = require('fastest-validator');
+const Validator = require('fastest-validator');
 const boom = require('@hapi/boom');
 
 const createBook = async (req, res) => {
@@ -13,11 +13,8 @@ const createBook = async (req, res) => {
       publisher: req.body.publisher,
       price: req.body.price,
     };
-    const validator = new Validator();
-    const validationResponse = validator.validate(
-      createdBook,
-      bookValidationSchema
-    );
+    const v = new Validator();
+    const validationResponse = v.validate(createdBook, bookValidationSchema);
     if (validationResponse !== true) {
       return res.status(400).json({
         success: false,
