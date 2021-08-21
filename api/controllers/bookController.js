@@ -1,6 +1,4 @@
 const { Book } = require('../models');
-const { updateBookValidationSchema } = require('../validations/schemas');
-const Validator = require('fastest-validator');
 
 /**
  * @description To fetch all books
