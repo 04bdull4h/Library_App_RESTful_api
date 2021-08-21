@@ -50,6 +50,10 @@ module.exports = (sequelize, DataTypes) => {
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: 'Phone number already exists in the database',
+      },
       validate: {
         notNull: {
           msg: 'The phone number is required',
