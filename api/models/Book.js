@@ -20,6 +20,10 @@ module.exports = (db, DataType) => {
     isbn: {
       type: DataType.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: 'ISBN already exists in the database',
+      },
     },
     publisher: {
       type: DataType.STRING,
@@ -31,7 +35,7 @@ module.exports = (db, DataType) => {
     },
     status: {
       type: DataType.BOOLEAN,
-      allowNull: false,
+      // allowNull: false,
     },
   });
 };

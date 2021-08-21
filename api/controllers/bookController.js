@@ -29,7 +29,18 @@ const createBook = async (req, res) => {
       result: query,
     });
   } catch (err) {
-    throw boom.boomify(err, { statusCode: 500 });
+    console.log(err);
+    if (err.errors[0].type === 'unique violation') {
+      return res.status(409).json({
+        success: false,
+        message: 'ISBN must be unique',
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: 'something went wrong',
+      });
+    }
   }
 };
 
