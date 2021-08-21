@@ -1,12 +1,14 @@
-module.exports = (db, DataType) => {
-  return db.define('books', {
+module.exports = (sequelize, DataTypes) => {
+  const Book = sequelize.define('Books', {
     id: {
+      type: DataTypes.UUID,
       primaryKey: true,
-      type: DataType.UUID,
-      defaultValue: DataType.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      autoIncrement: false,
     },
     title: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -19,7 +21,7 @@ module.exports = (db, DataType) => {
       },
     },
     description: {
-      type: DataType.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notNull: {
@@ -32,7 +34,7 @@ module.exports = (db, DataType) => {
       },
     },
     author: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -45,7 +47,7 @@ module.exports = (db, DataType) => {
       },
     },
     isbn: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: {
         args: true,
@@ -62,7 +64,7 @@ module.exports = (db, DataType) => {
       },
     },
     publisher: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -75,7 +77,7 @@ module.exports = (db, DataType) => {
       },
     },
     price: {
-      type: DataType.FLOAT,
+      type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
         notNull: {
@@ -87,7 +89,7 @@ module.exports = (db, DataType) => {
       },
     },
     status: {
-      type: DataType.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       validate: {
         notNull: {
@@ -96,4 +98,10 @@ module.exports = (db, DataType) => {
       },
     },
   });
+
+  Book.associate = (models) => {
+    Book.belongsTo(models.Author, { foreignKey: 'authorId' });
+  };
+
+  return Book;
 };
