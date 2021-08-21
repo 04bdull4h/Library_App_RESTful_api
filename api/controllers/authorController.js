@@ -31,7 +31,8 @@ const createAuthor = async (req, res) => {
       return res.status(500).json({
         success: false,
         message: 'server issue',
-        error: err.errors.map((e) => e.message),
+        error: err,
+        // error: err.errors.map((e) => e.message),
       });
     }
   }
