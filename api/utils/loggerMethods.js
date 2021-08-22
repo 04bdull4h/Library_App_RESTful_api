@@ -25,7 +25,7 @@ const conflict = (req) => {
 
 const badRequest = (req) => {
   logger.info(
-    `400, Bad request, ${req.originalUrl}, ${req.method}, ${
+    `400, Bad Request, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
@@ -33,7 +33,7 @@ const badRequest = (req) => {
 
 const internalServerError = (req) => {
   logger.info(
-    `500, Created, ${req.originalUrl}, ${req.method}, ${
+    `500, Internal Server Error, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
@@ -48,7 +48,7 @@ const forbidden = (req) => {
 };
 const notFound = (req) => {
   logger.info(
-    `404, Not found, ${req.originalUrl}, ${req.method}, ${
+    `404, Not Found, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
