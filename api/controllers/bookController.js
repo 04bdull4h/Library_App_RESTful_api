@@ -106,7 +106,7 @@ const createBook = async (req, res, next) => {
  * @access        Private
  */
 
-const updateBookById = async (req, res) => {
+const updateBookById = async (req, res, next) => {
   try {
     const bookId = req.params.id;
     const reqBody = {
