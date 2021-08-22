@@ -64,6 +64,7 @@ router.delete('/:id', checkTokenAuth, bookController.deleteBookById);
  * @prefix api/v1/users
  * @route userController
  * @controller userController
+ *
  */
 
 router.post('/register', userController.register);
