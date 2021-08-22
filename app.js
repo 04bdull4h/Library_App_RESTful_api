@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+const colors = require('colors');
 const hpp = require('hpp');
 const app = express();
 
@@ -49,6 +50,8 @@ app.use(hpp());
 
 /*--------- Setting up helmet middlewares ---------*/
 app.use(helmet());
+
+/*--------- Setting up winston middleware ---------*/
 
 /*--------- Setting up routes ---------*/
 

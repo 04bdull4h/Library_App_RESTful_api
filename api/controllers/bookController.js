@@ -22,6 +22,7 @@ const fetchAllBooks = async (req, res) => {
       data: books,
     });
   } catch (err) {
+    logger.error(err);
     return res.status(500).json({
       success: false,
       message: 'server issue',
