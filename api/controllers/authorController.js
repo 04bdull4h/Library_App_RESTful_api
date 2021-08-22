@@ -84,7 +84,7 @@ const fetchAllAuthors = async (req, res, next) => {
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: 'authors fetched successfully',
+      message: 'Authors fetched successfully',
       data: authors,
     });
   } catch (err) {
@@ -112,7 +112,7 @@ const fetchAuthorById = async (req, res, next) => {
     }
     res.status(200).json({
       success: true,
-      message: `author with id ${authorId} fetched successfully`,
+      message: `Author with id ${authorId} fetched successfully`,
       result: author,
     });
     okLogger(req);
@@ -150,7 +150,7 @@ const updateAuthorById = async (req, res, next) => {
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: `author with id ${authorId} updated successfully`,
+      message: `Author with id ${authorId} updated successfully`,
       data: reqBody,
     });
   } catch (err) {
@@ -179,7 +179,7 @@ const deleteAuthorById = async (req, res, next) => {
     }
     res.status(200).json({
       success: true,
-      message: `user with id ${authorId} deleted successfully`,
+      message: `User with id ${authorId} deleted successfully`,
     });
     okLogger(req);
   } catch (err) {

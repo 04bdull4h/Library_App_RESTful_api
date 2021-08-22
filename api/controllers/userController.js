@@ -27,7 +27,7 @@ const register = async (req, res, next) => {
     if (!body.password) {
       return res.status(400).json({
         success: false,
-        message: 'password is required',
+        message: 'Password is required',
         data: {},
       });
     }
@@ -38,7 +38,7 @@ const register = async (req, res, next) => {
     createdLogger(req);
     res.status(201).json({
       success: true,
-      message: 'user created successfully',
+      message: 'User created successfully',
       data: createdUser,
     });
   } catch (err) {
@@ -84,7 +84,7 @@ const login = async (req, res, next) => {
       forbiddenLogger(req);
       res.status(200).json({
         success: true,
-        message: 'user logged in successfully',
+        message: 'User logged in successfully',
         accessToken: accessToken,
       });
       okLogger(req);
@@ -112,13 +112,13 @@ const fetchAllUsers = async (req, res, next) => {
       notFoundLogger(req);
       return res.status(404).json({
         success: false,
-        message: 'there is no users found in the database',
+        message: 'There is no users found in the database',
         result: {},
       });
     }
     res.status(200).json({
       success: true,
-      message: 'users fetched successfully',
+      message: 'Users fetched successfully',
       data: users,
     });
     okLogger(req);
@@ -141,12 +141,12 @@ const fetchUserById = async (req, res, next) => {
       notFoundLogger(req);
       return res.status(404).json({
         success: false,
-        message: `user with id ${userId} not found in the database`,
+        message: `User with id ${userId} not found in the database`,
       });
     }
     res.status(200).json({
       success: true,
-      message: `user with id ${userId} fetched successfully`,
+      message: `User with id ${userId} fetched successfully`,
       data: fetchedUser,
     });
     okLogger(req);
@@ -169,13 +169,13 @@ const deleteUserById = async (req, res, next) => {
       notFoundLogger(req);
       return res.status(404).json({
         success: false,
-        message: `user with id ${userId} not found`,
+        message: `User with id ${userId} not found`,
         data: {},
       });
     }
     res.status(200).json({
       success: true,
-      message: `user with id ${userId} deleted successfully`,
+      message: `User with id ${userId} deleted successfully`,
       data: {},
     });
     okLogger(req);
@@ -210,12 +210,12 @@ const updateUserById = async (req, res, next) => {
       notFoundLogger(req);
       return res.status(404).json({
         success: true,
-        message: `user with id ${userId} not found`,
+        message: `User with id ${userId} not found`,
       });
     }
     res.status(200).json({
       success: true,
-      message: 'user updated successfully',
+      message: 'User updated successfully',
       data: body,
     });
     okLogger(req);

@@ -24,7 +24,7 @@ const fetchAllBooks = async (req, res, next) => {
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: 'books fetched successfully',
+      message: 'Books fetched successfully',
       data: books,
     });
   } catch (err) {
@@ -53,7 +53,7 @@ const fetchBookById = async (req, res, next) => {
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: `book with id ${bookId} fetched successfully`,
+      message: `Book with id ${bookId} fetched successfully`,
       data: book,
     });
   } catch (err) {
@@ -134,7 +134,7 @@ const updateBookById = async (req, res, next) => {
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: `book with id ${bookId} updated successfully`,
+      message: `Book with id ${bookId} updated successfully`,
       data: reqBody,
     });
   } catch (err) {
@@ -163,7 +163,7 @@ const deleteBookById = async (req, res, next) => {
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: `book with id ${id} deleted successfully`,
+      message: `Book with id ${id} deleted successfully`,
       result: {},
     });
   } catch (err) {
