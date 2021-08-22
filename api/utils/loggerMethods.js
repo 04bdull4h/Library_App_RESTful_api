@@ -1,6 +1,14 @@
 const logger = require('../utils/logger');
 const ip = require('ip');
 
+/*------------------- 2XX HTTP status codes -------------------*/
+
+/**
+ * @use winston logger for successful requests
+ * @statusCode 200 OK
+ * @statusCode 201 Created
+ */
+
 const okLogger = (req) => {
   logger.info(
     `200, OK, ${req.originalUrl}, ${req.method}, ${req.ip}, ${ip.address()}`
@@ -15,13 +23,15 @@ const createdLogger = (req) => {
   );
 };
 
-const conflictLogger = (req) => {
-  logger.info(
-    `409, Conflict, ${req.originalUrl}, ${req.method}, ${
-      req.ip
-    }, ${ip.address()}`
-  );
-};
+/*------------------- 4XX HTTP status codes -------------------*/
+
+/**
+ * @use winston logger for client errors
+ * @statusCode 400 Bad Request
+ * @statusCode 401 Unauthorized
+ * @statusCode 403 Forbidden
+ * @statusCode 404 Not Found
+ */
 
 const badRequestLogger = (req) => {
   logger.info(
@@ -31,9 +41,9 @@ const badRequestLogger = (req) => {
   );
 };
 
-const internalServerErrorLogger = (req) => {
+const unauthorizedLogger = (req) => {
   logger.info(
-    `500, Internal Server Error, ${req.originalUrl}, ${req.method}, ${
+    `401, Unauthorized, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
@@ -46,6 +56,7 @@ const forbiddenLogger = (req) => {
     }, ${ip.address()}`
   );
 };
+
 const notFoundLogger = (req) => {
   logger.info(
     `404, Not Found, ${req.originalUrl}, ${req.method}, ${
@@ -53,9 +64,25 @@ const notFoundLogger = (req) => {
     }, ${ip.address()}`
   );
 };
-const unauthorizedLogger = (req) => {
+
+const conflictLogger = (req) => {
   logger.info(
-    `401, Unauthorized, ${req.originalUrl}, ${req.method}, ${
+    `409, Conflict, ${req.originalUrl}, ${req.method}, ${
+      req.ip
+    }, ${ip.address()}`
+  );
+};
+
+/*------------------- 5XX HTTP status codes -------------------*/
+
+/**
+ * @use winston logger for server errors
+ * @statusCode 500 Internal Server Error
+ */
+
+const internalServerErrorLogger = (req) => {
+  logger.info(
+    `500, Internal Server Error, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
