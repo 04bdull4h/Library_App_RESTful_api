@@ -46,7 +46,7 @@ const login = async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    if (typeof email === 'undefined') {
+    if (!email) {
       return res.status(400).json({
         success: false,
         message: 'The email is required',
@@ -74,7 +74,7 @@ const login = async (req, res) => {
         token: token,
       });
     } else {
-      return res.status(401).json({
+      return res.status(403).json({
         success: false,
         message: 'Invalid credentials',
       });
