@@ -8,6 +8,7 @@ const {
   badRequest,
   internalServerError,
   forbidden,
+  notFound,
 } = require('../utils/loggerMethods');
 
 /**
