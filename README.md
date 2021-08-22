@@ -40,12 +40,12 @@ $ npm start // for production env
  * @private endpoints [createAuthor, updateAuthorById, deleteAuthorById]
  */
 
-router.post('/', checkTokenAuth, authorController.createAuthor);
+router.post('/', accessTokenMiddleware, authorController.createAuthor);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
 router.get('/:id', authorController.fetchAuthorById);
-router.put('/:id', checkTokenAuth, authorController.updateAuthorById);
-router.delete('/:id', checkTokenAuth, authorController.deleteAuthorById);
+router.put('/:id', accessTokenMiddleware, authorController.updateAuthorById);
+router.delete('/:id', accessTokenMiddleware, authorController.deleteAuthorById);
 
 /**
  * @prefix api/v1/books
@@ -55,11 +55,11 @@ router.delete('/:id', checkTokenAuth, authorController.deleteAuthorById);
  * @private endpoints [createBook, updateBookById, deleteBookById]
  */
 
-router.post('/', checkTokenAuth, bookController.createBook);
+router.post('/', accessTokenMiddleware, bookController.createBook);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
-router.put('/:id', checkTokenAuth, bookController.updateBookById);
-router.delete('/:id', checkTokenAuth, bookController.deleteBookById);
+router.put('/:id', accessTokenMiddleware, bookController.updateBookById);
+router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
 
 /**
  * @prefix api/v1/users
@@ -73,6 +73,6 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
-router.delete('/:id', checkTokenAuth, userController.deleteUserById);
-router.put('/:id', checkTokenAuth, userController.updateUserById);
+router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
+router.put('/:id', accessTokenMiddleware, userController.updateUserById);
 ```
