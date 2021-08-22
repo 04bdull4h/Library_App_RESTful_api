@@ -3,7 +3,11 @@ const logConfiguration = {
   transports: [
     new winston.transports.File({
       level: 'info',
-      filename: 'api/logs/log.log',
+      filename: 'api/logs/infoLogs.log',
+    }),
+    new winston.transports.File({
+      level: 'error',
+      filename: 'api/logs/errorLogs.log',
     }),
   ],
   format: winston.format.combine(

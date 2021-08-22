@@ -69,12 +69,12 @@ const fetchAllBooksByAuthorId = async (req, res) => {
       where: { id: authorId },
       include: [Book],
     });
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       message: `Book related to author with id ${authorId} fetched successfully`,
       data: books,
     });
-    created(req);
+    ok(req);
   } catch (err) {
     internalServerError(req);
     return res.status(500).json({

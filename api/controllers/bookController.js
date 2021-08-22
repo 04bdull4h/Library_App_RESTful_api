@@ -34,7 +34,7 @@ const fetchAllBooks = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'server issue',
-      error: err.errors.map((e) => e.message),
+      error: err,
     });
   }
 };
@@ -65,7 +65,6 @@ const fetchBookById = async (req, res) => {
     ok(req);
   } catch (err) {
     internalServerError(req);
-    console.log(err);
     return res.status(500).json({
       success: false,
       message: 'server issue',
