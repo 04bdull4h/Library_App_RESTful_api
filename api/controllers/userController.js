@@ -69,7 +69,31 @@ const fetchAllUsers = async (req, res) => {
     });
   }
 };
-const fetchUserById = async (req, res) => {};
+const fetchUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: `user with id ${userId} not found in the database`,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `user with id ${userId} fetched successfully`,
+      result: user,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: 'server issue',
+      error: err,
+    });
+  }
+};
+
 const updateUserById = async (req, res) => {};
 const deleteUserById = async (req, res) => {};
 
@@ -77,4 +101,5 @@ module.exports = {
   register,
   login,
   fetchAllUsers,
+  fetchUserById,
 };
