@@ -4,20 +4,21 @@ const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
   try {
-    const reqBody = {
+    const body = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       username: req.body.username,
       email: req.body.email,
       password: req.body.password,
     };
-    const salt = await genSalt(12);
-    reqBody.password = await hash(reqBody.password, salt);
-    const createdUser = await User.create(reqBody);
+    const saltRounds = 10;
+    const salt = await genSalt(saltRounds);
+    body.password = await hash(body.password, salt);
+    const createdUser = await User.create(body);
     res.status(201).json({
       success: true,
       message: 'user created successfully',
-      result: createdUser,
+      data: createdUser,
     });
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
@@ -33,10 +34,11 @@ const register = async (req, res) => {
         message: err.errors.map((e) => e.message),
       });
     } else {
+      console.log(err);
       return res.status(500).json({
         success: false,
         message: 'server issue',
-        error: err.errors.map((e) => e.message),
+        error: err,
       });
     }
   }
@@ -59,7 +61,7 @@ const login = async (req, res) => {
         message: `The email: ${email} not found in the database`,
       });
     }
-    const result = await compare(password, user.password);
+    const result = compare(password, user.password);
     if (result) {
       const token = jwt.sign(
         {
@@ -102,7 +104,7 @@ const fetchAllUsers = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'users fetched successfully',
-      result: users,
+      data: users,
     });
   } catch (err) {
     return res.status(500).json({
@@ -116,8 +118,8 @@ const fetchAllUsers = async (req, res) => {
 const fetchUserById = async (req, res) => {
   try {
     const userId = req.params.id;
-    const user = await User.findByPk(userId);
-    if (!user) {
+    const fetchedUser = await User.findByPk(userId);
+    if (!fetchedUser) {
       return res.status(404).json({
         success: false,
         message: `user with id ${userId} not found in the database`,
@@ -126,10 +128,9 @@ const fetchUserById = async (req, res) => {
     res.status(200).json({
       success: true,
       message: `user with id ${userId} fetched successfully`,
-      result: user,
+      data: fetchedUser,
     });
   } catch (err) {
-    console.log(err);
     return res.status(500).json({
       success: false,
       message: 'server issue',
@@ -138,12 +139,39 @@ const fetchUserById = async (req, res) => {
   }
 };
 
-const updateUserById = async (req, res) => {};
-const deleteUserById = async (req, res) => {};
+const deleteUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const deletedUser = await User.destroy({ where: { id: userId } });
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: `user with id ${userId} not found`,
+        data: {},
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `user with id ${userId} deleted successfully`,
+      data: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'server issue',
+      error: err,
+    });
+  }
+};
+const updateUserById = async (req, res) => {
+  try {
+  } catch (err) {}
+};
 
 module.exports = {
   register,
   login,
   fetchAllUsers,
   fetchUserById,
+  deleteUserById,
 };
