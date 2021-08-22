@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const colors = require('colors');
 const hpp = require('hpp');
+const errorHandlerMiddleware = require('./api/middlewares/errorHandlerMiddleware');
 const app = express();
 
 /*--------- Setting up app config ---------*/
@@ -40,7 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 /*--------- Setting up morgan middleware ---------*/
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 /*--------- Setting up cors middleware  ---------*/
 app.use(cors());
@@ -60,6 +61,7 @@ const userRouter = require('./api/routes/userRouter');
 app.use('/api/v1/books', bookRouter);
 app.use('/api/v1/authors', authorRouter);
 app.use('/api/v1/users', userRouter);
+app.use(errorHandlerMiddleware);
 
 /*--------- Exporting express app for the server ---------*/
 module.exports = app;
