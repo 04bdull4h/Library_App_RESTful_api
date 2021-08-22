@@ -50,6 +50,8 @@ $ npm start // for production env
 | DELETE deleteUserById       | /api/v1/users/:id         |
 | PUT updateUserById          | /api/v1/users/:id         |
 
+## Routes
+
 ```javascript
 /**
  * @prefix api/v1/authors
