@@ -2,11 +2,11 @@
 
 this is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM and its validations
 
-### status: incomplete ❌
+## status: incomplete ❌
 
-### .env.example
+## .env.example
 
-Before running the app you should fill these fields with your own credentials
+Before running the app you should fill these fields with your own credentials:
 
 ```
 PORT=
@@ -19,13 +19,17 @@ DIALECT=
 JWT_KEY=
 ```
 
+## How to use
+
+You should have NodeJS & MySQL server, (e.g, XAMPP or Wampserver) installed in your OS
+
 ```
 $ npm i
 $ npm run dev // for development env
 $ npm start // for production env
 ```
 
-## endpoints
+## Endpoints
 
 ```javascript
 /**
