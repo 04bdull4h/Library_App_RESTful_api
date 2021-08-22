@@ -25,6 +25,13 @@ const register = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
     };
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: 'password is required',
+        data: {},
+      });
+    }
     const saltRounds = 10;
     const salt = await genSalt(saltRounds);
     body.password = await hash(body.password, salt);
@@ -85,15 +92,15 @@ const login = async (req, res) => {
         message: `The email: ${email} not found in the database`,
       });
     }
-    const result = compare(password, user.password);
-    console.log(process.env.JWT_KEY);
+    const result = await compare(password, user.password);
     if (result) {
       const token = jwt.sign(
         {
           email: user.email,
           userId: user.id,
         },
-        process.env.JWT_KEY
+        process.env.JWT_KEY,
+        { expiresIn: '1h' }
       );
       res.status(200).json({
         success: true,

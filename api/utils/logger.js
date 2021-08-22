@@ -5,10 +5,6 @@ const logConfiguration = {
       level: 'info',
       filename: 'api/logs/infoLogs.log',
     }),
-    new winston.transports.File({
-      level: 'error',
-      filename: 'api/logs/errorLogs.log',
-    }),
   ],
   format: winston.format.combine(
     winston.format.label({
