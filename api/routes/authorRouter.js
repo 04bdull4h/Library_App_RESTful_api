@@ -12,7 +12,7 @@ router.post('/', checkTokenAuth, authorController.createAuthor);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
 router.get('/:id', authorController.fetchAuthorById);
-router.put('/:id', authorController.updateAuthorById);
-router.delete('/:id', authorController.deleteAuthorById);
+router.put('/:id', checkTokenAuth, authorController.updateAuthorById);
+router.delete('/:id', checkTokenAuth, authorController.deleteAuthorById);
 
 module.exports = router;
