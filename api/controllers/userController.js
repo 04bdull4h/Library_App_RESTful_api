@@ -41,9 +41,34 @@ const register = async (req, res) => {
   }
 };
 
-const login = (req, res) => {};
+const login = (req, res) => {
+  try {
+  } catch (err) {}
+};
 
-const fetchAllUsers = async (req, res) => {};
+const fetchAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    if (!users) {
+      return res.status(404).json({
+        success: false,
+        message: 'there is no users found in the database',
+        result: {},
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'users fetched successfully',
+      result: users,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'server issue',
+      error: err.errors.map((e) => e.message),
+    });
+  }
+};
 const fetchUserById = async (req, res) => {};
 const updateUserById = async (req, res) => {};
 const deleteUserById = async (req, res) => {};
@@ -51,4 +76,5 @@ const deleteUserById = async (req, res) => {};
 module.exports = {
   register,
   login,
+  fetchAllUsers,
 };
