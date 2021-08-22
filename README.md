@@ -62,6 +62,7 @@ router.delete('/:id', checkTokenAuth, bookController.deleteBookById);
  * @route userController
  * @controller userController
  */
+
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/', userController.fetchAllUsers);
