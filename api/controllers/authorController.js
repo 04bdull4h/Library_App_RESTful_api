@@ -8,13 +8,13 @@ const { Book, Author } = require('../models/');
 
 const createAuthor = async (req, res) => {
   try {
-    const reqBody = {
+    const body = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
     };
-    const createdAuthor = await Author.create(reqBody);
+    const createdAuthor = await Author.create(body);
     res.status(201).json({
       success: true,
       message: 'author created successfully',
@@ -132,9 +132,78 @@ const fetchAuthorById = async (req, res) => {
   }
 };
 
+const updateAuthorById = async (req, res) => {
+  try {
+    const authorId = req.params.id;
+    const reqBody = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+    };
+    const updatedAuthor = await Author.update(reqBody, {
+      where: { id: authorId },
+    });
+    console.log(updatedAuthor);
+    if (!updatedAuthor[0]) {
+      return res.status(404).json({
+        success: false,
+        message: `author with id ${authorId} not in the database`,
+        data: {},
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `author with id ${authorId} updated successfully`,
+      data: reqBody,
+    });
+  } catch (err) {
+    console.log(err);
+    if (err.type === 'unique violation') {
+      return res.status(409).json({
+        success: false,
+        message: err.message,
+        error: err.errors.map((e) => e.message),
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: 'server issue',
+        error: err.errors.map((e) => e.message),
+      });
+    }
+  }
+};
+
+const deleteAuthorById = async (req, res) => {
+  try {
+    const authorId = req.params.id;
+    const deletedAuthor = await Author.destroy({ where: { id: authorId } });
+    if (!deletedAuthor) {
+      return res.status(404).json({
+        success: false,
+        message: `user with id ${authorId} not found in the database`,
+        data: {},
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `user with id ${authorId} deleted successfully`,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'server issue',
+      error: err.errors.map((e) => e.message),
+    });
+  }
+};
+
 module.exports = {
   createAuthor,
   fetchAllAuthors,
   fetchAuthorById,
   fetchAllBooksByAuthorId,
+  updateAuthorById,
+  deleteAuthorById,
 };
