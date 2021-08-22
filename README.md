@@ -34,16 +34,16 @@ $ npm start // for production env
  * @route authorRouter
  * @controller authorController
  * @public endpoints [fetchAllBooksByAuthorId, fetchAllAuthors, fetchAuthorById]
- * @private endpoints [createAuthor]
+ * @private endpoints [createAuthor, updateAuthorById, deleteAuthorById]
  */
 
 router.post('/', checkTokenAuth, authorController.createAuthor);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
 router.get('/:id', authorController.fetchAuthorById);
-```
+router.put('/:id', checkTokenAuth, authorController.updateAuthorById);
+router.delete('/:id', checkTokenAuth, authorController.deleteAuthorById);
 
-```javascript
 /**
  * @prefix api/v1/books
  * @route bookRouter
@@ -57,9 +57,7 @@ router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
 router.put('/:id', checkTokenAuth, bookController.updateBookById);
 router.delete('/:id', checkTokenAuth, bookController.deleteBookById);
-```
 
-```javascript
 /**
  * @prefix api/v1/users
  * @route userController
