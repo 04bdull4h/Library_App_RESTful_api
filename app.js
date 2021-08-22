@@ -35,20 +35,19 @@ const dbConnection = async () => {
 dbConnection();
 
 /*--------- Setting up express body parser middleware ---------*/
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-/*--------- Setting up morgan middleware to log request to the console ---------*/
+/*--------- Setting up morgan middleware ---------*/
 app.use(morgan('dev'));
 
-/*--------- Setting up hpp middleware  ---------*/
+/*--------- Setting up cors middleware  ---------*/
 app.use(cors());
 
-/*--------- Setting up hpp middleware to prevent parameter pollution ---------*/
+/*--------- Setting up hpp middleware---------*/
 app.use(hpp());
 
-/*--------- Setting up helmet middleware to secure app with various HTTP headers ---------*/
+/*--------- Setting up helmet middlewares ---------*/
 app.use(helmet());
 
 /*--------- Setting up routes ---------*/
