@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const helmet = require('helmet');
+const hpp = require('hpp');
 const app = express();
 
 /*--------- Setting up app config ---------*/
@@ -17,14 +19,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-/*--------- Setting up morgan middleware ---------*/
-
-app.use(morgan('dev'));
-
-/*--------- Setting up cors middleware ---------*/
-
-app.use(cors());
 
 const db = require('./config/db');
 const dbConnection = async () => {
@@ -44,6 +38,18 @@ dbConnection();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+/*--------- Setting up morgan middleware to log request to the console ---------*/
+app.use(morgan('dev'));
+
+/*--------- Setting up hpp middleware  ---------*/
+app.use(cors());
+
+/*--------- Setting up hpp middleware to prevent parameter pollution ---------*/
+app.use(hpp());
+
+/*--------- Setting up helmet middleware to secure app with various HTTP headers ---------*/
+app.use(helmet());
 
 /*--------- Setting up routes ---------*/
 
