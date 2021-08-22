@@ -2,6 +2,12 @@ const { User } = require('../models');
 const { genSalt, hash, compare } = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+/**
+ * @description   To create a new user
+ * @route         POST => api/v1/users/register
+ * @access        Public
+ */
+
 const register = async (req, res) => {
   try {
     const body = {
@@ -43,6 +49,12 @@ const register = async (req, res) => {
     }
   }
 };
+
+/**
+ * @description   To authorize a user to login
+ * @route         POST => api/v1/users/login
+ * @access        Public
+ */
 
 const login = async (req, res) => {
   try {
@@ -91,6 +103,12 @@ const login = async (req, res) => {
   }
 };
 
+/**
+ * @description   fetch all users
+ * @route         GET => api/v1/users/
+ * @access        Public
+ */
+
 const fetchAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
@@ -114,6 +132,12 @@ const fetchAllUsers = async (req, res) => {
     });
   }
 };
+
+/**
+ * @description   To fetch a user by id
+ * @route         GET => api/v1/user/
+ * @access        Public
+ */
 
 const fetchUserById = async (req, res) => {
   try {
@@ -139,6 +163,12 @@ const fetchUserById = async (req, res) => {
   }
 };
 
+/**
+ * @description   To delete a user by id
+ * @route         POST => api/v1/users/
+ * @access        Private
+ */
+
 const deleteUserById = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -163,6 +193,13 @@ const deleteUserById = async (req, res) => {
     });
   }
 };
+
+/**
+ * @description   To delete a update by id
+ * @route         POST => api/v1/users/
+ * @access        Private
+ */
+
 const updateUserById = async (req, res) => {
   try {
     const userId = req.params.id;
