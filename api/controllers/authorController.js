@@ -1,8 +1,9 @@
 const { Book, Author } = require('../models/');
 
 /**
- * @description To create an author
- * @route POST => api/v1/authors
+ * @description   To create an author
+ * @route         POST => api/v1/authors
+ * @access        Private
  */
 
 const createAuthor = async (req, res) => {
@@ -17,7 +18,7 @@ const createAuthor = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'author created successfully',
-      result: createdAuthor,
+      data: createdAuthor,
     });
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
@@ -43,8 +44,9 @@ const createAuthor = async (req, res) => {
 };
 
 /**
- * @description To fetch all books related to an author by its id
- * @route GET => api/v1/author/:id/books
+ * @description   To fetch all books related to an author by its id
+ * @route         GET => api/v1/author/:id/books
+ * @access        Public
  */
 
 const fetchAllBooksByAuthorId = async (req, res) => {
@@ -57,7 +59,7 @@ const fetchAllBooksByAuthorId = async (req, res) => {
     res.status(201).json({
       success: true,
       message: `Book related to author with id ${authorId} fetched successfully`,
-      result: books,
+      data: books,
     });
   } catch (err) {
     console.log(err);
@@ -70,8 +72,9 @@ const fetchAllBooksByAuthorId = async (req, res) => {
 };
 
 /**
- * @description To fetch all authors
- * @route GET => api/v1/books/
+ * @description   To fetch all authors
+ * @route         GET => api/v1/books/
+ * @access        Public
  */
 
 const fetchAllAuthors = async (req, res) => {
@@ -87,7 +90,7 @@ const fetchAllAuthors = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'authors fetched successfully',
-      result: authors,
+      data: authors,
     });
   } catch (err) {
     return res.status(500).json({
@@ -99,8 +102,9 @@ const fetchAllAuthors = async (req, res) => {
 };
 
 /**
- * @description To fetch a author by id
- * @route GET => api/v1/authors/:id
+ * @description   To fetch a author by id
+ * @route         GET => api/v1/authors/:id
+ * @access        Public
  */
 
 const fetchAuthorById = async (req, res) => {
@@ -111,7 +115,7 @@ const fetchAuthorById = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: `author with id ${authorId} no found`,
-        result: {},
+        data: {},
       });
     }
     res.status(200).json({
