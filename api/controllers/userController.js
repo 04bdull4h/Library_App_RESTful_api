@@ -74,6 +74,7 @@ const login = async (req, res) => {
       });
     }
     const result = compare(password, user.password);
+    console.log(process.env.JWT_KEY);
     if (result) {
       const token = jwt.sign(
         {

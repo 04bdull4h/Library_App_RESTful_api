@@ -51,7 +51,8 @@ const createAuthor = async (req, res) => {
 
 const fetchAllBooksByAuthorId = async (req, res) => {
   try {
-    const authorId = req.body.AuthorId;
+    const authorId = req.params.id;
+    console.log(authorId);
     const books = await Author.findAll({
       where: { id: authorId },
       include: [Book],
