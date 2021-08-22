@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const secretKey = process.env.JWT_KEY || 'JWT_KEY';
 const { unauthorized } = require('../utils/loggerMethods');
 
-const checkTokenAuth = (req, res, next) => {
+const accessTokenMiddleware = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, secretKey);
@@ -18,5 +18,5 @@ const checkTokenAuth = (req, res, next) => {
 };
 
 module.exports = {
-  checkTokenAuth,
+  accessTokenMiddleware,
 };

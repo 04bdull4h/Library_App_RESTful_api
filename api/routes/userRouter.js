@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const { checkTokenAuth } = require('../middlewares/checkTokenAuth');
+const {
+  accessTokenMiddleware,
+} = require('../middlewares/accessTokenMiddleware');
 
 /**
  *@doc api/v1/users/ endpoints
@@ -12,7 +14,7 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
-router.delete('/:id', checkTokenAuth, userController.deleteUserById);
-router.put('/:id', checkTokenAuth, userController.updateUserById);
+router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
+router.put('/:id', accessTokenMiddleware, userController.updateUserById);
 
 module.exports = router;
