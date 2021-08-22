@@ -2,10 +2,7 @@ const { Book, Author } = require('../models/');
 const {
   okLogger,
   createdLogger,
-  internalServerErrorLogger,
-  forbiddenLogger,
   notFoundLogger,
-  unauthorizedLogger,
 } = require('../utils/loggerMethods');
 
 /**

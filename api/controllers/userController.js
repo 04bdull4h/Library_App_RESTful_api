@@ -4,12 +4,9 @@ const jwt = require('jsonwebtoken');
 const {
   okLogger,
   createdLogger,
-  conflictLogger,
   badRequestLogger,
-  internalServerErrorLogger,
   forbiddenLogger,
   notFoundLogger,
-  unauthorizedLogger,
 } = require('../utils/loggerMethods');
 const { xssFilter } = require('helmet');
 
@@ -19,7 +16,7 @@ const { xssFilter } = require('helmet');
  * @access        Public
  */
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   try {
     const body = {
       firstName: req.body.firstName,
@@ -46,29 +43,7 @@ const register = async (req, res) => {
     });
     createdLogger(req);
   } catch (err) {
-    if (err.name === 'SequelizeValidationError') {
-      badRequestLogger(req);
-      return res.status(400).json({
-        success: false,
-        message: 'Validation errors',
-        errors: err.errors.map((e) => e.message),
-      });
-    }
-    if (err.name === 'SequelizeUniqueConstraintError') {
-      conflictLogger(req);
-      return res.status(409).json({
-        success: false,
-        message: err.errors.map((e) => e.message),
-      });
-    } else {
-      console.log(err);
-      internalServerErrorLogger(req);
-      return res.status(500).json({
-        success: false,
-        message: 'server issue',
-        error: err,
-      });
-    }
+    next(err);
   }
 };
 

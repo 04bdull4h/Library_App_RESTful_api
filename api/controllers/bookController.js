@@ -1,9 +1,9 @@
 const { Book, Author } = require('../models');
+const ErrorResponse = require('../utils/errorResponse');
 const {
-  created,
-  conflict,
-  badRequest,
-  internalServerError,
+  okLogger,
+  createdLogger,
+  notFoundLogger,
 } = require('../utils/loggerMethods');
 
 /**
@@ -12,30 +12,21 @@ const {
  * @access        Public
  */
 
-const fetchAllBooks = async (req, res) => {
+const fetchAllBooks = async (req, res, next) => {
   try {
     const books = await Book.findAll();
     if (!books) {
-      notFound(req);
-      return res.status(404).json({
-        success: false,
-        error: 'There is no books right now in the database',
-        data: {},
-      });
+      notFoundLogger(req);
+      return next(new ErrorResponse(`Books not found in the database`, 404));
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: 'books fetched successfully',
       data: books,
     });
-    ok(req);
   } catch (err) {
-    internalServerError(req);
-    return res.status(500).json({
-      success: false,
-      message: 'server issue',
-      error: err,
-    });
+    next(err);
   }
 };
 
@@ -45,31 +36,27 @@ const fetchAllBooks = async (req, res) => {
  * @access        Public
  */
 
-const fetchBookById = async (req, res) => {
+const fetchBookById = async (req, res, next) => {
   try {
     const bookId = req.params.id;
     const book = await Book.findByPk(bookId);
     if (!book) {
-      notFound(req);
-      return res.status(404).json({
-        success: false,
-        message: `book with id ${bookId} not in the database`,
-        data: {},
-      });
+      notFoundLogger(req);
+      return next(
+        new ErrorResponse(
+          `Book with id ${bookId} not found in the database`,
+          404
+        )
+      );
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: 'user fetched successfully',
       data: book,
     });
-    ok(req);
   } catch (err) {
-    internalServerError(req);
-    return res.status(500).json({
-      success: false,
-      message: 'server issue',
-      error: err,
-    });
+    next(err);
   }
 };
 
@@ -79,7 +66,7 @@ const fetchBookById = async (req, res) => {
  * @access        Private
  */
 
-const createBook = async (req, res) => {
+const createBook = async (req, res, next) => {
   try {
     const reqBody = {
       title: req.body.title,
@@ -93,42 +80,23 @@ const createBook = async (req, res) => {
     };
     const author = await Author.findByPk(reqBody.AuthorId);
     if (!author) {
-      notFound(req);
-      return res.status(404).json({
-        success: false,
-        message: `author with id ${reqBody.AuthorId} not found`,
-      });
+      notFoundLogger(req);
+      return next(
+        new ErrorResponse(
+          `Author with id ${reqBody.AuthorId} not found in the database`,
+          404
+        )
+      );
     }
     const createdBook = await Book.create(reqBody);
+    createdLogger(req);
     res.status(201).json({
       success: true,
       message: 'book created successfully',
       result: createdBook,
     });
-    created(req);
   } catch (err) {
-    if (err.name === 'SequelizeValidationError') {
-      badRequest(req);
-      return res.status(400).json({
-        success: false,
-        message: 'Validation errors',
-        errors: err.errors.map((e) => e.message),
-      });
-    }
-    if (err.name === 'SequelizeUniqueConstraintError') {
-      conflict(req);
-      return res.status(409).json({
-        success: false,
-        message: err.errors.map((e) => e.message),
-      });
-    } else {
-      internalServerError(req);
-      return res.status(500).json({
-        success: false,
-        message: 'server issue',
-        error: err.errors.map((e) => e.message),
-      });
-    }
+    next(err);
   }
 };
 
@@ -156,35 +124,22 @@ const updateBookById = async (req, res) => {
       },
     });
     if (!updatedBook[0]) {
-      notFound(req);
-      return res.status(404).json({
-        success: false,
-        message: `book with id ${bookId} not in the database`,
-        result: {},
-      });
+      notFoundLogger(req);
+      return next(
+        new ErrorResponse(
+          `Book with id ${bookId} not found in the database`,
+          404
+        )
+      );
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: `book with id ${bookId} updated successfully`,
       data: reqBody,
     });
-    ok(req);
   } catch (err) {
-    if (err.errors[0].type === 'unique violation') {
-      badRequest(req);
-      return res.status(409).json({
-        success: false,
-        message: 'ISBN must be unique',
-        error: err.errors.map((e) => e.message),
-      });
-    } else {
-      internalServerError(req);
-      return res.status(500).json({
-        success: false,
-        message: 'server issue',
-        error: err.errors.map((e) => e.message),
-      });
-    }
+    next(err);
   }
 };
 
@@ -194,31 +149,27 @@ const updateBookById = async (req, res) => {
  * @access        Private
  */
 
-const deleteBookById = async (req, res) => {
+const deleteBookById = async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const deletedBook = await Book.destroy({ where: { id: id } });
+    const bookId = req.params.id;
+    const deletedBook = await Book.destroy({ where: { id: bookId } });
     if (!deletedBook) {
       notFound(req);
-      return res.status(404).json({
-        success: false,
-        message: `book with id ${id} not found in the database`,
-        error: err,
-      });
+      return next(
+        new ErrorResponse(
+          `Book with id ${bookId} not found in the database`,
+          404
+        )
+      );
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: `book with id ${id} deleted successfully`,
       result: {},
     });
-    ok(req);
   } catch (err) {
-    internalServerError(req);
-    return res.status(500).json({
-      success: false,
-      message: 'server issue',
-      error: err.errors.map((e) => e.message),
-    });
+    next(err);
   }
 };
 
