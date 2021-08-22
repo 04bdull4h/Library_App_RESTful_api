@@ -165,7 +165,48 @@ const deleteUserById = async (req, res) => {
 };
 const updateUserById = async (req, res) => {
   try {
-  } catch (err) {}
+    const userId = req.params.id;
+    const body = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    };
+    const updatedUser = await User.update(body, { where: { id: userId } });
+    if (!updatedUser[0]) {
+      return res.status(404).json({
+        success: true,
+        message: `user with id ${userId} not found`,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'user updated successfully',
+      data: body,
+    });
+  } catch (err) {
+    if (err.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation errors',
+        errors: err.errors.map((e) => e.message),
+      });
+    }
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      return res.status(409).json({
+        success: false,
+        message: err.errors.map((e) => e.message),
+      });
+    } else {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: 'server issue',
+        error: err,
+      });
+    }
+  }
 };
 
 module.exports = {
@@ -174,4 +215,5 @@ module.exports = {
   fetchAllUsers,
   fetchUserById,
   deleteUserById,
+  updateUserById,
 };
