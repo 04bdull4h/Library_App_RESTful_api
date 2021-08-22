@@ -40,7 +40,13 @@ const register = async (req, res) => {
     }
   }
 };
+
 const login = (req, res) => {};
+
+const fetchAllUsers = async (req, res) => {};
+const fetchUserById = async (req, res) => {};
+const updateUserById = async (req, res) => {};
+const deleteUserById = async (req, res) => {};
 
 module.exports = {
   register,
