@@ -1,8 +1,9 @@
 const { Book, Author } = require('../models');
 
 /**
- * @description To fetch all books
- * @route GET => api/v1/books
+ * @description   To fetch all books
+ * @route         GET => api/v1/books
+ * @access        Public
  */
 
 const fetchAllBooks = async (req, res) => {
@@ -30,8 +31,9 @@ const fetchAllBooks = async (req, res) => {
 };
 
 /**
- * @description To fetch a book by id
- * @route GET => api/v1/books/:id
+ * @description   To fetch a book by id
+ * @route         GET => api/v1/books/:id
+ * @access        Public
  */
 
 const fetchBookById = async (req, res) => {
@@ -60,8 +62,9 @@ const fetchBookById = async (req, res) => {
 };
 
 /**
- * @description To create a new book
- * @route POST => api/v1/books/
+ * @description   To create a new book
+ * @route         POST => api/v1/books/
+ * @access        Private
  */
 
 const createBook = async (req, res) => {
@@ -114,8 +117,9 @@ const createBook = async (req, res) => {
 };
 
 /**
- * @description To update a book by id
- * @route UPDATE => api/v1/books/:id
+ * @description   To update a book by id
+ * @route         UPDATE => api/v1/books/:id
+ * @access        Private
  */
 
 const updateBookById = async (req, res) => {
@@ -166,8 +170,9 @@ const updateBookById = async (req, res) => {
 };
 
 /**
- * @description To delete a book by id
- * @route UPDATE => api/v1/books/:id
+ * @description   To delete a book by id
+ * @route         UPDATE => api/v1/books/:id
+ * @access        Private
  */
 
 const deleteBookById = async (req, res) => {

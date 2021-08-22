@@ -11,7 +11,7 @@ const checkAuth = (req, res, next) => {
   } catch (err) {
     return res.status(401).json({
       success: false,
-      message: 'Login failed',
+      message: 'Invalid or expired token',
     });
   }
 };

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const { checkAuth } = require('../middlewares/checkAuth');
+const { checkAuth } = require('../middlewares/checkTokenAuth');
 
 /**
  *@doc api/v1/users/ endpoints

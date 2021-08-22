@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
-const { checkAuth } = require('../middlewares/checkAuth');
+const { checkAuth } = require('../middlewares/checkTokenAuth');
 
 /**
  *@doc api/v1/books/ endpoints
