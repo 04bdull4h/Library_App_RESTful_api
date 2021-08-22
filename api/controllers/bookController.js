@@ -13,13 +13,13 @@ const fetchAllBooks = async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'There is no books right now in the database',
-        result: {},
+        data: {},
       });
     }
     res.status(200).json({
       success: true,
       message: 'books fetched successfully',
-      result: books,
+      data: books,
     });
   } catch (err) {
     return res.status(500).json({
@@ -44,13 +44,13 @@ const fetchBookById = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: `book with id ${id} not in the database`,
-        result: {},
+        data: {},
       });
     }
     res.status(200).json({
       success: true,
       message: 'user fetched successfully',
-      result: book,
+      data: book,
     });
   } catch (err) {
     return res.status(500).json({
@@ -124,7 +124,7 @@ const createBook = async (req, res) => {
 
 const updateBookById = async (req, res) => {
   try {
-    const id = req.params.id;
+    const bookId = req.params.id;
     const reqBody = {
       title: req.body.title,
       description: req.body.description,
@@ -136,23 +136,22 @@ const updateBookById = async (req, res) => {
     };
     const updatedBook = await Book.update(reqBody, {
       where: {
-        id: id,
+        id: bookId,
       },
     });
     if (!updatedBook[0]) {
       return res.status(404).json({
         success: false,
-        message: `book with id ${id} not in the database`,
+        message: `book with id ${bookId} not in the database`,
         result: {},
       });
     }
     res.status(200).json({
       success: true,
-      message: `book with id ${id} updated successfully`,
-      result: reqBody,
+      message: `book with id ${bookId} updated successfully`,
+      data: reqBody,
     });
   } catch (err) {
-    console.log(err);
     if (err.errors[0].type === 'unique violation') {
       return res.status(409).json({
         success: false,
