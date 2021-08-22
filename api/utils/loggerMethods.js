@@ -53,6 +53,13 @@ const notFound = (req) => {
     }, ${ip.address()}`
   );
 };
+const unauthorized = (req) => {
+  logger.info(
+    `401, Unauthorized, ${req.originalUrl}, ${req.method}, ${
+      req.ip
+    }, ${ip.address()}`
+  );
+};
 
 module.exports = {
   ok,
@@ -62,4 +69,5 @@ module.exports = {
   internalServerError,
   forbidden,
   notFound,
+  unauthorized,
 };
