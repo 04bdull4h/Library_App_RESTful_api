@@ -34,9 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 
 const bookRouter = require('./api/routes/bookRouter');
 const authorRouter = require('./api/routes/authorRouter');
+const userRouter = require('./api/routes/userRouter');
 
 app.use('/api/v1/books', bookRouter);
 app.use('/api/v1/authors', authorRouter);
+app.use('/api/v1/users', userRouter);
 
 /*--------- Exporting express app for the server ---------*/
 
