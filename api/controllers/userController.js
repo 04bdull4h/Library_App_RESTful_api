@@ -68,7 +68,7 @@ const login = async (req, res) => {
           email: user.email,
           userId: user.id,
         },
-        'hello'
+        process.env.JWT_KEY
       );
       res.status(200).json({
         success: true,
