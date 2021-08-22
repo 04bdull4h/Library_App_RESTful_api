@@ -41,14 +41,14 @@ const internalServerError = (req) => {
 
 const forbidden = (req) => {
   logger.info(
-    `500, Forbidden, ${req.originalUrl}, ${req.method}, ${
+    `403, Forbidden, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
 };
 const notFound = (req) => {
   logger.info(
-    `500, Not found, ${req.originalUrl}, ${req.method}, ${
+    `404, Not found, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
