@@ -2,14 +2,16 @@ const { User } = require('../models');
 const { genSalt, hash, compare } = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
-  ok,
-  created,
-  conflict,
-  badRequest,
-  internalServerError,
-  forbidden,
-  notFound,
+  okLogger,
+  createdLogger,
+  conflictLogger,
+  badRequestLogger,
+  internalServerErrorLogger,
+  forbiddenLogger,
+  notFoundLogger,
+  unauthorizedLogger,
 } = require('../utils/loggerMethods');
+const { xssFilter } = require('helmet');
 
 /**
  * @description   To create a new user
@@ -42,10 +44,10 @@ const register = async (req, res) => {
       message: 'user created successfully',
       data: createdUser,
     });
-    created(req);
+    createdLogger(req);
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
-      badRequest(req);
+      badRequestLogger(req);
       return res.status(400).json({
         success: false,
         message: 'Validation errors',
@@ -53,14 +55,14 @@ const register = async (req, res) => {
       });
     }
     if (err.name === 'SequelizeUniqueConstraintError') {
-      conflict(req);
+      conflictLogger(req);
       return res.status(409).json({
         success: false,
         message: err.errors.map((e) => e.message),
       });
     } else {
       console.log(err);
-      internalServerError(req);
+      internalServerErrorLogger(req);
       return res.status(500).json({
         success: false,
         message: 'server issue',
@@ -76,12 +78,12 @@ const register = async (req, res) => {
  * @access        Public
  */
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
     if (!email) {
-      badRequest(req);
+      badRequestLogger(req);
       return res.status(400).json({
         success: false,
         message: 'The email is required',
@@ -92,12 +94,12 @@ const login = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: `The email: ${email} not found in the database`,
+        data: {},
       });
     }
     const result = await compare(password, user.password);
-    console.log(result);
     if (result) {
-      const token = jwt.sign(
+      const accessToken = jwt.sign(
         {
           email: user.email,
           userId: user.id,
@@ -105,26 +107,21 @@ const login = async (req, res) => {
         process.env.JWT_KEY,
         { expiresIn: '1h' }
       );
+      forbiddenLogger(req);
       res.status(200).json({
         success: true,
         message: 'user logged in successfully',
-        token: token,
+        accessToken: accessToken,
       });
-      ok(req);
+      okLogger(req);
     } else {
-      forbidden(req);
       return res.status(403).json({
         success: false,
         message: 'Invalid credentials',
       });
     }
   } catch (err) {
-    internalServerError(req);
-    return res.status(500).json({
-      success: false,
-      message: 'server issue',
-      error: err,
-    });
+    next(err);
   }
 };
 
@@ -134,11 +131,11 @@ const login = async (req, res) => {
  * @access        Public
  */
 
-const fetchAllUsers = async (req, res) => {
+const fetchAllUsers = async (req, res, next) => {
   try {
     const users = await User.findAll();
     if (!users) {
-      notFound(req);
+      notFoundLogger(req);
       return res.status(404).json({
         success: false,
         message: 'there is no users found in the database',
@@ -150,14 +147,9 @@ const fetchAllUsers = async (req, res) => {
       message: 'users fetched successfully',
       data: users,
     });
-    ok(req);
+    okLogger(req);
   } catch (err) {
-    internalServerError(req);
-    return res.status(500).json({
-      success: false,
-      message: 'server issue',
-      error: err.errors.map((e) => e.message),
-    });
+    next(err);
   }
 };
 
@@ -167,12 +159,12 @@ const fetchAllUsers = async (req, res) => {
  * @access        Public
  */
 
-const fetchUserById = async (req, res) => {
+const fetchUserById = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const fetchedUser = await User.findByPk(userId);
     if (!fetchedUser) {
-      notFound(req);
+      notFoundLogger(req);
       return res.status(404).json({
         success: false,
         message: `user with id ${userId} not found in the database`,
@@ -183,14 +175,9 @@ const fetchUserById = async (req, res) => {
       message: `user with id ${userId} fetched successfully`,
       data: fetchedUser,
     });
-    ok(req);
+    okLogger(req);
   } catch (err) {
-    internalServerError(req);
-    return res.status(500).json({
-      success: false,
-      message: 'server issue',
-      error: err,
-    });
+    next(err);
   }
 };
 
@@ -200,12 +187,12 @@ const fetchUserById = async (req, res) => {
  * @access        Private
  */
 
-const deleteUserById = async (req, res) => {
+const deleteUserById = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const deletedUser = await User.destroy({ where: { id: userId } });
     if (!deletedUser) {
-      notFound(req);
+      notFoundLogger(req);
       return res.status(404).json({
         success: false,
         message: `user with id ${userId} not found`,
@@ -217,14 +204,9 @@ const deleteUserById = async (req, res) => {
       message: `user with id ${userId} deleted successfully`,
       data: {},
     });
-    ok(req);
+    okLogger(req);
   } catch (err) {
-    internalServerError(req);
-    return res.status(500).json({
-      success: false,
-      message: 'server issue',
-      error: err,
-    });
+    next(err);
   }
 };
 
@@ -234,7 +216,7 @@ const deleteUserById = async (req, res) => {
  * @access        Private
  */
 
-const updateUserById = async (req, res) => {
+const updateUserById = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const body = {
@@ -251,7 +233,7 @@ const updateUserById = async (req, res) => {
     }
     const updatedUser = await User.update(body, { where: { id: userId } });
     if (!updatedUser[0]) {
-      notFound(req);
+      notFoundLogger(req);
       return res.status(404).json({
         success: true,
         message: `user with id ${userId} not found`,
@@ -262,30 +244,9 @@ const updateUserById = async (req, res) => {
       message: 'user updated successfully',
       data: body,
     });
-    ok(req);
+    okLogger(req);
   } catch (err) {
-    if (err.name === 'SequelizeValidationError') {
-      badRequest(req);
-      return res.status(400).json({
-        success: false,
-        message: 'Validation errors',
-        errors: err.errors.map((e) => e.message),
-      });
-    }
-    if (err.name === 'SequelizeUniqueConstraintError') {
-      conflict(req);
-      return res.status(409).json({
-        success: false,
-        message: err.errors.map((e) => e.message),
-      });
-    } else {
-      internalServerError(req);
-      return res.status(500).json({
-        success: false,
-        message: 'server issue',
-        error: err,
-      });
-    }
+    next(err);
   }
 };
 
