@@ -1,4 +1,3 @@
-const ErrorResponse = require('../utils/errorResponse');
 const {
   conflictLogger,
   badRequestLogger,
@@ -11,15 +10,19 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   error.message = err.message;
   if (err.name === 'SequelizeValidationError') {
     badRequestLogger(req);
-    const message = err.errors.map((e) => e.message);
-    error = new ErrorResponse(message, 400);
-    console.log(error);
+    return res.status(400).json({
+      success: false,
+      msg: 'Invalid inputs',
+      errors: err.errors.map((e) => e.message),
+    });
   }
-
   if (err.name === 'SequelizeUniqueConstraintError') {
     conflictLogger(req);
-    const message = err.message;
-    error = new ErrorResponse(message, 409);
+    return res.status(400).json({
+      success: false,
+      msg: 'Duplicated value',
+      errors: err.message,
+    });
   }
   internalServerErrorLogger(req);
   res.status(error.statusCode || 500).json({

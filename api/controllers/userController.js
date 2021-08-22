@@ -8,7 +8,6 @@ const {
   forbiddenLogger,
   notFoundLogger,
 } = require('../utils/loggerMethods');
-const { xssFilter } = require('helmet');
 
 /**
  * @description   To create a new user
@@ -36,12 +35,12 @@ const register = async (req, res, next) => {
     const salt = await genSalt(saltRounds);
     body.password = await hash(body.password, salt);
     const createdUser = await User.create(body);
+    createdLogger(req);
     res.status(201).json({
       success: true,
       message: 'user created successfully',
       data: createdUser,
     });
-    createdLogger(req);
   } catch (err) {
     next(err);
   }
