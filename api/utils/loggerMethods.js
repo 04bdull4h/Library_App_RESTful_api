@@ -1,13 +1,13 @@
 const logger = require('../utils/logger');
 const ip = require('ip');
 
-const ok = (req) => {
+const okLogger = (req) => {
   logger.info(
     `200, OK, ${req.originalUrl}, ${req.method}, ${req.ip}, ${ip.address()}`
   );
 };
 
-const created = (req) => {
+const createdLogger = (req) => {
   logger.info(
     `201, Created, ${req.originalUrl}, ${req.method}, ${
       req.ip
@@ -15,7 +15,7 @@ const created = (req) => {
   );
 };
 
-const conflict = (req) => {
+const conflictLogger = (req) => {
   logger.info(
     `409, Conflict, ${req.originalUrl}, ${req.method}, ${
       req.ip
@@ -23,7 +23,7 @@ const conflict = (req) => {
   );
 };
 
-const badRequest = (req) => {
+const badRequestLogger = (req) => {
   logger.info(
     `400, Bad Request, ${req.originalUrl}, ${req.method}, ${
       req.ip
@@ -31,7 +31,7 @@ const badRequest = (req) => {
   );
 };
 
-const internalServerError = (req) => {
+const internalServerErrorLogger = (req) => {
   logger.info(
     `500, Internal Server Error, ${req.originalUrl}, ${req.method}, ${
       req.ip
@@ -39,21 +39,21 @@ const internalServerError = (req) => {
   );
 };
 
-const forbidden = (req) => {
+const forbiddenLogger = (req) => {
   logger.info(
     `403, Forbidden, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
 };
-const notFound = (req) => {
+const notFoundLogger = (req) => {
   logger.info(
     `404, Not Found, ${req.originalUrl}, ${req.method}, ${
       req.ip
     }, ${ip.address()}`
   );
 };
-const unauthorized = (req) => {
+const unauthorizedLogger = (req) => {
   logger.info(
     `401, Unauthorized, ${req.originalUrl}, ${req.method}, ${
       req.ip
@@ -62,12 +62,12 @@ const unauthorized = (req) => {
 };
 
 module.exports = {
-  ok,
-  created,
-  conflict,
-  badRequest,
-  internalServerError,
-  forbidden,
-  notFound,
-  unauthorized,
+  okLogger,
+  createdLogger,
+  conflictLogger,
+  badRequestLogger,
+  internalServerErrorLogger,
+  forbiddenLogger,
+  notFoundLogger,
+  unauthorizedLogger,
 };

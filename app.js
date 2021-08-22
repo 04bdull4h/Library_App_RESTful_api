@@ -41,7 +41,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 /*--------- Setting up morgan middleware ---------*/
-if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'));
+} else {
+  app.use(morgan('dev'));
+}
 
 /*--------- Setting up cors middleware  ---------*/
 app.use(cors());
@@ -61,7 +65,12 @@ const userRouter = require('./api/routes/userRouter');
 app.use('/api/v1/books', bookRouter);
 app.use('/api/v1/authors', authorRouter);
 app.use('/api/v1/users', userRouter);
+
 app.use(errorHandlerMiddleware);
+
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`Error: ${err.message}`.red);
+});
 
 /*--------- Exporting express app for the server ---------*/
 module.exports = app;
