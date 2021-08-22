@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.JWT_KEY || 'JWT_KEY';
-const { unauthorized } = require('../utils/loggerMethods');
+const { unauthorizedLogger } = require('../utils/loggerMethods');
 
 const accessTokenMiddleware = (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ const accessTokenMiddleware = (req, res, next) => {
     req.userData = decoded;
     next();
   } catch (err) {
-    unauthorized(req);
+    unauthorizedLogger(req);
     return res.status(401).json({
       success: false,
       message: 'Invalid or expired token',

@@ -1,5 +1,4 @@
 const { Book, Author } = require('../models');
-const ErrorResponse = require('../utils/errorResponse');
 const {
   okLogger,
   createdLogger,
@@ -16,8 +15,11 @@ const fetchAllBooks = async (req, res, next) => {
   try {
     const books = await Book.findAll();
     if (!books) {
-      notFoundLogger(req);
-      return next(new ErrorResponse(`Books not found in the database`, 404));
+      return res.status(404).json({
+        success: false,
+        message: `There is no books in the database right now not`,
+        data: {},
+      });
     }
     okLogger(req);
     res.status(200).json({
@@ -42,17 +44,16 @@ const fetchBookById = async (req, res, next) => {
     const book = await Book.findByPk(bookId);
     if (!book) {
       notFoundLogger(req);
-      return next(
-        new ErrorResponse(
-          `Book with id ${bookId} not found in the database`,
-          404
-        )
-      );
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${bookId} not found in the database`,
+        data: {},
+      });
     }
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: 'user fetched successfully',
+      message: `book with id ${bookId} fetched successfully`,
       data: book,
     });
   } catch (err) {
@@ -81,18 +82,17 @@ const createBook = async (req, res, next) => {
     const author = await Author.findByPk(reqBody.AuthorId);
     if (!author) {
       notFoundLogger(req);
-      return next(
-        new ErrorResponse(
-          `Author with id ${reqBody.AuthorId} not found in the database`,
-          404
-        )
-      );
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${bookId} not found in the database`,
+        data: {},
+      });
     }
     const createdBook = await Book.create(reqBody);
     createdLogger(req);
     res.status(201).json({
       success: true,
-      message: 'book created successfully',
+      message: 'Book created successfully',
       result: createdBook,
     });
   } catch (err) {
@@ -125,12 +125,11 @@ const updateBookById = async (req, res) => {
     });
     if (!updatedBook[0]) {
       notFoundLogger(req);
-      return next(
-        new ErrorResponse(
-          `Book with id ${bookId} not found in the database`,
-          404
-        )
-      );
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${bookId} not found in the database`,
+        data: {},
+      });
     }
     okLogger(req);
     res.status(200).json({
@@ -155,12 +154,11 @@ const deleteBookById = async (req, res, next) => {
     const deletedBook = await Book.destroy({ where: { id: bookId } });
     if (!deletedBook) {
       notFound(req);
-      return next(
-        new ErrorResponse(
-          `Book with id ${bookId} not found in the database`,
-          404
-        )
-      );
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${bookId} not found in the database`,
+        data: {},
+      });
     }
     okLogger(req);
     res.status(200).json({
