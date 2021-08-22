@@ -1,6 +1,14 @@
 const { User } = require('../models');
 const { genSalt, hash, compare } = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const {
+  ok,
+  created,
+  conflict,
+  badRequest,
+  internalServerError,
+  forbidden,
+} = require('../utils/loggerMethods');
 
 /**
  * @description   To create a new user
@@ -26,8 +34,10 @@ const register = async (req, res) => {
       message: 'user created successfully',
       data: createdUser,
     });
+    created(req);
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
+      badRequest(req);
       return res.status(400).json({
         success: false,
         message: 'Validation errors',
@@ -35,12 +45,13 @@ const register = async (req, res) => {
       });
     }
     if (err.name === 'SequelizeUniqueConstraintError') {
+      conflict(req);
       return res.status(409).json({
         success: false,
         message: err.errors.map((e) => e.message),
       });
     } else {
-      console.log(err);
+      internalServerError(req);
       return res.status(500).json({
         success: false,
         message: 'server issue',
@@ -61,6 +72,7 @@ const login = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     if (!email) {
+      badRequest(req);
       return res.status(400).json({
         success: false,
         message: 'The email is required',
@@ -88,14 +100,16 @@ const login = async (req, res) => {
         message: 'user logged in successfully',
         token: token,
       });
+      ok(req);
     } else {
+      forbidden(req);
       return res.status(403).json({
         success: false,
         message: 'Invalid credentials',
       });
     }
   } catch (err) {
-    console.log(err);
+    internalServerError(req);
     return res.status(500).json({
       success: false,
       message: 'server issue',
@@ -125,7 +139,9 @@ const fetchAllUsers = async (req, res) => {
       message: 'users fetched successfully',
       data: users,
     });
+    ok(req);
   } catch (err) {
+    internalServerError(req);
     return res.status(500).json({
       success: false,
       message: 'server issue',
@@ -155,7 +171,9 @@ const fetchUserById = async (req, res) => {
       message: `user with id ${userId} fetched successfully`,
       data: fetchedUser,
     });
+    ok(req);
   } catch (err) {
+    internalServerError(req);
     return res.status(500).json({
       success: false,
       message: 'server issue',
@@ -186,7 +204,9 @@ const deleteUserById = async (req, res) => {
       message: `user with id ${userId} deleted successfully`,
       data: {},
     });
+    ok(req);
   } catch (err) {
+    internalServerError(req);
     return res.status(500).json({
       success: false,
       message: 'server issue',
@@ -223,8 +243,10 @@ const updateUserById = async (req, res) => {
       message: 'user updated successfully',
       data: body,
     });
+    ok(req);
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
+      badRequest(req);
       return res.status(400).json({
         success: false,
         message: 'Validation errors',
@@ -232,12 +254,13 @@ const updateUserById = async (req, res) => {
       });
     }
     if (err.name === 'SequelizeUniqueConstraintError') {
+      conflict(req);
       return res.status(409).json({
         success: false,
         message: err.errors.map((e) => e.message),
       });
     } else {
-      console.log(err);
+      internalServerError(req);
       return res.status(500).json({
         success: false,
         message: 'server issue',

@@ -1,4 +1,10 @@
 const { Book, Author } = require('../models');
+const {
+  created,
+  conflict,
+  badRequest,
+  internalServerError,
+} = require('../utils/loggerMethods');
 
 /**
  * @description   To fetch all books
@@ -21,8 +27,9 @@ const fetchAllBooks = async (req, res) => {
       message: 'books fetched successfully',
       data: books,
     });
+    ok(req);
   } catch (err) {
-    logger.error(err);
+    internalServerError(req);
     return res.status(500).json({
       success: false,
       message: 'server issue',
@@ -53,7 +60,9 @@ const fetchBookById = async (req, res) => {
       message: 'user fetched successfully',
       data: book,
     });
+    ok(req);
   } catch (err) {
+    internalServerError(req);
     return res.status(500).json({
       success: false,
       message: 'server issue',
@@ -93,8 +102,10 @@ const createBook = async (req, res) => {
       message: 'book created successfully',
       result: createdBook,
     });
+    created(req);
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
+      badRequest(req);
       return res.status(400).json({
         success: false,
         message: 'Validation errors',
@@ -102,12 +113,13 @@ const createBook = async (req, res) => {
       });
     }
     if (err.name === 'SequelizeUniqueConstraintError') {
+      conflict(req);
       return res.status(409).json({
         success: false,
         message: err.errors.map((e) => e.message),
       });
     } else {
-      console.log(err);
+      internalServerError(req);
       return res.status(500).json({
         success: false,
         message: 'server issue',
@@ -152,14 +164,17 @@ const updateBookById = async (req, res) => {
       message: `book with id ${bookId} updated successfully`,
       data: reqBody,
     });
+    ok(req);
   } catch (err) {
     if (err.errors[0].type === 'unique violation') {
+      badRequest(req);
       return res.status(409).json({
         success: false,
         message: 'ISBN must be unique',
         error: err.errors.map((e) => e.message),
       });
     } else {
+      internalServerError(req);
       return res.status(500).json({
         success: false,
         message: 'server issue',
@@ -191,7 +206,9 @@ const deleteBookById = async (req, res) => {
       message: `book with id ${id} deleted successfully`,
       result: {},
     });
+    ok(req);
   } catch (err) {
+    internalServerError(req);
     return res.status(500).json({
       success: false,
       message: 'server issue',
