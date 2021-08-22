@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
-const { checkAuth } = require('../middlewares/checkTokenAuth');
+const { checkTokenAuth } = require('../middlewares/checkTokenAuth');
 
 /**
  *@doc api/v1/books/ endpoints
  *@controller bookController
  */
 
-router.post('/', checkAuth, bookController.createBook);
+router.post('/', checkTokenAuth, bookController.createBook);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
-router.put('/:id', checkAuth, bookController.updateBookById);
-router.delete('/:id', checkAuth, bookController.deleteBookById);
+router.put('/:id', checkTokenAuth, bookController.updateBookById);
+router.delete('/:id', checkTokenAuth, bookController.deleteBookById);
 
 module.exports = router;
