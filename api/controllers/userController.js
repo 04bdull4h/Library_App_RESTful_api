@@ -26,7 +26,7 @@ const register = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
     };
-    if (!password) {
+    if (!body.password) {
       return res.status(400).json({
         success: false,
         message: 'password is required',
@@ -59,6 +59,7 @@ const register = async (req, res) => {
         message: err.errors.map((e) => e.message),
       });
     } else {
+      console.log(err);
       internalServerError(req);
       return res.status(500).json({
         success: false,
@@ -94,6 +95,7 @@ const login = async (req, res) => {
       });
     }
     const result = await compare(password, user.password);
+    console.log(result);
     if (result) {
       const token = jwt.sign(
         {
@@ -242,6 +244,11 @@ const updateUserById = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
     };
+    if (body.password) {
+      const saltRounds = 10;
+      const salt = await genSalt(saltRounds);
+      body.password = await hash(body.password, salt);
+    }
     const updatedUser = await User.update(body, { where: { id: userId } });
     if (!updatedUser[0]) {
       notFound(req);
