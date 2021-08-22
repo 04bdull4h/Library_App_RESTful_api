@@ -38,12 +38,12 @@ const fetchAllBooks = async (req, res) => {
 
 const fetchBookById = async (req, res) => {
   try {
-    const id = req.params.id;
-    const book = await Book.findByPk(id);
+    const bookId = req.params.id;
+    const book = await Book.findByPk(bookId);
     if (!book) {
       return res.status(404).json({
         success: false,
-        message: `book with id ${id} not in the database`,
+        message: `book with id ${bookId} not in the database`,
         data: {},
       });
     }
