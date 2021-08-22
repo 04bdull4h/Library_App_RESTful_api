@@ -23,7 +23,6 @@ LOGGING=
 $ npm i
 $ npm run dev // for development env
 $ npm start // for production env
-
 ```
 
 ## endpoints
