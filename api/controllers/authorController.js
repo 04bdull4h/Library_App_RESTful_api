@@ -5,6 +5,7 @@ const {
   conflict,
   badRequest,
   internalServerError,
+  notFound,
 } = require('../utils/loggerMethods');
 /**
  * @description   To create an author
@@ -93,6 +94,7 @@ const fetchAllAuthors = async (req, res) => {
   try {
     const authors = await Author.findAll();
     if (!authors) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         error: 'There is no authors right now in the database',
@@ -126,6 +128,7 @@ const fetchAuthorById = async (req, res) => {
     const authorId = req.params.id;
     const author = await Author.findByPk(authorId);
     if (!author) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `author with id ${authorId} no found`,
@@ -168,6 +171,7 @@ const updateAuthorById = async (req, res) => {
     });
     console.log(updatedAuthor);
     if (!updatedAuthor[0]) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `author with id ${authorId} not in the database`,
@@ -210,6 +214,7 @@ const deleteAuthorById = async (req, res) => {
     const authorId = req.params.id;
     const deletedAuthor = await Author.destroy({ where: { id: authorId } });
     if (!deletedAuthor) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `user with id ${authorId} not found in the database`,

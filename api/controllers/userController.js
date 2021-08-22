@@ -128,6 +128,7 @@ const fetchAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
     if (!users) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: 'there is no users found in the database',
@@ -161,6 +162,7 @@ const fetchUserById = async (req, res) => {
     const userId = req.params.id;
     const fetchedUser = await User.findByPk(userId);
     if (!fetchedUser) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `user with id ${userId} not found in the database`,
@@ -193,6 +195,7 @@ const deleteUserById = async (req, res) => {
     const userId = req.params.id;
     const deletedUser = await User.destroy({ where: { id: userId } });
     if (!deletedUser) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `user with id ${userId} not found`,
@@ -233,6 +236,7 @@ const updateUserById = async (req, res) => {
     };
     const updatedUser = await User.update(body, { where: { id: userId } });
     if (!updatedUser[0]) {
+      notFound(req);
       return res.status(404).json({
         success: true,
         message: `user with id ${userId} not found`,

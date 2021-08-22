@@ -46,6 +46,13 @@ const forbidden = (req) => {
     }, ${ip.address()}`
   );
 };
+const notFound = (req) => {
+  logger.info(
+    `500, Not found, ${req.originalUrl}, ${req.method}, ${
+      req.ip
+    }, ${ip.address()}`
+  );
+};
 
 module.exports = {
   ok,
@@ -54,4 +61,5 @@ module.exports = {
   badRequest,
   internalServerError,
   forbidden,
+  notFound,
 };

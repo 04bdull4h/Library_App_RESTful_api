@@ -1,9 +1,6 @@
 const winston = require('winston');
 const logConfiguration = {
   transports: [
-    new winston.transports.Console({
-      level: 'info',
-    }),
     new winston.transports.File({
       level: 'info',
       filename: 'api/logs/log.log',

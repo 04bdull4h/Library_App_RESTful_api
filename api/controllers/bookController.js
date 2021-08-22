@@ -16,6 +16,7 @@ const fetchAllBooks = async (req, res) => {
   try {
     const books = await Book.findAll();
     if (!books) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         error: 'There is no books right now in the database',
@@ -49,6 +50,7 @@ const fetchBookById = async (req, res) => {
     const bookId = req.params.id;
     const book = await Book.findByPk(bookId);
     if (!book) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `book with id ${bookId} not in the database`,
@@ -63,10 +65,11 @@ const fetchBookById = async (req, res) => {
     ok(req);
   } catch (err) {
     internalServerError(req);
+    console.log(err);
     return res.status(500).json({
       success: false,
       message: 'server issue',
-      error: err.errors.map((e) => e.message),
+      error: err,
     });
   }
 };
@@ -91,6 +94,7 @@ const createBook = async (req, res) => {
     };
     const author = await Author.findByPk(reqBody.AuthorId);
     if (!author) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `author with id ${reqBody.AuthorId} not found`,
@@ -153,6 +157,7 @@ const updateBookById = async (req, res) => {
       },
     });
     if (!updatedBook[0]) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `book with id ${bookId} not in the database`,
@@ -195,6 +200,7 @@ const deleteBookById = async (req, res) => {
     const id = req.params.id;
     const deletedBook = await Book.destroy({ where: { id: id } });
     if (!deletedBook) {
+      notFound(req);
       return res.status(404).json({
         success: false,
         message: `book with id ${id} not found in the database`,
