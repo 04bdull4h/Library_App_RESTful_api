@@ -1,6 +1,7 @@
 # Library_App_RESTful_api
 
-this is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM and its validations
+this is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM and its validations.
+it contains JWT to secure some endpoints with access token, and centralized error handler as a middleware.
 
 ## status: incomplete ❌
 
