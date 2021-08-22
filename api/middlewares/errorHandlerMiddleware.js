@@ -18,7 +18,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   }
   if (err.name === 'SequelizeUniqueConstraintError') {
     conflictLogger(req);
-    return res.status(400).json({
+    return res.status(409).json({
       success: false,
       msg: 'Duplicated value',
       errors: err.message,
