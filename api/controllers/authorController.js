@@ -7,6 +7,7 @@ const {
   internalServerError,
   notFound,
 } = require('../utils/loggerMethods');
+
 /**
  * @description   To create an author
  * @route         POST => api/v1/authors
