@@ -1,5 +1,6 @@
 const { User } = require('../models');
-const { genSaltSync, hashSync } = require('bcrypt');
+const { genSalt, hash, compare } = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
   try {
@@ -10,8 +11,8 @@ const register = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
     };
-    const salt = genSaltSync(12);
-    reqBody.password = hashSync(reqBody.password, salt);
+    const salt = await genSalt(12);
+    reqBody.password = await hash(reqBody.password, salt);
     const createdUser = await User.create(reqBody);
     res.status(201).json({
       success: true,
@@ -41,9 +42,51 @@ const register = async (req, res) => {
   }
 };
 
-const login = (req, res) => {
+const login = async (req, res) => {
   try {
-  } catch (err) {}
+    const email = req.body.email;
+    const password = req.body.password;
+    if (typeof email === 'undefined') {
+      return res.status(400).json({
+        success: false,
+        message: 'The email is required',
+      });
+    }
+    const user = await User.findOne({ where: { email: email } });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: `The email: ${email} not found in the database`,
+      });
+    }
+    const result = await compare(password, user.password);
+    if (result) {
+      const token = jwt.sign(
+        {
+          email: user.email,
+          userId: user.id,
+        },
+        'hello'
+      );
+      res.status(200).json({
+        success: true,
+        message: 'user logged in successfully',
+        token: token,
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials',
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: 'server issue',
+      error: err,
+    });
+  }
 };
 
 const fetchAllUsers = async (req, res) => {
@@ -69,6 +112,7 @@ const fetchAllUsers = async (req, res) => {
     });
   }
 };
+
 const fetchUserById = async (req, res) => {
   try {
     const userId = req.params.id;
