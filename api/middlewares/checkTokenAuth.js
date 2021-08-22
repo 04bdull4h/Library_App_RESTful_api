@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const secretKey = process.env.SECRET_KEY || 'hello';
 
-const checkAuth = (req, res, next) => {
+const checkTokenAuth = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, secretKey);
@@ -17,5 +17,5 @@ const checkAuth = (req, res, next) => {
 };
 
 module.exports = {
-  checkAuth,
+  checkTokenAuth,
 };
