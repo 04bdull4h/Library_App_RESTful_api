@@ -132,6 +132,12 @@ const fetchAuthorById = async (req, res) => {
   }
 };
 
+/**
+ * @description   To update an author by id
+ * @route         UPDATE => api/v1/authors/:id
+ * @access        Private
+ */
+
 const updateAuthorById = async (req, res) => {
   try {
     const authorId = req.params.id;
@@ -174,6 +180,12 @@ const updateAuthorById = async (req, res) => {
     }
   }
 };
+
+/**
+ * @description   To delete an author by id
+ * @route         DELETE => api/v1/authors/:id
+ * @access        Private
+ */
 
 const deleteAuthorById = async (req, res) => {
   try {
