@@ -1,11 +1,11 @@
 const {
   conflictLogger,
-  badRequestLogger,
   internalServerErrorLogger,
 } = require('../utils/loggerMethods');
 
 const errorHandlerMiddleware = (err, req, res, next) => {
   let error = { ...err };
+  // for developer
   console.log(err);
   error.message = err.message;
   if (err.name === 'SequelizeUniqueConstraintError') {
