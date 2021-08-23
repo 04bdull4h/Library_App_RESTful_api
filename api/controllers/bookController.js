@@ -93,7 +93,7 @@ const createBook = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: 'Book created successfully',
-      result: createdBook,
+      data: createdBook,
     });
   } catch (err) {
     next(err);
@@ -164,7 +164,7 @@ const deleteBookById = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: `Book with id ${id} deleted successfully`,
-      result: {},
+      data: {},
     });
   } catch (err) {
     next(err);
