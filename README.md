@@ -83,20 +83,10 @@ router.delete('/:id', accessTokenMiddleware, authorController.deleteAuthorById);
  * @private endpoints [createBook, updateBookById, deleteBookById]
  */
 
-router.post(
-  '/',
-  accessTokenMiddleware,
-  bodyValidatorMiddleware('createBook'),
-  bookController.createBook
-);
+router.post('/', accessTokenMiddleware, bodyValidatorMiddleware('createBook'), bookController.createBook);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
-router.put(
-  '/:id',
-  accessTokenMiddleware,
-  bodyValidatorMiddleware('updateBookById'),
-  bookController.updateBookById
-);
+router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateBookById'), bookController.updateBookById);
 router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
 
 /**
@@ -107,19 +97,11 @@ router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
  * @private endpoints [deleteUserById, updateUserById]
  */
 
-router.post(
-  '/register',
-  bodyValidatorMiddleware('register'),
-  userController.register
-);
+router.post('/register', bodyValidatorMiddleware('register'), userController.register);
 router.post('/login', bodyValidatorMiddleware('login'), userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
 router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
-router.put(
-  '/:id',
-  accessTokenMiddleware,
-  bodyValidatorMiddleware('updateUserById'),
-  userController.updateUserById
+router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserById'), userController.updateUserById
 );
 ```
