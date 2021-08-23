@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const colors = require('colors');
 const hpp = require('hpp');
+const expressValidator = require('express-validator');
 const errorHandlerMiddleware = require('./api/middlewares/errorHandlerMiddleware');
 const app = express();
 
