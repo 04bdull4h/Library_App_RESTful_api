@@ -7,61 +7,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'The first name is required',
-        },
-      },
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'The last name is required',
-        },
-      },
     },
     username: {
       type: DataTypes.STRING,
-      allowNull: false,
       unique: {
         msg: 'Username is already exists',
-      },
-      validate: {
-        notNull: {
-          msg: 'The username is required',
-        },
       },
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
       unique: {
         msg: 'Email is already exists',
-      },
-      validate: {
-        notNull: {
-          msg: 'The email is required',
-        },
-        isEmail: {
-          msg: 'Please provide a valid email',
-        },
       },
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'The password is required',
-        },
-        len: {
-          args: [6, 1024],
-          msg: 'The password should be between 6 and 1024 characters long',
-        },
-      },
     },
   });
   return User;
