@@ -198,6 +198,47 @@ const bodyValidatorMiddleware = (method) => {
           ),
       ];
     }
+    case 'createPublisher': {
+      return [
+        check('name')
+          .exists()
+          .withMessage('name is required')
+          .isString()
+          .withMessage('name must be a string'),
+        check('address')
+          .exists()
+          .withMessage('address is required')
+          .isString()
+          .withMessage('address must be a string'),
+        check('city')
+          .exists()
+          .withMessage('city is required')
+          .isString()
+          .withMessage('city must be a string'),
+        check('country')
+          .exists()
+          .withMessage('country is required')
+          .isString()
+          .withMessage('country must be a string'),
+        check('specialization')
+          .exists()
+          .withMessage('specialization is required')
+          .isString()
+          .withMessage('specialization must be a string'),
+        check('phoneNumber')
+          .exists()
+          .withMessage('phone number is required')
+          .isString()
+          .withMessage('phone number must be a string'),
+        check('email')
+          .exists()
+          .withMessage('email is required')
+          .isString()
+          .withMessage('email must be string')
+          .isEmail()
+          .withMessage('please provide a valid email'),
+      ];
+    }
   }
 };
 
