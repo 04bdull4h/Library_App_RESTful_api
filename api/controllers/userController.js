@@ -8,6 +8,7 @@ const {
   forbiddenLogger,
   notFoundLogger,
 } = require('../utils/loggerMethods');
+const { validationResult } = require('express-validator');
 
 /**
  * @description   To create a new user
@@ -17,6 +18,15 @@ const {
 
 const register = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      badRequestLogger(req);
+      return res.status(400).json({
+        success: false,
+        msg: 'Validation errors',
+        errors: errors.array(),
+      });
+    }
     const body = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -24,13 +34,6 @@ const register = async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
     };
-    if (!body.password) {
-      return res.status(400).json({
-        success: false,
-        message: 'Password is required',
-        data: {},
-      });
-    }
     const saltRounds = 10;
     const salt = await genSalt(saltRounds);
     body.password = await hash(body.password, salt);
@@ -38,7 +41,7 @@ const register = async (req, res, next) => {
     createdLogger(req);
     res.status(201).json({
       success: true,
-      message: 'User created successfully',
+      message: `User with email ${body.email} created successfully`,
       data: createdUser,
     });
   } catch (err) {

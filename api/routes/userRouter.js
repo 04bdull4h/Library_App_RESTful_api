@@ -4,13 +4,18 @@ const userController = require('../controllers/userController');
 const {
   accessTokenMiddleware,
 } = require('../middlewares/accessTokenMiddleware');
+const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware');
 
 /**
  *@doc api/v1/users/ endpoints
  *@controller userController
  */
 
-router.post('/register', userController.register);
+router.post(
+  '/register',
+  bodyValidatorMiddleware('register'),
+  userController.register
+);
 router.post('/login', userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
