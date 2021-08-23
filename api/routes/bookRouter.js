@@ -22,7 +22,7 @@ router.get('/:id', bookController.fetchBookById);
 router.put(
   '/:id',
   accessTokenMiddleware,
-  bodyValidatorMiddleware('updateBook'),
+  bodyValidatorMiddleware('updateBookById'),
   bookController.updateBookById
 );
 router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
