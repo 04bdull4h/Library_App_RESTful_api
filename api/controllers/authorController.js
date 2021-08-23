@@ -110,12 +110,12 @@ const fetchAuthorById = async (req, res, next) => {
         data: {},
       });
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: `Author with id ${authorId} fetched successfully`,
       result: author,
     });
-    okLogger(req);
   } catch (err) {
     next(err);
   }

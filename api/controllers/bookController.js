@@ -3,7 +3,9 @@ const {
   okLogger,
   createdLogger,
   notFoundLogger,
+  badRequestLogger,
 } = require('../utils/loggerMethods');
+const { validationResult } = require('express-validator');
 
 /**
  * @description   To fetch all books
@@ -69,26 +71,34 @@ const fetchBookById = async (req, res, next) => {
 
 const createBook = async (req, res, next) => {
   try {
-    const reqBody = {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      badRequestLogger(req);
+      return res.status(400).json({
+        success: false,
+        msg: 'Validation errors',
+        errors: errors.array(),
+      });
+    }
+    const body = {
       title: req.body.title,
       description: req.body.description,
       author: req.body.author,
       isbn: req.body.isbn,
-      publisher: req.body.publisher,
       price: req.body.price,
       status: req.body.status,
       AuthorId: req.body.AuthorId,
     };
-    const author = await Author.findByPk(reqBody.AuthorId);
-    if (!author) {
+    const isAuthorExists = await Author.findByPk(body.AuthorId);
+    if (!isAuthorExists) {
       notFoundLogger(req);
       return res.status(404).json({
         success: false,
-        message: `Book with id ${bookId} not found in the database`,
+        message: `Author with id ${AuthorId} not found in the database`,
         data: {},
       });
     }
-    const createdBook = await Book.create(reqBody);
+    const createdBook = await Book.create(body);
     createdLogger(req);
     res.status(201).json({
       success: true,
