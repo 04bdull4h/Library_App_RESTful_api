@@ -57,32 +57,17 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const email = req.body.email;
-    const password = req.body.password;
-    if (!email) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
       badRequestLogger(req);
       return res.status(400).json({
         success: false,
-        message: 'The email is required',
-        data: {},
+        msg: 'Validation errors',
+        errors: errors.array(),
       });
     }
-    if (!password) {
-      badRequestLogger(req);
-      return res.status(400).json({
-        success: false,
-        message: 'The password is required',
-        data: {},
-      });
-    }
+    const { email, password } = req.body;
     const user = await User.findOne({ where: { email: email } });
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: `The user with email: ${email} not found in the database`,
-        data: {},
-      });
-    }
     const match = await compare(password, user.password);
     if (match) {
       const accessToken = jwt.sign(
@@ -206,6 +191,15 @@ const deleteUserById = async (req, res, next) => {
 
 const updateUserById = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      badRequestLogger(req);
+      return res.status(400).json({
+        success: false,
+        msg: 'Validation errors',
+        errors: errors.array(),
+      });
+    }
     const userId = req.params.id;
     const body = {
       firstName: req.body.firstName,
@@ -214,13 +208,11 @@ const updateUserById = async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
     };
-    if (body.password) {
-      const saltRounds = 10;
-      const salt = await genSalt(saltRounds);
-      body.password = await hash(body.password, salt);
-    }
-    const updatedUser = await User.update(body, { where: { id: userId } });
-    if (!updatedUser[0]) {
+    const saltRounds = 10;
+    const salt = await genSalt(saltRounds);
+    body.password = await hash(body.password, salt);
+    const foundUser = await User.findByPk(userId);
+    if (!foundUser) {
       notFoundLogger(req);
       return res.status(404).json({
         success: true,
@@ -228,6 +220,7 @@ const updateUserById = async (req, res, next) => {
         data: {},
       });
     }
+    await User.update(body, { where: { id: userId } });
     okLogger(req);
     res.status(200).json({
       success: true,
