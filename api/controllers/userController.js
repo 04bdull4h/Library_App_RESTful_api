@@ -63,6 +63,13 @@ const login = async (req, res, next) => {
         message: 'The email is required',
       });
     }
+    if (!password) {
+      badRequestLogger(req);
+      return res.status(400).json({
+        success: false,
+        message: 'The password is required',
+      });
+    }
     const user = await User.findOne({ where: { email: email } });
     if (!user) {
       return res.status(404).json({
