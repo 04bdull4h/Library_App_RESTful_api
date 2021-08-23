@@ -25,8 +25,12 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('ISBN is required')
           .isString()
           .withMessage('ISBN must be with type string')
-          .isLength({ min: 10, max: 13 })
-          .withMessage('ISBN should be between 10 to 13 characters long'),
+          .isISBN()
+          .withMessage('please provide a valid ISBN'),
+        check('publisher')
+          .exists()
+          .isString()
+          .withMessage('publisher must be a string'),
         check('price')
           .exists()
           .withMessage('price is required')
@@ -40,6 +44,44 @@ const bodyValidatorMiddleware = (method) => {
         check('AuthorId')
           .exists()
           .withMessage('AuthorId is required')
+          .isUUID()
+          .withMessage('AuthorId must be a UUID'),
+      ];
+    }
+    case 'updateBook': {
+      return [
+        check('title')
+          .optional()
+          .isString()
+          .withMessage('title must be a string'),
+        check('description')
+          .optional()
+          .isString()
+          .withMessage('description must be a string'),
+        check('author')
+          .optional()
+          .isString()
+          .withMessage('author must be a string'),
+        check('isbn', 'ISBN is required')
+          .optional()
+          .isString()
+          .withMessage('ISBN must be with type string')
+          .isLength({ min: 10, max: 13 })
+          .withMessage('ISBN should be between 10 to 13 characters long'),
+        check('publisher')
+          .optional()
+          .isString()
+          .withMessage('publisher must be a string'),
+        check('price')
+          .optional()
+          .isFloat()
+          .withMessage('price must be a float'),
+        check('status')
+          .optional()
+          .isBoolean()
+          .withMessage('status must be a boolean'),
+        check('AuthorId')
+          .optional()
           .isUUID()
           .withMessage('AuthorId must be a UUID'),
       ];

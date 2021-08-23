@@ -19,7 +19,12 @@ router.post(
 );
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
-router.put('/:id', accessTokenMiddleware, bookController.updateBookById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateBook'),
+  bookController.updateBookById
+);
 router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
 
 module.exports = router;

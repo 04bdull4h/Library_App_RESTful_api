@@ -85,6 +85,7 @@ const createBook = async (req, res, next) => {
       description: req.body.description,
       author: req.body.author,
       isbn: req.body.isbn,
+      publisher: req.body.publisher,
       price: req.body.price,
       status: req.body.status,
       AuthorId: req.body.AuthorId,
@@ -119,7 +120,16 @@ const createBook = async (req, res, next) => {
 const updateBookById = async (req, res, next) => {
   try {
     const bookId = req.params.id;
-    const reqBody = {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      badRequestLogger(req);
+      return res.status(400).json({
+        success: false,
+        msg: 'Validation errors',
+        errors: errors.array(),
+      });
+    }
+    const body = {
       title: req.body.title,
       description: req.body.description,
       author: req.body.author,
@@ -128,12 +138,8 @@ const updateBookById = async (req, res, next) => {
       price: req.body.price,
       status: req.body.status,
     };
-    const updatedBook = await Book.update(reqBody, {
-      where: {
-        id: bookId,
-      },
-    });
-    if (!updatedBook[0]) {
+    const book = await Book.findByPk(bookId);
+    if (!book) {
       notFoundLogger(req);
       return res.status(404).json({
         success: false,
@@ -141,11 +147,16 @@ const updateBookById = async (req, res, next) => {
         data: {},
       });
     }
+    await Book.update(body, {
+      where: {
+        id: bookId,
+      },
+    });
     okLogger(req);
     res.status(200).json({
       success: true,
       message: `Book with id ${bookId} updated successfully`,
-      data: reqBody,
+      data: body,
     });
   } catch (err) {
     next(err);
