@@ -76,7 +76,7 @@ const login = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: `The email: ${email} not found in the database`,
+        message: `The user with email: ${email} not found in the database`,
         data: {},
       });
     }
@@ -155,12 +155,12 @@ const fetchUserById = async (req, res, next) => {
         data: {},
       });
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: `User with id ${userId} fetched successfully`,
       data: fetchedUser,
     });
-    okLogger(req);
   } catch (err) {
     next(err);
   }
