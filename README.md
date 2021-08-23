@@ -62,7 +62,12 @@ $ npm start // for production env
  * @private endpoints [createAuthor, updateAuthorById, deleteAuthorById]
  */
 
-router.post('/', accessTokenMiddleware, authorController.createAuthor);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createAuthor'),
+  authorController.createAuthor
+);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
 router.get('/:id', authorController.fetchAuthorById);
@@ -77,10 +82,20 @@ router.delete('/:id', accessTokenMiddleware, authorController.deleteAuthorById);
  * @private endpoints [createBook, updateBookById, deleteBookById]
  */
 
-router.post('/', accessTokenMiddleware, bookController.createBook);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createBook'),
+  bookController.createBook
+);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
-router.put('/:id', accessTokenMiddleware, bookController.updateBookById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateBookById'),
+  bookController.updateBookById
+);
 router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
 
 /**
@@ -91,10 +106,19 @@ router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
  * @private endpoints [deleteUserById, updateUserById]
  */
 
-router.post('/register', userController.register);
-router.post('/login', userController.login);
+router.post(
+  '/register',
+  bodyValidatorMiddleware('register'),
+  userController.register
+);
+router.post('/login', bodyValidatorMiddleware('login'), userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
 router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
-router.put('/:id', accessTokenMiddleware, userController.updateUserById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateUserById'),
+  userController.updateUserById
+);
 ```
