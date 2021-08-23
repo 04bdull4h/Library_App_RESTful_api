@@ -7,8 +7,8 @@ module.exports = new Sequelize(
   config.username,
   config.password,
   {
-    host: 'localhost',
-    dialect: 'mysql',
+    host: config.db_host,
+    dialect: config.dialect,
     logging: false,
   }
 );

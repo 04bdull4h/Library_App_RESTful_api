@@ -7,6 +7,7 @@ module.exports = {
     dialect: process.env.DIALECT,
     logging: process.env.LOGGING,
     jwt_key: process.env.JWT_KEY,
+    db_host: process.env.DB_HOST,
   },
   test: {
     username: process.env.DB_USERNAME,
