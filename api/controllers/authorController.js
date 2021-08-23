@@ -3,7 +3,9 @@ const {
   okLogger,
   createdLogger,
   notFoundLogger,
+  badRequestLogger,
 } = require('../utils/loggerMethods');
+const { validationResult } = require('express-validator');
 
 /**
  * @description   To create an author
@@ -13,6 +15,15 @@ const {
 
 const createAuthor = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      badRequestLogger(req);
+      return res.status(400).json({
+        success: false,
+        msg: 'Validation errors',
+        errors: errors.array(),
+      });
+    }
     const body = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,

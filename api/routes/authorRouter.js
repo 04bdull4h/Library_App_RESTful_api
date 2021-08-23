@@ -4,13 +4,18 @@ const authorController = require('../controllers/authorController');
 const {
   accessTokenMiddleware,
 } = require('../middlewares/accessTokenMiddleware');
-
+const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware');
 /**
  *@doc api/v1/authors/ endpoints
  *@controller authorController
  */
 
-router.post('/', accessTokenMiddleware, authorController.createAuthor);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createAuthor'),
+  authorController.createAuthor
+);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
 router.get('/:id', authorController.fetchAuthorById);

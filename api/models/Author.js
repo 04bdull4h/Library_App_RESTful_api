@@ -15,14 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: {
         args: true,
-        msg: 'Email already exists in the database',
+        msg: 'Email already exists',
       },
     },
     phoneNumber: {
       type: DataTypes.STRING,
       unique: {
         args: true,
-        msg: 'Phone number already exists in the database',
+        msg: 'Phone number already exists',
       },
     },
   });
