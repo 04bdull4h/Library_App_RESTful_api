@@ -1,4 +1,5 @@
 const { check } = require('express-validator');
+const { Book } = require('../models');
 
 const bodyValidatorMiddleware = (method) => {
   switch (method) {
@@ -36,11 +37,37 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('status is required')
           .isBoolean()
           .withMessage('status must be a boolean'),
-        check('AuthorId', 'AuthorId is required')
+        check('AuthorId')
           .exists()
           .withMessage('AuthorId is required')
           .isUUID()
           .withMessage('AuthorId must be a UUID'),
+      ];
+    }
+    case 'createAuthor': {
+      return [
+        check('firstName')
+          .exists()
+          .withMessage('first name is required')
+          .isString()
+          .withMessage('first name must be a string'),
+        check('lastName')
+          .exists()
+          .withMessage('last name is required')
+          .isString()
+          .withMessage('last name must be a string'),
+        check('email')
+          .exists()
+          .withMessage('email is required')
+          .isEmail()
+          .withMessage('please provide valid email')
+          .isString()
+          .withMessage('email must be a string'),
+        check('phoneNumber')
+          .exists()
+          .withMessage('phone number is required')
+          .isString()
+          .withMessage('phone number must be a string'),
       ];
     }
   }
