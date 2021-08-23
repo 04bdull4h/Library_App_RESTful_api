@@ -1,7 +1,6 @@
 # Library_App_RESTful_api
 
-this is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM and its validations.
-it contains JWT to secure some endpoints with access token, and centralized error handler as a middleware.
+this is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM. it contains JWT to secure some endpoints with access token, and centralized error handler as a middleware. It uses express-validator to validate body request.
 
 ## status: incomplete ❌
 
@@ -13,10 +12,12 @@ Before running the app you should fill these fields with your own credentials:
 PORT=
 HOST=
 NODE_ENV=
+DB_HOST=
 DB_USERNAME=
 DB_PASSWORD=
 DB_DATABASE=
 DIALECT=
+LOGGING=
 JWT_KEY=
 ```
 
