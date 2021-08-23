@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: {
         args: true,
-        msg: 'ISBN already exists in the database',
+        msg: 'E-mail already exists in the database',
       },
     },
   });

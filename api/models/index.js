@@ -12,8 +12,6 @@ const Author = AuthorModel(db, Sequelize);
 const User = UserModel(db, Sequelize);
 const Publisher = PublisherModel(db, Sequelize);
 
-/*--------------- Setting up One-To-One relationships ---------------*/
-
 /*--------------- Setting up One-To-Many relationships ---------------*/
 
 Author.hasMany(Book, {
@@ -27,8 +25,8 @@ Book.belongsTo(Author);
 
 /*--------------- Setting up Many-To-Many relationships ---------------*/
 
-Publisher.belongsToMany(Tag, {});
-Book.belongsToMany();
+Publisher.belongsToMany(Book, { as: 'Book', through: 'Publishers_Books' });
+Book.belongsToMany(Publisher, { through: 'Publishers_Books' });
 
 /*--------------- Setting database sync ---------------*/
 

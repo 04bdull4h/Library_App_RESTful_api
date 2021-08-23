@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const publisherController = require('../controllers/publisherController');
+const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware');
 
 /**
  *@doc api/v1/publishers/ endpoints
  *@controller publisherController
  */
 
-router.get();
-router.get();
-router.get();
-router.post();
-router.put();
-router.delete();
+router.post(
+  '/',
+  bodyValidatorMiddleware('createPublisher'),
+  publisherController.createPublisher
+);
 
 module.exports = router;

@@ -1,9 +1,16 @@
 const { Publisher } = require('../models');
-
+const { validationResult } = require('express-validator');
+const {
+  okLogger,
+  createdLogger,
+  badRequestLogger,
+  forbiddenLogger,
+  notFoundLogger,
+} = require('../utils/loggerMethods');
 const fetchAllPublishers = async (req, res, next) => {};
 const fetchPublisherById = async (req, res, next) => {};
 const fetchAllBooksByPublisherId = async (req, res, next) => {};
-const createPublisherById = async (req, res, next) => {
+const createPublisher = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -41,7 +48,7 @@ module.exports = {
   fetchAllPublishers,
   fetchPublisherById,
   fetchAllBooksByPublisherId,
-  createPublisherById,
+  createPublisher,
   updatePublisherById,
   deletePublisherById,
 };
