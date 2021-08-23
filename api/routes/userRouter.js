@@ -16,10 +16,15 @@ router.post(
   bodyValidatorMiddleware('register'),
   userController.register
 );
-router.post('/login', userController.login);
+router.post('/login', bodyValidatorMiddleware('login'), userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
 router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
-router.put('/:id', accessTokenMiddleware, userController.updateUserById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateUserById'),
+  userController.updateUserById
+);
 
 module.exports = router;
