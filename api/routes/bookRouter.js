@@ -4,13 +4,19 @@ const bookController = require('../controllers/bookController');
 const {
   accessTokenMiddleware,
 } = require('../middlewares/accessTokenMiddleware');
+const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware');
 
 /**
  *@doc api/v1/books/ endpoints
  *@controller bookController
  */
 
-router.post('/', accessTokenMiddleware, bookController.createBook);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createBook'),
+  bookController.createBook
+);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
 router.put('/:id', accessTokenMiddleware, bookController.updateBookById);
