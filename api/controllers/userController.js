@@ -61,6 +61,7 @@ const login = async (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: 'The email is required',
+        data: {},
       });
     }
     if (!password) {
@@ -68,6 +69,7 @@ const login = async (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: 'The password is required',
+        data: {},
       });
     }
     const user = await User.findOne({ where: { email: email } });
@@ -78,8 +80,8 @@ const login = async (req, res, next) => {
         data: {},
       });
     }
-    const result = await compare(password, user.password);
-    if (result) {
+    const match = await compare(password, user.password);
+    if (match) {
       const accessToken = jwt.sign(
         {
           email: user.email,
@@ -88,17 +90,18 @@ const login = async (req, res, next) => {
         process.env.JWT_KEY,
         { expiresIn: '1h' }
       );
-      forbiddenLogger(req);
+      okLogger(req);
       res.status(200).json({
         success: true,
-        message: 'User logged in successfully',
+        message: `User with email ${email} logged in successfully`,
         accessToken: accessToken,
       });
-      okLogger(req);
     } else {
+      forbiddenLogger(req);
       return res.status(403).json({
         success: false,
         message: 'Invalid credentials',
+        data: {},
       });
     }
   } catch (err) {
@@ -120,15 +123,15 @@ const fetchAllUsers = async (req, res, next) => {
       return res.status(404).json({
         success: false,
         message: 'There is no users found in the database',
-        result: {},
+        data: {},
       });
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: 'Users fetched successfully',
       data: users,
     });
-    okLogger(req);
   } catch (err) {
     next(err);
   }
@@ -149,6 +152,7 @@ const fetchUserById = async (req, res, next) => {
       return res.status(404).json({
         success: false,
         message: `User with id ${userId} not found in the database`,
+        data: {},
       });
     }
     res.status(200).json({
@@ -180,12 +184,12 @@ const deleteUserById = async (req, res, next) => {
         data: {},
       });
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: `User with id ${userId} deleted successfully`,
       data: {},
     });
-    okLogger(req);
   } catch (err) {
     next(err);
   }
@@ -218,14 +222,15 @@ const updateUserById = async (req, res, next) => {
       return res.status(404).json({
         success: true,
         message: `User with id ${userId} not found`,
+        data: {},
       });
     }
+    okLogger(req);
     res.status(200).json({
       success: true,
       message: 'User updated successfully',
       data: body,
     });
-    okLogger(req);
   } catch (err) {
     next(err);
   }
