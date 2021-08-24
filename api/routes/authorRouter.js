@@ -5,6 +5,7 @@ const {
   accessTokenMiddleware,
 } = require('../middlewares/accessTokenMiddleware');
 const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware');
+
 /**
  *@doc api/v1/authors/ endpoints
  *@controller authorController

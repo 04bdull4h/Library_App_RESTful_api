@@ -51,6 +51,12 @@ $ npm start // for production env
 | GET fetchUserById           | /api/v1/users/:id         |
 | DELETE deleteUserById       | /api/v1/users/:id         |
 | PUT updateUserById          | /api/v1/users/:id         |
+| POST createAuthor           | /api/v1/authors/          |
+| GET fetchAllBooksByAuthorId | /api/v1/authors/:id       |
+| GET fetchAllAuthors         | /api/v1/authors/          |
+| GET fetchUserById           | /api/v1/authors/:id       |
+| DELETE deleteAuthorById     | /api/v1/authors/:id       |
+| PUT updateAuthorById        | /api/v1/authors/:id       |
 
 ## Routes
 
@@ -102,6 +108,20 @@ router.post('/login', bodyValidatorMiddleware('login'), userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
 router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
-router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserById'), userController.updateUserById
-);
+router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserById'), userController.updateUserById);
+
+/**
+ * @prefix api/v1/authors
+ * @route authorController
+ * @controller authorController
+ * @public endpoints [createAuthor, fetchAllBooksByAuthorId, fetchAllAuthors]
+ * @private endpoints [updateAuthorById, deleteAuthorById]
+ */
+
+router.post('/', accessTokenMiddleware, bodyValidatorMiddleware('createAuthor'), authorController.createAuthor);
+router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
+router.get('/', authorController.fetchAllAuthors);
+router.get('/:id', authorController.fetchAuthorById);
+router.put('/:id', accessTokenMiddleware, authorController.updateAuthorById);
+router.delete('/:id', accessTokenMiddleware, authorController.deleteAuthorById);
 ```
