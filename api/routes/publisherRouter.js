@@ -4,6 +4,8 @@ const publisherController = require('../controllers/publisherController');
 const {
   accessTokenMiddleware,
 } = require('../middlewares/accessTokenMiddleware');
+const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware');
+
 /**
  *@doc api/v1/publishers/ endpoints
  *@controller publisherController
