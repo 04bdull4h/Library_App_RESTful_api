@@ -121,6 +121,7 @@ const createPublisher = async (req, res, next) => {
       specialization: req.body.specialization,
       phoneNumber: req.body.phoneNumber,
       email: req.body.email,
+      BookId: req.body.BookId,
     };
     const createdPublisher = await Publisher.create(body);
     createdLogger(req);

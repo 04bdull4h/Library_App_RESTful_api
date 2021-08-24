@@ -29,6 +29,7 @@ const createAuthor = async (req, res, next) => {
       lastName: req.body.lastName,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
+      AuthorId: req.body.AuthorId,
     };
     const createdAuthor = await Author.create(body);
     createdLogger(req);
