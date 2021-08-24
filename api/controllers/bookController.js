@@ -63,6 +63,38 @@ const fetchBookById = async (req, res, next) => {
   }
 };
 
+const addBookToPublisher = async (req, res, next) => {
+  try {
+    const { bookId, publisherId } = req.body;
+    const book = await Book.findByPk(bookId);
+    const publisher = await Publisher.findByPk(publisherId);
+    if (!book) {
+      notFoundLogger(req);
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${bookId} not found in the database`,
+        data: {},
+      });
+    }
+    if (!publisher) {
+      notFoundLogger(req);
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${publisherId} not found in the database`,
+        data: {},
+      });
+    }
+    book.addPublisher(publisher);
+    okLogger(req);
+    res.status(200).json({
+      success: true,
+      message: `Book with id ${bookId} added to publisher with id ${publisherId} fetched successfully`,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 /**
  * @description   To fetch all publishers book by id
  * @route         GET => api/v1/books/:id/publishers
@@ -72,7 +104,9 @@ const fetchBookById = async (req, res, next) => {
 const fetchAllPublishersByBookId = async (req, res, next) => {
   try {
     const bookId = req.params.id;
-    const book = await Book.findByPk(bookId);
+    const book = await Book.findByPk(bookId, {
+      include: [{ model: Publisher, as: 'publishers' }],
+    });
     if (!book) {
       notFoundLogger(req);
       return res.status(404).json({
@@ -81,15 +115,11 @@ const fetchAllPublishersByBookId = async (req, res, next) => {
         data: {},
       });
     }
-    const publishers = await Book.findAll({
-      where: { id: bookId },
-      include: [Publisher],
-    });
     okLogger(req);
     res.status(200).json({
       success: true,
       message: `Publishers related to book with id ${bookId} fetched successfully`,
-      data: publishers,
+      data: book,
     });
   } catch (err) {
     next(err);
@@ -232,4 +262,5 @@ module.exports = {
   fetchAllPublishersByBookId,
   updateBookById,
   deleteBookById,
+  addBookToPublisher,
 };
