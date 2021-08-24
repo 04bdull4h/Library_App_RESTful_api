@@ -25,7 +25,7 @@ Book.belongsTo(Author);
 
 /*--------------- Setting up Many-To-Many relationships ---------------*/
 
-Publisher.belongsToMany(Book, { as: 'Book', through: 'Publishers_Books' });
+Publisher.belongsToMany(Book, { through: 'Publishers_Books' });
 Book.belongsToMany(Publisher, { through: 'Publishers_Books' });
 
 /*--------------- Setting database sync ---------------*/
