@@ -47,6 +47,7 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('AuthorId must be a UUID'),
       ];
     }
+
     case 'updateBookById': {
       return [
         check('title')
@@ -85,6 +86,7 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('AuthorId must be a UUID'),
       ];
     }
+
     case 'createAuthor': {
       return [
         check('firstName')
@@ -109,8 +111,14 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number is required')
           .isString()
           .withMessage('phone number must be a string'),
+        check('BookId')
+          .exists()
+          .withMessage('BookId is required')
+          .isUUID()
+          .withMessage('BookId must be a UUID'),
       ];
     }
+
     case 'register': {
       return [
         check('firstName')
@@ -151,6 +159,7 @@ const bodyValidatorMiddleware = (method) => {
           ),
       ];
     }
+
     case 'login': {
       return [
         check('email')
@@ -163,6 +172,7 @@ const bodyValidatorMiddleware = (method) => {
         check('password').exists().withMessage('password is required'),
       ];
     }
+
     case 'updateUserById': {
       return [
         check('firstName')
@@ -198,6 +208,7 @@ const bodyValidatorMiddleware = (method) => {
           ),
       ];
     }
+
     case 'createPublisher': {
       return [
         check('name')
@@ -237,8 +248,14 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('email must be string')
           .isEmail()
           .withMessage('please provide a valid email'),
+        check('AuthorId')
+          .exists()
+          .withMessage('AuthorId is required')
+          .isUUID()
+          .withMessage('AuthorId must be a UUID'),
       ];
     }
+
     case 'updatePublisherById': {
       return [
         check('name')
