@@ -16,7 +16,7 @@ router.post(
   bodyValidatorMiddleware('createPublisher'),
   publisherController.createPublisher
 );
-
+router.post('/add-book', publisherController.addPublisherToBook);
 router.get('/', publisherController.fetchAllPublishers);
 router.get('/:id', publisherController.fetchPublisherById);
 router.get('/:id/books', publisherController.fetchAllBooksByPublisherId);
