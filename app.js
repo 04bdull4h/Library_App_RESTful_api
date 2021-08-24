@@ -61,12 +61,14 @@ const bookRouter = require('./api/routes/bookRouter');
 const authorRouter = require('./api/routes/authorRouter');
 const userRouter = require('./api/routes/userRouter');
 const publisherRouter = require('./api/routes/publisherRouter');
+const borrowerRouter = require('./api/routes/borrowerRouter');
 
 /*--------- Setting up routes ---------*/
 app.use('/api/v1/books', bookRouter);
 app.use('/api/v1/authors', authorRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/publishers', publisherRouter);
+app.use('/api/v1/borrowers', borrowerRouter);
 
 /*--------- Setting up error handler middleware ---------*/
 app.use(errorHandlerMiddleware);
