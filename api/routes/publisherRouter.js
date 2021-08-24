@@ -14,4 +14,14 @@ router.post(
   publisherController.createPublisher
 );
 
+router.get('/', publisherController.fetchAllPublishers);
+router.get('/:id', publisherController.fetchPublisherById);
+router.get('/:id/books', publisherController.fetchAllBooksByPublisherId);
+router.put(
+  '/:id',
+  bodyValidatorMiddleware('updatePublisherById'),
+  publisherController.updatePublisherById
+);
+router.delete('/:id', publisherController.deletePublisherById);
+
 module.exports = router;
