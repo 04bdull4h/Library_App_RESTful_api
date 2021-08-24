@@ -63,7 +63,11 @@ const fetchAllBooksByAuthorId = async (req, res, next) => {
     }
     const books = await Author.findAll({
       where: { id: authorId },
-      include: [Book],
+      include: [
+        {
+          model: Book,
+        },
+      ],
     });
     okLogger(req);
     res.status(200).json({
