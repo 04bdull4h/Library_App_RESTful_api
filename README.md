@@ -4,6 +4,12 @@ this is a RESTful api for library app developed using express js and MySQL for t
 
 ## status: incomplete ❌
 
+## Built with
+
+1. Express.js - Minimalist backend framework
+2. Node.js - JavaScript runtime
+3. Sequelize - Promise-based Node.js ORM for MySQL database
+
 ## .env.example
 
 Before running the app you should fill these fields with your own credentials:
@@ -32,6 +38,8 @@ $ npm start // for production env
 ```
 
 ## Endpoints
+
+All endpoints tested by postman, you can use it or insomnia both are ok.
 
 | Method                         | Endpoint                     |
 | ------------------------------ | ---------------------------- |
@@ -124,6 +132,6 @@ router.post('/add-book', accessTokenMiddleware, publisherController.addPublisher
 router.get('/', publisherController.fetchAllPublishers);
 router.get('/:id', publisherController.fetchPublisherById);
 router.get('/:id/books', publisherController.fetchAllBooksByPublisherId);
-router.put('/:id',accessTokenMiddleware, bodyValidatorMiddleware('updatePublisherById'), publisherController.updatePublisherById);
+router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updatePublisherById'), publisherController.updatePublisherById);
 router.delete('/:id', accessTokenMiddleware, publisherController.deletePublisherById);
 ```
