@@ -4,6 +4,7 @@ const BookModel = require('../models/Book');
 const AuthorModel = require('../models/Author');
 const UserModel = require('../models/User');
 const PublisherModel = require('../models/Publisher');
+const BorrowerModel = require('../models/Borrower');
 
 /*--------------- Setting up models ---------------*/
 
@@ -11,6 +12,7 @@ const Book = BookModel(db, Sequelize);
 const Author = AuthorModel(db, Sequelize);
 const User = UserModel(db, Sequelize);
 const Publisher = PublisherModel(db, Sequelize);
+const Borrower = BorrowerModel(db, Sequelize);
 
 /*--------------- Setting up One-To-Many relationships ---------------*/
 
@@ -25,8 +27,11 @@ Book.belongsTo(Author);
 
 /*--------------- Setting up Many-To-Many relationships ---------------*/
 
-Publisher.belongsToMany(Book, {as: "books", through: 'Publishers_Books' });
-Book.belongsToMany(Publisher, {as: "publishers", through: 'Publishers_Books' });
+Publisher.belongsToMany(Book, { as: 'books', through: 'Publishers_Books' });
+Book.belongsToMany(Publisher, {
+  as: 'publishers',
+  through: 'Publishers_Books',
+});
 
 /*--------------- Setting database sync ---------------*/
 
@@ -36,4 +41,5 @@ module.exports = {
   Author,
   User,
   Publisher,
+  Borrower,
 };
