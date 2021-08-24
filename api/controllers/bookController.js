@@ -63,6 +63,12 @@ const fetchBookById = async (req, res, next) => {
   }
 };
 
+/**
+ * @description   to add book to publisher by their ids
+ * @route         POST => api/v1/publishers/add-publisher
+ * @access        Private
+ */
+
 const addBookToPublisher = async (req, res, next) => {
   try {
     const { bookId, publisherId } = req.body;
