@@ -4,7 +4,6 @@ const {
   okLogger,
   createdLogger,
   badRequestLogger,
-  forbiddenLogger,
   notFoundLogger,
 } = require('../utils/loggerMethods');
 

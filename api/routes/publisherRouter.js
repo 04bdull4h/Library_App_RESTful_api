@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const publisherController = require('../controllers/publisherController');
-const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware');
-
+const {
+  accessTokenMiddleware,
+} = require('../middlewares/accessTokenMiddleware');
 /**
  *@doc api/v1/publishers/ endpoints
  *@controller publisherController
@@ -19,9 +20,14 @@ router.get('/:id', publisherController.fetchPublisherById);
 router.get('/:id/books', publisherController.fetchAllBooksByPublisherId);
 router.put(
   '/:id',
+  accessTokenMiddleware,
   bodyValidatorMiddleware('updatePublisherById'),
   publisherController.updatePublisherById
 );
-router.delete('/:id', publisherController.deletePublisherById);
+router.delete(
+  '/:id',
+  accessTokenMiddleware,
+  publisherController.deletePublisherById
+);
 
 module.exports = router;
