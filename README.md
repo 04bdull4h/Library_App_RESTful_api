@@ -69,12 +69,7 @@ $ npm start // for production env
  * @private endpoints [createAuthor, updateAuthorById, deleteAuthorById]
  */
 
-router.post(
-  '/',
-  accessTokenMiddleware,
-  bodyValidatorMiddleware('createAuthor'),
-  authorController.createAuthor
-);
+router.post('/', accessTokenMiddleware, bodyValidatorMiddleware('createAuthor'), authorController.createAuthor);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
 router.get('/:id', authorController.fetchAuthorById);
