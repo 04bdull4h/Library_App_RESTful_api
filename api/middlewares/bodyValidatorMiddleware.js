@@ -47,7 +47,6 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('AuthorId must be a UUID'),
       ];
     }
-
     case 'updateBookById': {
       return [
         check('title')
@@ -86,7 +85,6 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('AuthorId must be a UUID'),
       ];
     }
-
     case 'createAuthor': {
       return [
         check('firstName')
@@ -113,7 +111,6 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number must be a string'),
       ];
     }
-
     case 'register': {
       return [
         check('firstName')
@@ -154,7 +151,6 @@ const bodyValidatorMiddleware = (method) => {
           ),
       ];
     }
-
     case 'login': {
       return [
         check('email')
@@ -167,7 +163,6 @@ const bodyValidatorMiddleware = (method) => {
         check('password').exists().withMessage('password is required'),
       ];
     }
-
     case 'updateUserById': {
       return [
         check('firstName')
@@ -203,7 +198,6 @@ const bodyValidatorMiddleware = (method) => {
           ),
       ];
     }
-
     case 'createPublisher': {
       return [
         check('name')
@@ -245,7 +239,6 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('please provide a valid email'),
       ];
     }
-
     case 'updatePublisherById': {
       return [
         check('name')
@@ -278,6 +271,46 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('email must be string')
           .isEmail()
           .withMessage('please provide a valid email'),
+      ];
+    }
+    case 'createBorrower': {
+      return [
+        check('firstName')
+          .exists()
+          .withMessage('first name is required')
+          .isString()
+          .withMessage('first name must be a string'),
+        check('lastName')
+          .exists()
+          .withMessage('last name is required')
+          .isString()
+          .withMessage('last name must be a string'),
+        check('email')
+          .exists()
+          .withMessage('email is required')
+          .isString()
+          .withMessage('email must be a string')
+          .isEmail()
+          .withMessage('please provide a valid E-mail'),
+        check('phoneNumber')
+          .exists()
+          .withMessage('phone number is required')
+          .isString()
+          .withMessage('phone number must be a string'),
+        check('issueDate')
+          .exists()
+          .withMessage('issue date is required')
+          .isString()
+          .withMessage('issue date must be a string')
+          .isDate()
+          .withMessage('please provide a valid date YY/MM/DD'),
+        check('dueDate')
+          .exists()
+          .withMessage('due date is required')
+          .isString()
+          .withMessage('due date must be a string')
+          .isDate()
+          .withMessage('please provide a valid date YY/MM/DD'),
       ];
     }
   }
