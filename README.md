@@ -119,11 +119,7 @@ router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserByI
  * @private endpoints [addPublisherToBook, updatePublisherById, deletePublisherById]
  */
 
-router.post(
-  '/',
-  bodyValidatorMiddleware('createPublisher'),
-  publisherController.createPublisher
-);
+router.post('/', bodyValidatorMiddleware('createPublisher'), publisherController.createPublisher);
 router.post('/add-book', accessTokenMiddleware, publisherController.addPublisherToBook);
 router.get('/', publisherController.fetchAllPublishers);
 router.get('/:id', publisherController.fetchPublisherById);
