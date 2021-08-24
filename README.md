@@ -112,11 +112,11 @@ router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
 router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserById'), userController.updateUserById);
 
 /**
- * @prefix api/v1/authors
- * @route authorController
- * @controller authorController
- * @public endpoints [createAuthor, fetchAllBooksByAuthorId, fetchAllAuthors]
- * @private endpoints [updateAuthorById, deleteAuthorById]
+ * @prefix api/v1/publisher
+ * @route publisherController
+ * @controller publisherController
+ * @public endpoints [createPublisher, fetchAllPublishers, fetchAllBooksByPublisherId, fetchPublisherById]
+ * @private endpoints [addPublisherToBook, updatePublisherById, deletePublisherById]
  */
 
 router.post(
