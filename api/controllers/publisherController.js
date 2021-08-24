@@ -7,6 +7,12 @@ const {
   notFoundLogger,
 } = require('../utils/loggerMethods');
 
+/**
+ * @description   To fetch all publishers
+ * @route         GET => api/v1/publishers
+ * @access        Public
+ */
+
 const fetchAllPublishers = async (req, res, next) => {
   try {
     const publishers = await Publisher.findAll();
@@ -27,6 +33,12 @@ const fetchAllPublishers = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To fetch publisher by id
+ * @route         GET => api/v1/publishers/:id
+ * @access        Public
+ */
 
 const fetchPublisherById = async (req, res, next) => {
   try {
@@ -50,6 +62,12 @@ const fetchPublisherById = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To fetch books related to a publisher by id
+ * @route         GET => api/v1/publishers/:id/books
+ * @access        Public
+ */
 
 const fetchAllBooksByPublisherId = async (req, res, next) => {
   try {
@@ -77,6 +95,12 @@ const fetchAllBooksByPublisherId = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To create a publisher
+ * @route         POST => api/v1/publishers/:id
+ * @access        Public
+ */
 
 const createPublisher = async (req, res, next) => {
   try {
@@ -109,6 +133,13 @@ const createPublisher = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To update a publisher
+ * @route         PUT => api/v1/publishers/:id
+ * @access        Private
+ */
+
 const updatePublisherById = async (req, res, next) => {
   try {
     const publisherId = req.params.id;
@@ -154,6 +185,13 @@ const updatePublisherById = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To delete a publisher
+ * @route         DELETE => api/v1/publishers/:id
+ * @access        Private
+ */
+
 const deletePublisherById = async (req, res, next) => {
   try {
     const publisherId = req.params.id;
