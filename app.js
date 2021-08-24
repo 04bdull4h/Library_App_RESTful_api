@@ -68,6 +68,7 @@ app.use('/api/v1/authors', authorRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/publishers', publisherRouter);
 
+/*--------- Setting up error handler middleware ---------*/
 app.use(errorHandlerMiddleware);
 
 process.on('unhandledRejection', (err, promise) => {
