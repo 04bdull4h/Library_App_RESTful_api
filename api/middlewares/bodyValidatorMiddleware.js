@@ -239,6 +239,40 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('please provide a valid email'),
       ];
     }
+    case 'updatePublisherById': {
+      return [
+        check('name')
+          .optional()
+          .isString()
+          .withMessage('name must be a string'),
+        check('address')
+          .optional()
+          .isString()
+          .withMessage('address must be a string'),
+        check('city')
+          .optional()
+          .isString()
+          .withMessage('city must be a string'),
+        check('country')
+          .optional()
+          .isString()
+          .withMessage('country must be a string'),
+        check('specialization')
+          .optional()
+          .isString()
+          .withMessage('specialization must be a string'),
+        check('phoneNumber')
+          .optional()
+          .isString()
+          .withMessage('phone number must be a string'),
+        check('email')
+          .optional()
+          .isString()
+          .withMessage('email must be string')
+          .isEmail()
+          .withMessage('please provide a valid email'),
+      ];
+    }
   }
 };
 
