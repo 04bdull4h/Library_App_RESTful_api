@@ -63,6 +63,38 @@ const fetchPublisherById = async (req, res, next) => {
   }
 };
 
+const addPublisherToBook = async (req, res, next) => {
+  try {
+    const { publisherId, bookId } = req.body;
+    const publisher = await Publisher.findByPk(publisherId);
+    const book = await Book.findByPk(bookId);
+    if (!publisher) {
+      notFoundLogger(req);
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${publisherId} not found in the database`,
+        data: {},
+      });
+    }
+    if (!book) {
+      notFoundLogger(req);
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${bookId} not found in the database`,
+        data: {},
+      });
+    }
+    publisher.addBook(book);
+    okLogger(req);
+    res.status(200).json({
+      success: true,
+      message: `Publisher with id ${publisherId} added to book with id ${bookId} fetched successfully`,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 /**
  * @description   To fetch books related to a publisher by id
  * @route         GET => api/v1/publishers/:id/books
@@ -72,7 +104,9 @@ const fetchPublisherById = async (req, res, next) => {
 const fetchAllBooksByPublisherId = async (req, res, next) => {
   try {
     const publisherId = req.params.id;
-    const publisher = await Publisher.findByPk(publisherId);
+    const publisher = await Publisher.findByPk(publisherId, {
+      include: [{ model: Book, as: 'books' }],
+    });
     if (!publisher) {
       notFoundLogger(req);
       return res.status(404).json({
@@ -81,15 +115,11 @@ const fetchAllBooksByPublisherId = async (req, res, next) => {
         data: {},
       });
     }
-    const publishers = await Publisher.findAll({
-      where: { id: publisherId },
-      include: [Book],
-    });
     okLogger(req);
     res.status(200).json({
       success: true,
       message: `Books related to publisher with id ${publisherId} fetched successfully`,
-      data: publishers,
+      data: publisher,
     });
   } catch (err) {
     next(err);
@@ -225,4 +255,5 @@ module.exports = {
   createPublisher,
   updatePublisherById,
   deletePublisherById,
+  addPublisherToBook,
 };
