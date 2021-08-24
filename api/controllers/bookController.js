@@ -1,4 +1,4 @@
-const { Book, Author } = require('../models');
+const { Book, Author, Publisher } = require('../models');
 const {
   okLogger,
   createdLogger,
@@ -57,6 +57,39 @@ const fetchBookById = async (req, res, next) => {
       success: true,
       message: `Book with id ${bookId} fetched successfully`,
       data: book,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * @description   To fetch all publishers book by id
+ * @route         GET => api/v1/books/:id/publishers
+ * @access        Public
+ */
+
+const fetchAllPublishersByBookId = async (req, res, next) => {
+  try {
+    const bookId = req.params.id;
+    const book = await Book.findByPk(bookId);
+    if (!book) {
+      notFoundLogger(req);
+      return res.status(404).json({
+        success: false,
+        message: `Book with id ${bookId} not found in the database`,
+        data: {},
+      });
+    }
+    const publishers = await Book.findAll({
+      where: { id: bookId },
+      include: [Publisher],
+    });
+    okLogger(req);
+    res.status(200).json({
+      success: true,
+      message: `Publishers related to book with id ${bookId} fetched successfully`,
+      data: publishers,
     });
   } catch (err) {
     next(err);
@@ -196,6 +229,7 @@ module.exports = {
   createBook,
   fetchAllBooks,
   fetchBookById,
+  fetchAllPublishersByBookId,
   updateBookById,
   deleteBookById,
 };

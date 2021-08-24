@@ -19,6 +19,7 @@ router.post(
 );
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
+router.get('/:id/publishers', bookController.fetchAllPublishersByBookId);
 router.put(
   '/:id',
   accessTokenMiddleware,
