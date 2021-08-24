@@ -17,7 +17,11 @@ router.post(
   bodyValidatorMiddleware('createBook'),
   bookController.createBook
 );
-router.post('/add-author', bookController.addBookToPublisher);
+router.post(
+  '/add-author',
+  accessTokenMiddleware,
+  bookController.addBookToPublisher
+);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
 router.get('/:id/publishers', bookController.fetchAllPublishersByBookId);
