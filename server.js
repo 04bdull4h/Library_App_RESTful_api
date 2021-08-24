@@ -1,7 +1,6 @@
 const http = require('http');
 const app = require('./app');
 const server = http.createServer(app);
-const colors = require('colors');
 
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || 'http://localhost';
