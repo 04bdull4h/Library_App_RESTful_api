@@ -33,31 +33,34 @@ $ npm start // for production env
 
 ## Endpoints
 
-| Method                          | Endpoint                    |
-| ------------------------------- | -------------------------   |
-| GET fetchAllBooksByAuthorId     | /api/v1/authors/:id/books   |
-| GET fetchAllAuthors             | /api/v1/authors             |
-| GET fetchAuthorById             | /api/v1/authors/:id         |
-| PUT updateAuthorById            | /api/v1/authors/:id         |
-| DELETE deleteAuthorById         | /api/v1/authors:/id         |
-| POST createBook                 | /api/v1/books               |
-| GET fetchAllBooks               | /api/v1/books               |
-| GET fetchBookById               | /api/v1/books/:id           |
-| GET fetchAllPublishersByBookId  | /api/v1/books/:id/publishers|
-| PUT updateBookById              | /api/v1/books/:id           |
-| DELETE deleteBookById           | /api/v1/books:/id           |
-| POST register                   | /api/v1/users/register      |
-| POST login                      | /api/v1/user/login          |
-| GET fetchAllUsers               | /api/v1/users/              |
-| GET fetchUserById               | /api/v1/users/:id           |
-| DELETE deleteUserById           | /api/v1/users/:id           |
-| PUT updateUserById              | /api/v1/users/:id           |
-| POST createAuthor               | /api/v1/authors/            |
-| GET fetchAllBooksByAuthorId     | /api/v1/authors/:id         |
-| GET fetchAllAuthors             | /api/v1/authors/            |
-| GET fetchUserById               | /api/v1/authors/:id         |
-| DELETE deleteAuthorById         | /api/v1/authors/:id         |
-| PUT updateAuthorById            | /api/v1/authors/:id         |
+| Method                         | Endpoint                     |
+| ------------------------------ | ---------------------------- |
+| GET fetchAllBooksByAuthorId    | /api/v1/authors/:id/books    |
+| GET fetchAllAuthors            | /api/v1/authors              |
+| GET fetchAuthorById            | /api/v1/authors/:id          |
+| PUT updateAuthorById           | /api/v1/authors/:id          |
+| DELETE deleteAuthorById        | /api/v1/authors:/id          |
+| POST createBook                | /api/v1/books                |
+| POST addBookToPublisher        | /api/v1/books/add-publisher  |
+| GET fetchAllBooks              | /api/v1/books                |
+| GET fetchBookById              | /api/v1/books/:id            |
+| GET fetchAllPublishersByBookId | /api/v1/books/:id/publishers |
+| PUT updateBookById             | /api/v1/books/:id            |
+| DELETE deleteBookById          | /api/v1/books:/id            |
+| POST register                  | /api/v1/users/register       |
+| POST login                     | /api/v1/user/login           |
+| GET fetchAllUsers              | /api/v1/users/               |
+| GET fetchUserById              | /api/v1/users/:id            |
+| DELETE deleteUserById          | /api/v1/users/:id            |
+| PUT updateUserById             | /api/v1/users/:id            |
+| POST createAuthor              | /api/v1/publisher/           |
+| POST createPublisher           | /api/v1/publisher/           |
+| POST addPublisherToBook        | /api/v1/publisher/add-book   |
+| GET fetchAllBooksByAuthorId    | /api/v1/publisher/:id        |
+| GET fetchAllAuthors            | /api/v1/publisher/           |
+| GET fetchUserById              | /api/v1/publisher/:id        |
+| DELETE deleteAuthorById        | /api/v1/publisher/:id        |
+| PUT updateAuthorById           | /api/v1/publisher/:id        |
 
 ## Routes
 
@@ -70,7 +73,12 @@ $ npm start // for production env
  * @private endpoints [createAuthor, updateAuthorById, deleteAuthorById]
  */
 
-router.post('/', accessTokenMiddleware, bodyValidatorMiddleware('createAuthor'), authorController.createAuthor);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createAuthor'),
+  authorController.createAuthor
+);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
 router.get('/:id', authorController.fetchAuthorById);
@@ -85,11 +93,26 @@ router.delete('/:id', accessTokenMiddleware, authorController.deleteAuthorById);
  * @private endpoints [createBook, updateBookById, deleteBookById]
  */
 
-router.post('/', accessTokenMiddleware, bodyValidatorMiddleware('createBook'), bookController.createBook);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createBook'),
+  bookController.createBook
+);
+router.post(
+  '/add-author',
+  accessTokenMiddleware,
+  bookController.addBookToPublisher
+);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
 router.get('/:id/publishers', bookController.fetchAllPublishersByBookId);
-router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateBookById'), bookController.updateBookById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateBookById'),
+  bookController.updateBookById
+);
 router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
 
 /**
@@ -100,12 +123,21 @@ router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
  * @private endpoints [deleteUserById, updateUserById]
  */
 
-router.post('/register', bodyValidatorMiddleware('register'), userController.register);
+router.post(
+  '/register',
+  bodyValidatorMiddleware('register'),
+  userController.register
+);
 router.post('/login', bodyValidatorMiddleware('login'), userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
 router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
-router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserById'), userController.updateUserById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateUserById'),
+  userController.updateUserById
+);
 
 /**
  * @prefix api/v1/authors
@@ -115,10 +147,28 @@ router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserByI
  * @private endpoints [updateAuthorById, deleteAuthorById]
  */
 
-router.post('/', accessTokenMiddleware, bodyValidatorMiddleware('createAuthor'), authorController.createAuthor);
-router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
-router.get('/', authorController.fetchAllAuthors);
-router.get('/:id', authorController.fetchAuthorById);
-router.put('/:id', accessTokenMiddleware, authorController.updateAuthorById);
-router.delete('/:id', accessTokenMiddleware, authorController.deleteAuthorById);
+router.post(
+  '/',
+  bodyValidatorMiddleware('createPublisher'),
+  publisherController.createPublisher
+);
+router.post(
+  '/add-book',
+  accessTokenMiddleware,
+  publisherController.addPublisherToBook
+);
+router.get('/', publisherController.fetchAllPublishers);
+router.get('/:id', publisherController.fetchPublisherById);
+router.get('/:id/books', publisherController.fetchAllBooksByPublisherId);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updatePublisherById'),
+  publisherController.updatePublisherById
+);
+router.delete(
+  '/:id',
+  accessTokenMiddleware,
+  publisherController.deletePublisherById
+);
 ```
