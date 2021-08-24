@@ -111,11 +111,6 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number is required')
           .isString()
           .withMessage('phone number must be a string'),
-        check('BookId')
-          .exists()
-          .withMessage('BookId is required')
-          .isUUID()
-          .withMessage('BookId must be a UUID'),
       ];
     }
 
@@ -248,11 +243,6 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('email must be string')
           .isEmail()
           .withMessage('please provide a valid email'),
-        check('AuthorId')
-          .exists()
-          .withMessage('AuthorId is required')
-          .isUUID()
-          .withMessage('AuthorId must be a UUID'),
       ];
     }
 
