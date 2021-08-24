@@ -2,9 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const colors = require('colors');
+require('colors');
 const hpp = require('hpp');
-const expressValidator = require('express-validator');
 const errorHandlerMiddleware = require('./api/middlewares/errorHandlerMiddleware');
 const app = express();
 
