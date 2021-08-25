@@ -5,6 +5,7 @@ const AuthorModel = require('../models/Author');
 const UserModel = require('../models/User');
 const PublisherModel = require('../models/Publisher');
 const BorrowerModel = require('../models/Borrower');
+const BorrowedBookModel = require('../models/BorrowedBook');
 
 /*--------------- Setting up models ---------------*/
 
@@ -13,8 +14,11 @@ const Author = AuthorModel(db, Sequelize);
 const User = UserModel(db, Sequelize);
 const Publisher = PublisherModel(db, Sequelize);
 const Borrower = BorrowerModel(db, Sequelize);
+const BorrowedBook = BorrowedBookModel(db, Sequelize);
 
 /*--------------- Setting up One-To-Many relationships ---------------*/
+
+// 1
 
 Author.hasMany(Book, {
   foreignKey: {
@@ -24,6 +28,17 @@ Author.hasMany(Book, {
 });
 
 Book.belongsTo(Author);
+
+// 2
+
+Borrower.hasMany(BorrowedBook, {
+  foreignKey: {
+    type: Sequelize.DataTypes.UUID,
+    allowNull: false,
+  },
+});
+
+BorrowedBook.belongsTo(Borrower);
 
 /*--------------- Setting up Many-To-Many relationships ---------------*/
 
@@ -42,4 +57,5 @@ module.exports = {
   User,
   Publisher,
   Borrower,
+  BorrowedBook,
 };

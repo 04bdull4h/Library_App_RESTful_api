@@ -8,22 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
     },
-    lastName: {
+    name: {
       type: DataTypes.STRING,
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: {
-        args: true,
-        msg: 'Email already exists',
-      },
-    },
-    phoneNumber: {
-      type: DataTypes.STRING,
-      unique: {
-        args: true,
-        msg: 'Phone number already exists',
-      },
     },
     issueDate: {
       type: DataTypes.DATEONLY,

@@ -53,6 +53,7 @@ const fetchBorrowerById = async (req, res, next) => {
 
 const fetchAllBookByBorrowerId = async (req, res, next) => {
   try {
+       
   } catch (err) {}
 };
 
