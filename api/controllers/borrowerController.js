@@ -1,11 +1,11 @@
-const { Borrower } = require('../models');
-const { validationResult } = require('express-validator');
+const { Borrower } = require("../models");
+const { validationResult } = require("express-validator");
 const {
   okLogger,
   createdLogger,
   badRequestLogger,
   notFoundLogger,
-} = require('../utils/loggerMethods');
+} = require("../utils/loggerMethods");
 
 const fetchAllBorrowers = async (req, res, next) => {
   try {
@@ -20,7 +20,7 @@ const fetchAllBorrowers = async (req, res, next) => {
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: 'Borrowers fetched successfully',
+      message: "Borrowers fetched successfully",
       data: borrowers,
     });
   } catch (err) {
@@ -31,7 +31,7 @@ const fetchAllBorrowers = async (req, res, next) => {
 const fetchBorrowerById = async (req, res, next) => {
   try {
     const borrowerId = req.params.id;
-    const borrower = await Borrower.findByPk(borrowerId);
+    const borrower = await Book.findByPk(borrowerId);
     if (!borrower) {
       notFoundLogger(req);
       return res.status(404).json({
@@ -53,7 +53,6 @@ const fetchBorrowerById = async (req, res, next) => {
 
 const fetchAllBookByBorrowerId = async (req, res, next) => {
   try {
-       
   } catch (err) {}
 };
 
@@ -64,7 +63,7 @@ const createBorrower = async (req, res, next) => {
       badRequestLogger(req);
       return res.status(400).json({
         success: false,
-        msg: 'Validation errors',
+        msg: "Validation errors",
         errors: errors.array(),
       });
     }
@@ -80,7 +79,7 @@ const createBorrower = async (req, res, next) => {
     createdLogger(req);
     res.status(201).json({
       success: true,
-      message: 'Book created successfully',
+      message: "Book created successfully",
       data: createdBorrower,
     });
   } catch (err) {
