@@ -1,4 +1,4 @@
-const { Borrower } = require('../models');
+const { Borrower, BorrowedBook } = require('../models');
 const { validationResult } = require('express-validator');
 const {
   okLogger,
@@ -51,9 +51,35 @@ const fetchBorrowerById = async (req, res, next) => {
   }
 };
 
-const fetchAllBookByBorrowerId = async (req, res, next) => {
+const fetchAllBorrowedBooksByBorrowerId = async (req, res, next) => {
   try {
-  } catch (err) {}
+    const borrowerId = req.params.id;
+    const borrower = await Borrower.findByPk(borrowerId);
+    if (!borrower) {
+      notFoundLogger(req);
+      return res.status(404).json({
+        success: false,
+        message: `Borrower with id ${borrowerId} not found in the database`,
+        data: {},
+      });
+    }
+    const borrowedBooks = await Borrower.findAll({
+      where: { id: borrowerId },
+      include: [
+        {
+          model: BorrowedBook,
+        },
+      ],
+    });
+    okLogger(req);
+    res.status(200).json({
+      success: true,
+      message: `Borrowed books related to borrower with id ${borrowerId} fetched successfully`,
+      data: borrowedBooks,
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const createBorrower = async (req, res, next) => {
@@ -142,7 +168,7 @@ module.exports = {
   createBorrower,
   fetchAllBorrowers,
   fetchBorrowerById,
-  fetchAllBookByBorrowerId,
+  fetchAllBookByBorrowerId: fetchAllBorrowedBooksByBorrowerId,
   updateBorrowerById,
   deleteBorrowerById,
 };
