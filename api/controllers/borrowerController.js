@@ -1,11 +1,11 @@
-const { Borrower } = require("../models");
-const { validationResult } = require("express-validator");
+const { Borrower } = require('../models');
+const { validationResult } = require('express-validator');
 const {
   okLogger,
   createdLogger,
   badRequestLogger,
   notFoundLogger,
-} = require("../utils/loggerMethods");
+} = require('../utils/loggerMethods');
 
 const fetchAllBorrowers = async (req, res, next) => {
   try {
@@ -20,7 +20,7 @@ const fetchAllBorrowers = async (req, res, next) => {
     okLogger(req);
     res.status(200).json({
       success: true,
-      message: "Borrowers fetched successfully",
+      message: 'Borrowers fetched successfully',
       data: borrowers,
     });
   } catch (err) {
@@ -31,7 +31,7 @@ const fetchAllBorrowers = async (req, res, next) => {
 const fetchBorrowerById = async (req, res, next) => {
   try {
     const borrowerId = req.params.id;
-    const borrower = await Book.findByPk(borrowerId);
+    const borrower = await Borrower.findByPk(borrowerId);
     if (!borrower) {
       notFoundLogger(req);
       return res.status(404).json({
@@ -63,7 +63,7 @@ const createBorrower = async (req, res, next) => {
       badRequestLogger(req);
       return res.status(400).json({
         success: false,
-        msg: "Validation errors",
+        msg: 'Validation errors',
         errors: errors.array(),
       });
     }
@@ -79,7 +79,7 @@ const createBorrower = async (req, res, next) => {
     createdLogger(req);
     res.status(201).json({
       success: true,
-      message: "Book created successfully",
+      message: 'Book created successfully',
       data: createdBorrower,
     });
   } catch (err) {
@@ -87,9 +87,62 @@ const createBorrower = async (req, res, next) => {
   }
 };
 
+const updateBorrowerById = async () => {
+  try {
+    const borrowerId = req.params.id;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      badRequestLogger(req);
+      return res.status(400).json({
+        success: false,
+        msg: 'Validation errors',
+        errors: errors.array(),
+      });
+    }
+    const body = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      issueDate: req.body.issueDate,
+      dueDate: req.body.dueDate,
+    };
+
+    const borrower = await Borrower.findByPk(borrowerId);
+    if (!borrower) {
+      notFoundLogger(req);
+      return res.status(404).json({
+        success: false,
+        message: `Borrower with id ${borrowerId} not found in the database`,
+        data: {},
+      });
+    }
+    await Book.update(body, {
+      where: {
+        id: borrowerId,
+      },
+    });
+    okLogger(req);
+    res.status(200).json({
+      success: true,
+      message: `Book with id ${borrowerId} updated successfully`,
+      data: body,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteBorrowerById = async () => {
+  try {
+  } catch (err) {}
+};
+
 module.exports = {
   createBorrower,
   fetchAllBorrowers,
   fetchBorrowerById,
   fetchAllBookByBorrowerId,
+  updateBorrowerById,
+  deleteBorrowerById,
 };

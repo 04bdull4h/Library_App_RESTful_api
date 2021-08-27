@@ -8,8 +8,24 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
     },
-    name: {
+    description: {
+      type: DataTypes.TEXT,
+    },
+    author: {
       type: DataTypes.STRING,
+    },
+    isbn: {
+      type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: 'ISBN already exists in the database',
+      },
+    },
+    publisher: {
+      type: DataTypes.STRING,
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
     },
     issueDate: {
       type: DataTypes.DATEONLY,
