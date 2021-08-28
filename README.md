@@ -41,34 +41,39 @@ $ npm start // for production env
 
 All endpoints tested by postman, you can use it or insomnia both are ok.
 
-| Method                         | Endpoint                     |
-| ------------------------------ | ---------------------------- |
-| GET fetchAllBooksByAuthorId    | /api/v1/authors/:id/books    |
-| GET fetchAllAuthors            | /api/v1/authors              |
-| GET fetchAuthorById            | /api/v1/authors/:id          |
-| PUT updateAuthorById           | /api/v1/authors/:id          |
-| DELETE deleteAuthorById        | /api/v1/authors:/id          |
-| POST createBook                | /api/v1/books                |
-| POST addBookToPublisher        | /api/v1/books/add-publisher  |
-| GET fetchAllBooks              | /api/v1/books                |
-| GET fetchBookById              | /api/v1/books/:id            |
-| GET fetchAllPublishersByBookId | /api/v1/books/:id/publishers |
-| PUT updateBookById             | /api/v1/books/:id            |
-| DELETE deleteBookById          | /api/v1/books:/id            |
-| POST register                  | /api/v1/users/register       |
-| POST login                     | /api/v1/user/login           |
-| GET fetchAllUsers              | /api/v1/users/               |
-| GET fetchUserById              | /api/v1/users/:id            |
-| DELETE deleteUserById          | /api/v1/users/:id            |
-| PUT updateUserById             | /api/v1/users/:id            |
-| POST createAuthor              | /api/v1/publisher/           |
-| POST createPublisher           | /api/v1/publisher/           |
-| POST addPublisherToBook        | /api/v1/publisher/add-book   |
-| GET fetchAllBooksByAuthorId    | /api/v1/publisher/:id        |
-| GET fetchAllAuthors            | /api/v1/publisher/           |
-| GET fetchUserById              | /api/v1/publisher/:id        |
-| DELETE deleteAuthorById        | /api/v1/publisher/:id        |
-| PUT updateAuthorById           | /api/v1/publisher/:id        |
+| Method                                | Endpoint                            |
+| ------------------------------------- | ----------------------------------- |
+| GET fetchAllBooksByAuthorId           | /api/v1/authors/:id/books           |
+| GET fetchAllAuthors                   | /api/v1/authors                     |
+| GET fetchAuthorById                   | /api/v1/authors/:id                 |
+| PUT updateAuthorById                  | /api/v1/authors/:id                 |
+| DELETE deleteAuthorById               | /api/v1/authors:/id                 |
+| POST createBook                       | /api/v1/books                       |
+| POST addBookToPublisher               | /api/v1/books/add-publisher         |
+| GET fetchAllBooks                     | /api/v1/books                       |
+| GET fetchBookById                     | /api/v1/books/:id                   |
+| GET fetchAllPublishersByBookId        | /api/v1/books/:id/publishers        |
+| PUT updateBookById                    | /api/v1/books/:id                   |
+| DELETE deleteBookById                 | /api/v1/books:/id                   |
+| POST register                         | /api/v1/users/register              |
+| POST login                            | /api/v1/user/login                  |
+| GET fetchAllUsers                     | /api/v1/users/                      |
+| GET fetchUserById                     | /api/v1/users/:id                   |
+| DELETE deleteUserById                 | /api/v1/users/:id                   |
+| PUT updateUserById                    | /api/v1/users/:id                   |
+| POST createAuthor                     | /api/v1/publisher/                  |
+| POST createPublisher                  | /api/v1/publisher/                  |
+| POST addPublisherToBook               | /api/v1/publisher/add-book          |
+| GET fetchAllBooksByAuthorId           | /api/v1/publisher/:id               |
+| GET fetchAllAuthors                   | /api/v1/publisher/                  |
+| GET fetchUserById                     | /api/v1/publisher/:id               |
+| DELETE deleteAuthorById               | /api/v1/publisher/:id               |
+| GET fetchAllBorrowers                 | /api/v1/borrowers/                  |
+| GET fetchBorrowerById                 | /api/v1/borrowers/:id               |
+| GET fetchAllBorrowedBooksByBorrowerId | /api/v1/borrowers/:id/borrowed-book |
+| POST createBorrower                   | /api/v1/borrowers/                  |
+| UPDATE updateBorrowerById             | /api/v1/borrowers/:id               |
+| DELETE deleteBorrowerById             | /api/v1/borrowers/:id               |
 
 ## Routes
 
@@ -220,14 +225,14 @@ router.delete(
  * @private endpoints [createBorrowedBook, updateBorrowedBook, deleteBorrowedBook]
  */
 
+router.get('/', borrowedBookController.fetchAllBorrowedBooks);
+router.get('/:id', borrowedBookController.fetchAllBorrowedBookById);
 router.post(
   '/',
   accessTokenMiddleware,
   bodyValidatorMiddleware('createBorrowedBook'),
   borrowedBookController.createBorrowedBook
 );
-router.get('/', borrowedBookController.fetchAllBorrowedBooks);
-router.get('/:id', borrowedBookController.fetchAllBorrowedBookById);
 router.put(
   '/:id',
   accessTokenMiddleware,
