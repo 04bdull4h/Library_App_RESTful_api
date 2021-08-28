@@ -249,3 +249,7 @@ router.delete(
   borrowedBookController.deleteBorrowedBook
 );
 ```
+
+## License
+
+this RESTful api under MIT licence you can use it for free ❤
