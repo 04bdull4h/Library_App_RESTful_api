@@ -79,7 +79,7 @@ All endpoints are tested by Postman, you can use either Postman/Insomnia to test
 | UPDATE updateBorrowedBookById         | /api/v1/borrowed-books/:id          |
 | DELETE deleteBorrowedBookById         | /api/v1/borrowed-books/:id          |
 
-## Routes
+## Routes documentation
 
 ```js
 /**
