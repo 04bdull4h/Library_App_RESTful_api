@@ -1,10 +1,6 @@
 # Library_app_RESTful_api
 
-<<<<<<< HEAD
 this is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM. it contains JWT to secure some endpoints with access token, and centralized error handler as a middleware. It uses express-validator to validate body request. This project is quite scalable. I have tried to use best MVC architecture. However, there is no Views in this project.
-=======
-This is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM. it contains JWT to secure some endpoints with access token, and centralized error handler as a middleware. It uses express-validator to validate body request. This project is scalable I have tried to use best architecture, e.g., separation routes from controllers and models in an independent files.
->>>>>>> 1034814bf72fb224f5fb058593f5090850a3863b
 
 ## status: incomplete ❌
 
