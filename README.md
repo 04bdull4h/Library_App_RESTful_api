@@ -39,7 +39,7 @@ $ npm start // for production env
 
 ## Endpoints
 
-All endpoints tested by postman, you can use it or insomnia both are ok.
+All endpoints are tested by Postman, you can use either Postman/Insomnia to test this restful api.
 
 | Method                                | Endpoint                            |
 | ------------------------------------- | ----------------------------------- |
