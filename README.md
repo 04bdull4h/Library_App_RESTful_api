@@ -252,6 +252,6 @@ router.delete(
 
 ## License
 
-This RESTful api under MIT licence you can use it for free ❤
+This RESTful api under MIT licence you can use it for free
 </br>
 Made with 💙 by 04bdull4h
