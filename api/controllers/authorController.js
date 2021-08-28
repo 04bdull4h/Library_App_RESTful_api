@@ -1,4 +1,4 @@
-const { Book, Author } = require('../models/');
+const { BoughtBook, Author } = require('../models/');
 const {
   okLogger,
   createdLogger,
@@ -65,7 +65,7 @@ const fetchAllBooksByAuthorId = async (req, res, next) => {
       where: { id: authorId },
       include: [
         {
-          model: Book,
+          model: BoughtBook,
         },
       ],
     });

@@ -43,7 +43,7 @@ const fetchAllBorrowedBooks = async (req, res, next) => {
 const fetchAllBorrowedBookById = async (req, res, next) => {
   try {
     const borrowedBookId = req.params.id;
-    const borrowedBook = await Book.findByPk(borrowedBookId);
+    const borrowedBook = await BorrowedBook.findByPk(borrowedBookId);
     if (!borrowedBook) {
       notFoundLogger(req);
       return res.status(404).json({

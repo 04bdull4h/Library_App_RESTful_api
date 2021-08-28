@@ -1,4 +1,4 @@
-const { Publisher, Book } = require('../models');
+const { Publisher, BorrowedBook } = require('../models');
 const { validationResult } = require('express-validator');
 const {
   okLogger,
@@ -73,7 +73,7 @@ const addPublisherToBook = async (req, res, next) => {
   try {
     const { publisherId, bookId } = req.body;
     const publisher = await Publisher.findByPk(publisherId);
-    const book = await Book.findByPk(bookId);
+    const book = await BorrowedBook.findByPk(bookId);
     if (!publisher) {
       notFoundLogger(req);
       return res.status(404).json({
@@ -111,7 +111,7 @@ const fetchAllBooksByPublisherId = async (req, res, next) => {
   try {
     const publisherId = req.params.id;
     const publisher = await Publisher.findByPk(publisherId, {
-      include: [{ model: Book, as: 'books' }],
+      include: [{ model: BorrowedBook, as: 'books' }],
     });
     if (!publisher) {
       notFoundLogger(req);

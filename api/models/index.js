@@ -1,15 +1,15 @@
 const Sequelize = require('sequelize');
 const db = require('../../config/db');
-const BookModel = require('../models/Book');
 const AuthorModel = require('../models/Author');
 const UserModel = require('../models/User');
 const PublisherModel = require('../models/Publisher');
 const BorrowerModel = require('../models/Borrower');
+const BoughtBookModel = require('./BoughtBook');
 const BorrowedBookModel = require('../models/BorrowedBook');
 
 /*--------------- Setting up models ---------------*/
 
-const Book = BookModel(db, Sequelize);
+const BoughtBook = BoughtBookModel(db, Sequelize);
 const Author = AuthorModel(db, Sequelize);
 const User = UserModel(db, Sequelize);
 const Publisher = PublisherModel(db, Sequelize);
@@ -20,14 +20,14 @@ const BorrowedBook = BorrowedBookModel(db, Sequelize);
 
 // 1
 
-Author.hasMany(Book, {
+Author.hasMany(BoughtBook, {
   foreignKey: {
     type: Sequelize.DataTypes.UUID,
     allowNull: false,
   },
 });
 
-Book.belongsTo(Author);
+BoughtBook.belongsTo(Author);
 
 // 2
 
@@ -42,8 +42,11 @@ BorrowedBook.belongsTo(Borrower);
 
 /*--------------- Setting up Many-To-Many relationships ---------------*/
 
-Publisher.belongsToMany(Book, { as: 'books', through: 'Publishers_Books' });
-Book.belongsToMany(Publisher, {
+Publisher.belongsToMany(BoughtBook, {
+  as: 'books',
+  through: 'Publishers_Books',
+});
+BoughtBook.belongsToMany(Publisher, {
   as: 'publishers',
   through: 'Publishers_Books',
 });
@@ -52,7 +55,7 @@ Book.belongsToMany(Publisher, {
 
 db.sync({ force: false });
 module.exports = {
-  Book,
+  BoughtBook,
   Author,
   User,
   Publisher,
