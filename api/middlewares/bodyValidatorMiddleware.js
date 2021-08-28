@@ -348,6 +348,46 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('please provide a valid UUID borrower id'),
       ];
     }
+    case 'updateBorrowedBook': {
+      return [
+        check('title')
+          .optional()
+          .isString()
+          .withMessage('title must be a string'),
+        check('description')
+          .optional()
+          .isString()
+          .withMessage('description must be a string'),
+        check('author')
+          .optional()
+          .isString()
+          .withMessage('author must be a string'),
+        check('isbn')
+          .optional()
+          .isISBN()
+          .withMessage('please provide a valid ISBN'),
+        check('publisher')
+          .optional()
+          .isString()
+          .withMessage('publisher must be a string'),
+        check('status')
+          .optional()
+          .isBoolean()
+          .withMessage('status must be a boolean'),
+        check('issueDate')
+          .optional()
+          .isDate()
+          .withMessage('please provide a valid issue date YY/MM/DD'),
+        check('dueDate')
+          .optional()
+          .isDate()
+          .withMessage('please provide a valid due date YY/MM/DD'),
+        check('BorrowerId')
+          .optional()
+          .isUUID()
+          .withMessage('please provide a valid UUID borrower id'),
+      ];
+    }
   }
 };
 
