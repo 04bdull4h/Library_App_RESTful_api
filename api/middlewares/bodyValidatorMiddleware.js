@@ -299,6 +299,28 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number must be a string'),
       ];
     }
+    case 'updateBorrower': {
+      return [
+        check('firstName')
+          .optional()
+          .isString()
+          .withMessage('first name must be a string'),
+        check('lastName')
+          .optional()
+          .isString()
+          .withMessage('last name must be a string'),
+        check('email')
+          .optional()
+          .isString()
+          .withMessage('email must be a string')
+          .isEmail()
+          .withMessage('please provide a valid E-mail'),
+        check('phoneNumber')
+          .optional()
+          .isString()
+          .withMessage('phone number must be a string'),
+      ];
+    }
     case 'createBorrowedBook': {
       return [
         check('title')
