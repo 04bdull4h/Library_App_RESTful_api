@@ -19,5 +19,6 @@ router.post(
 
 router.get('/', borrowerController.fetchAllBorrowers);
 router.get('/:id', borrowerController.fetchBorrowerById);
+router.get(':/id', borrowerController.fetchAllBorrowedBooksByBorrowerId);
 
 module.exports = router;
