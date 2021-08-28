@@ -29,7 +29,7 @@ JWT_KEY=
 
 ## How to use
 
-You should have NodeJS & MySQL server, (e.g, XAMPP or Wampserver) installed in your OS
+You should have NodeJS & MySQL server, (e.g, XAMPP or WampServer) installed in your OS
 
 ```
 $ npm i
