@@ -10,6 +10,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   error.message = err.message;
   if (err.name === 'SequelizeUniqueConstraintError') {
     conflictLogger(req);
+    console.log('=====================>' + err);
     return res.status(409).json({
       success: false,
       msg: 'Conflict error',
