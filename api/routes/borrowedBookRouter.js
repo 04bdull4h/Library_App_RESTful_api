@@ -19,7 +19,7 @@ router.post(
 router.get('/', borrowedBookController.getAllBorrowedBooks);
 router.get('/', borrowedBookController.getAllBorrowedBookById);
 router.get('/', borrowedBookController.getAllBorrowedBooksByBorrowerId);
-router.update('/', borrowedBookController.updateBorrowedBook);
+router.put('/', borrowedBookController.updateBorrowedBook);
 router.delete('/', borrowedBookController.deleteBorrowedBook);
 
 module.exports = router;
