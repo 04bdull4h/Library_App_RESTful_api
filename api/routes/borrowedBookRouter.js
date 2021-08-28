@@ -13,13 +13,22 @@ const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware'
 
 router.post(
   '/',
+  accessTokenMiddleware,
   bodyValidatorMiddleware('createBorrowedBook'),
   borrowedBookController.createBorrowedBook
 );
-router.get('/', borrowedBookController.getAllBorrowedBooks);
-router.get('/', borrowedBookController.getAllBorrowedBookById);
-router.get('/', borrowedBookController.getAllBorrowedBooksByBorrowerId);
-router.put('/', borrowedBookController.updateBorrowedBook);
-router.delete('/', borrowedBookController.deleteBorrowedBook);
+router.get('/', borrowedBookController.fetchAllBorrowedBooks);
+router.get('/:id', borrowedBookController.fetchAllBorrowedBookById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateBorrowedBook'),
+  borrowedBookController.updateBorrowedBook
+);
+router.delete(
+  '/:id',
+  accessTokenMiddleware,
+  borrowedBookController.deleteBorrowedBook
+);
 
 module.exports = router;
