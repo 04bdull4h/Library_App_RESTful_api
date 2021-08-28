@@ -73,7 +73,11 @@ All endpoints are tested by Postman, you can use either Postman/Insomnia to test
 | GET fetchAllBorrowedBooksByBorrowerId | /api/v1/borrowers/:id/borrowed-book |
 | POST createBorrower                   | /api/v1/borrowers/                  |
 | UPDATE updateBorrowerById             | /api/v1/borrowers/:id               |
-| DELETE deleteBorrowerById             | /api/v1/borrowers/:id               |
+| GET fetchAllBorrowedBooks             | /api/v1/borrowed-books/             |
+| GET fetchAllBorrowedBookById          | /api/v1/borrowed-books/:id          |
+| POST createBorrowedBook               | /api/v1/borrowed-books/             |
+| UPDATE updateBorrowedBookById         | /api/v1/borrowed-books/:id          |
+| DELETE deleteBorrowedBookById         | /api/v1/borrowed-books/:id          |
 
 ## Routes
 
