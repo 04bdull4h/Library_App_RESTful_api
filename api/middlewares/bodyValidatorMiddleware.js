@@ -297,20 +297,55 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number is required')
           .isString()
           .withMessage('phone number must be a string'),
+      ];
+    }
+    case 'createBorrowedBook': {
+      return [
+        check('title')
+          .exists()
+          .withMessage('title is required')
+          .isString()
+          .withMessage('title must be a string'),
+        check('description')
+          .exists()
+          .withMessage('description is required')
+          .isString()
+          .withMessage('description must be a string'),
+        check('author')
+          .exists()
+          .withMessage('author is required')
+          .isString()
+          .withMessage('author must be a string'),
+        check('isbn')
+          .exists()
+          .withMessage('isbn is required')
+          .isISBN()
+          .withMessage('please provide a valid ISBN'),
+        check('publisher')
+          .exists()
+          .withMessage('publisher is required')
+          .isString()
+          .withMessage('publisher must be a string'),
+        check('status')
+          .exists()
+          .withMessage('status is required')
+          .isBoolean()
+          .withMessage('status must be a boolean'),
         check('issueDate')
           .exists()
           .withMessage('issue date is required')
-          .isString()
-          .withMessage('issue date must be a string')
           .isDate()
-          .withMessage('please provide a valid date YY/MM/DD'),
+          .withMessage('please provide a valid issue date YY/MM/DD'),
         check('dueDate')
           .exists()
           .withMessage('due date is required')
-          .isString()
-          .withMessage('due date must be a string')
           .isDate()
-          .withMessage('please provide a valid date YY/MM/DD'),
+          .withMessage('please provide a valid due date YY/MM/DD'),
+        check('BorrowerId')
+          .exists()
+          .withMessage('Borrower id is required')
+          .isUUID()
+          .withMessage('please provide a valid UUID borrower id'),
       ];
     }
   }
