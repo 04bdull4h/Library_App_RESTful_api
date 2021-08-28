@@ -168,7 +168,7 @@ module.exports = {
   createBorrower,
   fetchAllBorrowers,
   fetchBorrowerById,
-  fetchAllBookByBorrowerId: fetchAllBorrowedBooksByBorrowerId,
+  fetchAllBorrowedBooksByBorrowerId,
   updateBorrowerById,
   deleteBorrowerById,
 };
