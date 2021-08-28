@@ -11,14 +11,28 @@ const bodyValidatorMiddleware = require('../middlewares/bodyValidatorMiddleware'
  *@controller borrowerController
  */
 
+router.get('/', borrowerController.fetchAllBorrowers);
+router.get('/:id', borrowerController.fetchBorrowerById);
+router.get(
+  '/:id/borrowed-books',
+  borrowerController.fetchAllBorrowedBooksByBorrowerId
+);
 router.post(
   '/',
+  accessTokenMiddleware,
   bodyValidatorMiddleware('createBorrower'),
   borrowerController.createBorrower
 );
-
-router.get('/', borrowerController.fetchAllBorrowers);
-router.get('/:id', borrowerController.fetchBorrowerById);
-router.get(':/id', borrowerController.fetchAllBorrowedBooksByBorrowerId);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  borrowerController.updateBorrowerById
+);
+router.delete(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateBorrower'),
+  borrowerController.deleteBorrowerById
+);
 
 module.exports = router;
