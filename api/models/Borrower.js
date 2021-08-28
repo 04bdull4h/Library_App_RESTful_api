@@ -25,12 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         msg: 'Phone number already exists',
       },
     },
-    issueDate: {
-      type: DataTypes.DATEONLY,
-    },
-    dueDate: {
-      type: DataTypes.DATEONLY,
-    },
   });
   return Borrower;
 };
