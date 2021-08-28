@@ -1,6 +1,6 @@
 # Library_app_RESTful_api
 
-this is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM. it contains JWT to secure some endpoints with access token, and centralized error handler as a middleware. It uses express-validator to validate body request.
+this is a RESTful api for library app developed using express js and MySQL for the database using sequelize ORM. it contains JWT to secure some endpoints with access token, and centralized error handler as a middleware. It uses express-validator to validate body request. This project is scalable I have tried to use best architecture, e.g., separation routes from controllers and models in an independent files.
 
 ## status: incomplete ❌
 
@@ -81,7 +81,12 @@ All endpoints tested by postman, you can use it or insomnia both are ok.
  * @private endpoints [createAuthor, updateAuthorById, deleteAuthorById]
  */
 
-router.post('/', accessTokenMiddleware, bodyValidatorMiddleware('createAuthor'), authorController.createAuthor);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createAuthor'),
+  authorController.createAuthor
+);
 router.get('/:id/books', authorController.fetchAllBooksByAuthorId);
 router.get('/', authorController.fetchAllAuthors);
 router.get('/:id', authorController.fetchAuthorById);
@@ -96,12 +101,26 @@ router.delete('/:id', accessTokenMiddleware, authorController.deleteAuthorById);
  * @private endpoints [createBook, updateBookById, deleteBookById]
  */
 
-router.post('/', accessTokenMiddleware, bodyValidatorMiddleware('createBook'), bookController.createBook);
-router.post('/add-author', accessTokenMiddleware, bookController.addBookToPublisher);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createBook'),
+  bookController.createBook
+);
+router.post(
+  '/add-author',
+  accessTokenMiddleware,
+  bookController.addBookToPublisher
+);
 router.get('/', bookController.fetchAllBooks);
 router.get('/:id', bookController.fetchBookById);
 router.get('/:id/publishers', bookController.fetchAllPublishersByBookId);
-router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateBookById'), bookController.updateBookById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateBookById'),
+  bookController.updateBookById
+);
 router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
 
 /**
@@ -112,12 +131,21 @@ router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
  * @private endpoints [deleteUserById, updateUserById]
  */
 
-router.post('/register', bodyValidatorMiddleware('register'), userController.register);
+router.post(
+  '/register',
+  bodyValidatorMiddleware('register'),
+  userController.register
+);
 router.post('/login', bodyValidatorMiddleware('login'), userController.login);
 router.get('/', userController.fetchAllUsers);
 router.get('/:id', userController.fetchUserById);
 router.delete('/:id', accessTokenMiddleware, userController.deleteUserById);
-router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserById'), userController.updateUserById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateUserById'),
+  userController.updateUserById
+);
 
 /**
  * @prefix api/v1/publisher
@@ -127,11 +155,28 @@ router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updateUserByI
  * @private endpoints [addPublisherToBook, updatePublisherById, deletePublisherById]
  */
 
-router.post('/', bodyValidatorMiddleware('createPublisher'), publisherController.createPublisher);
-router.post('/add-book', accessTokenMiddleware, publisherController.addPublisherToBook);
+router.post(
+  '/',
+  bodyValidatorMiddleware('createPublisher'),
+  publisherController.createPublisher
+);
+router.post(
+  '/add-book',
+  accessTokenMiddleware,
+  publisherController.addPublisherToBook
+);
 router.get('/', publisherController.fetchAllPublishers);
 router.get('/:id', publisherController.fetchPublisherById);
 router.get('/:id/books', publisherController.fetchAllBooksByPublisherId);
-router.put('/:id', accessTokenMiddleware, bodyValidatorMiddleware('updatePublisherById'), publisherController.updatePublisherById);
-router.delete('/:id', accessTokenMiddleware, publisherController.deletePublisherById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updatePublisherById'),
+  publisherController.updatePublisherById
+);
+router.delete(
+  '/:id',
+  accessTokenMiddleware,
+  publisherController.deletePublisherById
+);
 ```
