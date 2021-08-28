@@ -161,7 +161,27 @@ const updateBorrowerById = async () => {
 
 const deleteBorrowerById = async () => {
   try {
-  } catch (err) {}
+    const borrowerId = req.params.id;
+    const deletedBorrower = await Borrower.destroy({
+      where: { id: borrowerId },
+    });
+    if (!deletedBorrower) {
+      notFoundLogger(req);
+      return res.status(404).json({
+        success: false,
+        message: `Borrower with id ${borrowerId} not found in the database`,
+        data: {},
+      });
+    }
+    okLogger(req);
+    res.status(200).json({
+      success: true,
+      message: `Borrower with id ${borrowerId} deleted successfully`,
+      data: {},
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {
