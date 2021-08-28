@@ -7,6 +7,12 @@ const {
   notFoundLogger,
 } = require('../utils/loggerMethods');
 
+/**
+ * @description   To create borrowed book
+ * @route         POST => api/v1/borrowed-books/
+ * @access        Private
+ */
+
 const createBorrowedBook = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -50,7 +56,13 @@ const createBorrowedBook = async (req, res, next) => {
   }
 };
 
-const getAllBorrowedBooks = async (req, res, next) => {
+/**
+ * @description   To fetch all borrowed books
+ * @route         GET => api/v1/borrowed-books/
+ * @access        Public
+ */
+
+const fetchAllBorrowedBooks = async (req, res, next) => {
   try {
     const borrowedBooks = await BorrowedBook.findAll();
     if (!borrowedBooks) {
@@ -71,7 +83,13 @@ const getAllBorrowedBooks = async (req, res, next) => {
   }
 };
 
-const getAllBorrowedBookById = async (req, res, next) => {
+/**
+ * @description   To fetch all borrowed book by id
+ * @route         GET => api/v1/borrowed-books/:id
+ * @access        Public
+ */
+
+const fetchAllBorrowedBookById = async (req, res, next) => {
   try {
     const borrowedBookId = req.params.id;
     const borrowedBook = await Book.findByPk(borrowedBookId);
@@ -94,38 +112,13 @@ const getAllBorrowedBookById = async (req, res, next) => {
   }
 };
 
-const getAllBorrowedBooksByBorrowerId = async (req, res, next) => {
-  try {
-    const borrowerId = req.params.id;
-    const borrower = await Author.findByPk(borrowerId);
-    if (!borrower) {
-      notFoundLogger(req);
-      return res.status(404).json({
-        success: false,
-        message: `Borrower with id ${borrowerId} not found in the database`,
-        data: {},
-      });
-    }
-    const borrowedBooks = await Borrower.findAll({
-      where: { id: borrowerId },
-      include: [
-        {
-          model: BorrowedBook,
-        },
-      ],
-    });
-    okLogger(req);
-    res.status(200).json({
-      success: true,
-      message: `Borrowed books related to borrower with id ${borrowerId} fetched successfully`,
-      data: borrowedBooks,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+/**
+ * @description   To fetch all borrowed books
+ * @route         POST => api/v1/borrowed-books/
+ * @access        Public
+ */
 
-const getAllBorrowedBooks = async (req, res, next) => {
+const fetchAllBorrowedBooks = async (req, res, next) => {
   try {
     const borrowedBooks = await BorrowedBook.findAll();
     if (!borrowedBooks) {
@@ -145,6 +138,12 @@ const getAllBorrowedBooks = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To update a borrowed book by id
+ * @route         PUT => api/v1/borrowed-books/:id
+ * @access        Private (needs an access token)
+ */
 
 const updateBorrowedBook = async (req, res, next) => {
   try {
@@ -194,6 +193,12 @@ const updateBorrowedBook = async (req, res, next) => {
   }
 };
 
+/**
+ * @description   To delete a borrowed book by id
+ * @route         DELETE => api/v1/borrowed-books/:id
+ * @access        Private (needs an access token)
+ */
+
 const deleteBorrowedBook = async (req, res, next) => {
   try {
     const borrowedBookId = req.params.id;
@@ -220,10 +225,9 @@ const deleteBorrowedBook = async (req, res, next) => {
 };
 
 module.exports = {
+  fetchAllBorrowedBookById,
+  fetchAllBorrowedBooks,
   createBorrowedBook,
-  getAllBorrowedBookById,
-  getAllBorrowedBooks,
-  getAllBorrowedBooksByBorrowerId,
   updateBorrowedBook,
   deleteBorrowedBook,
 };
