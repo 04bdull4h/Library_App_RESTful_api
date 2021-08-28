@@ -125,7 +125,7 @@ router.delete('/:id', accessTokenMiddleware, bookController.deleteBookById);
 
 /**
  * @prefix api/v1/users
- * @route userController
+ * @route userRouter
  * @controller userController
  * @public endpoints [register, login, fetchAllUsers, fetchUserById]
  * @private endpoints [deleteUserById, updateUserById]
@@ -149,7 +149,7 @@ router.put(
 
 /**
  * @prefix api/v1/publisher
- * @route publisherController
+ * @route publisherRouter
  * @controller publisherController
  * @public endpoints [createPublisher, fetchAllPublishers, fetchAllBooksByPublisherId, fetchPublisherById]
  * @private endpoints [addPublisherToBook, updatePublisherById, deletePublisherById]
@@ -178,5 +178,65 @@ router.delete(
   '/:id',
   accessTokenMiddleware,
   publisherController.deletePublisherById
+);
+
+/**
+ * @prefix api/v1/borrowers
+ * @route borrowerRouter
+ * @controller borrowerController
+ * @public endpoints [fetchAllBorrowers, fetchBorrowerById, fetchAllBorrowedBooksByBorrowerId, fetchPublisherById]
+ * @private endpoints [createBorrower, updateBorrowerById, deleteBorrowerById]
+ */
+
+router.get('/', borrowerController.fetchAllBorrowers);
+router.get('/:id', borrowerController.fetchBorrowerById);
+router.get(
+  '/:id/borrowed-books',
+  borrowerController.fetchAllBorrowedBooksByBorrowerId
+);
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createBorrower'),
+  borrowerController.createBorrower
+);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  borrowerController.updateBorrowerById
+);
+router.delete(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateBorrower'),
+  borrowerController.deleteBorrowerById
+);
+
+/**
+ * @prefix api/v1/borrowed-books
+ * @route borrowedBookRouter
+ * @controller borrowerBookController
+ * @public endpoints [fetchAllBorrowedBooks, fetchAllBorrowedBookById]
+ * @private endpoints [createBorrowedBook, updateBorrowedBook, deleteBorrowedBook]
+ */
+
+router.post(
+  '/',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('createBorrowedBook'),
+  borrowedBookController.createBorrowedBook
+);
+router.get('/', borrowedBookController.fetchAllBorrowedBooks);
+router.get('/:id', borrowedBookController.fetchAllBorrowedBookById);
+router.put(
+  '/:id',
+  accessTokenMiddleware,
+  bodyValidatorMiddleware('updateBorrowedBook'),
+  borrowedBookController.updateBorrowedBook
+);
+router.delete(
+  '/:id',
+  accessTokenMiddleware,
+  borrowedBookController.deleteBorrowedBook
 );
 ```
