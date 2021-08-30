@@ -450,6 +450,39 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number must be a string'),
       ];
     }
+    case 'updateEmployeeById': {
+      return [
+        check('firstName')
+          .optional()
+          .isString()
+          .withMessage('first name must be a string'),
+        check('lastName')
+          .optional()
+          .withMessage('last name is required')
+          .isString()
+          .withMessage('last name must be a string'),
+        check('jobTitle')
+          .optional()
+          .isString()
+          .withMessage('job title must be a string'),
+        check('department')
+          .optional()
+          .isString()
+          .withMessage('department must be a string'),
+        check('hireDate')
+          .optional()
+          .isDate()
+          .withMessage('please provide a valid date YY/MM/DD'),
+        check('email')
+          .optional()
+          .isEmail()
+          .withMessage('please provide a valid email'),
+        check('phoneNumber')
+          .optional()
+          .isString()
+          .withMessage('phone number must be a string'),
+      ];
+    }
   }
 };
 
