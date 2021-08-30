@@ -7,6 +7,12 @@ const {
   notFoundLogger,
 } = require('../utils/loggerMethods');
 
+/**
+ * @description   To fetch all employees
+ * @route         GET => api/v1/employees/
+ * @access        Public
+ */
+
 const fetchAllEmployees = async (req, res, next) => {
   try {
     const employees = await Employee.findAll();
@@ -27,6 +33,12 @@ const fetchAllEmployees = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To fetch by an employee by id
+ * @route         GET => api/v1/employees/:id
+ * @access        Public
+ */
 
 const fetchEmployeeById = async (req, res, next) => {
   try {
@@ -50,6 +62,12 @@ const fetchEmployeeById = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To create an employee
+ * @route         POST => api/v1/employees/
+ * @access        Public
+ */
 
 const createEmployee = async (req, res, next) => {
   try {
@@ -83,6 +101,13 @@ const createEmployee = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To update an employee by id
+ * @route         PUT => api/v1/employees/:id
+ * @access        Private
+ */
+
 const updateEmployeeById = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -121,6 +146,12 @@ const updateEmployeeById = async (req, res, next) => {
     data: body,
   });
 };
+
+/**
+ * @description   To delete an employee by id
+ * @route         DELETE => api/v1/publishers/:id
+ * @access        Private
+ */
 
 const deleteEmployeeById = async (req, res, next) => {
   try {
