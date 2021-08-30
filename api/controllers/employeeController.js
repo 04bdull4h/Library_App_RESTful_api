@@ -83,7 +83,44 @@ const createEmployee = async (req, res, next) => {
     next(err);
   }
 };
-const updateEmployeeById = async (req, res, next) => {};
+const updateEmployeeById = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    badRequestLogger(req);
+    return res.status(400).json({
+      success: false,
+      msg: 'Validation errors',
+      errors: errors.array(),
+    });
+  }
+  const employeeId = req.params.id;
+  const body = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    jobTitle: req.body.jobTitle,
+    department: req.body.department,
+    salary: req.body.salary,
+    hireDate: req.body.hireDate,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+  };
+  const employee = await Employee.findByPk(employeeId);
+  if (!employee) {
+    notFoundLogger(req);
+    return res.status(404).json({
+      success: false,
+      message: `Book with id ${employeeId} not found in the database`,
+      data: {},
+    });
+  }
+  await Employee.update(body);
+  okLogger(req);
+  res.status(200).json({
+    success: true,
+    message: `Book with id ${bookId} updated successfully`,
+    data: body,
+  });
+};
 
 const deleteEmployeeById = async (req, res, next) => {
   try {
