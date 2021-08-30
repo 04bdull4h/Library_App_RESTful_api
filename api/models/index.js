@@ -6,6 +6,7 @@ const PublisherModel = require('../models/Publisher');
 const BorrowerModel = require('../models/Borrower');
 const BoughtBookModel = require('./BoughtBook');
 const BorrowedBookModel = require('../models/BorrowedBook');
+const EmployeeModel = require('../models/Employee');
 
 /*--------------- Setting up models ---------------*/
 
@@ -15,6 +16,7 @@ const User = UserModel(db, Sequelize);
 const Publisher = PublisherModel(db, Sequelize);
 const Borrower = BorrowerModel(db, Sequelize);
 const BorrowedBook = BorrowedBookModel(db, Sequelize);
+const Employee = EmployeeModel(db, Sequelize);
 
 /*--------------- Setting up One-To-Many relationships ---------------*/
 
@@ -61,4 +63,5 @@ module.exports = {
   Publisher,
   Borrower,
   BorrowedBook,
+  Employee,
 };
