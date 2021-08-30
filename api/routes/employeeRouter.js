@@ -15,14 +15,20 @@ router.get('/', employeeController.fetchAllEmployees);
 router.get('/:id', employeeController.fetchEmployeeById);
 router.post(
   '/',
+  accessTokenMiddleware,
   bodyValidatorMiddleware('createEmployee'),
   employeeController.createEmployee
 );
 router.put(
   '/:id',
+  accessTokenMiddleware,
   bodyValidatorMiddleware('updateEmployeeById'),
   employeeController.updateEmployeeById
 );
-router.delete('/:id', employeeController.deleteEmployeeById);
+router.delete(
+  '/:id',
+  accessTokenMiddleware,
+  employeeController.deleteEmployeeById
+);
 
 module.exports = router;
