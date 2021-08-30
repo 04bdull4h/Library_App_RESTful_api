@@ -273,6 +273,7 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('please provide a valid email'),
       ];
     }
+
     case 'createBorrower': {
       return [
         check('firstName')
@@ -299,6 +300,7 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number must be a string'),
       ];
     }
+
     case 'updateBorrower': {
       return [
         check('firstName')
@@ -321,6 +323,7 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number must be a string'),
       ];
     }
+
     case 'createBorrowedBook': {
       return [
         check('title')
@@ -370,6 +373,7 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('please provide a valid UUID borrower id'),
       ];
     }
+
     case 'updateBorrowedBook': {
       return [
         check('title')
@@ -450,6 +454,7 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('phone number must be a string'),
       ];
     }
+
     case 'updateEmployeeById': {
       return [
         check('firstName')
