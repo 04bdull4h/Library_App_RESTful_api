@@ -410,6 +410,46 @@ const bodyValidatorMiddleware = (method) => {
           .withMessage('please provide a valid UUID borrower id'),
       ];
     }
+
+    case 'createEmployee': {
+      return [
+        check('firstName')
+          .exists()
+          .withMessage('first name is required')
+          .isString()
+          .withMessage('first name must be a string'),
+        check('lastName')
+          .exists()
+          .withMessage('last name is required')
+          .isString()
+          .withMessage('last name must be a string'),
+        check('jobTitle')
+          .exists()
+          .withMessage('job title is required')
+          .isString()
+          .withMessage('job title must be a string'),
+        check('department')
+          .exists()
+          .withMessage('department is required')
+          .isString()
+          .withMessage('department must be a string'),
+        check('hireDate')
+          .exists()
+          .withMessage('hire date is required')
+          .isDate()
+          .withMessage('please provide a valid date YY/MM/DD'),
+        check('email')
+          .exists()
+          .withMessage('email is required')
+          .isEmail()
+          .withMessage('please provide a valid email'),
+        check('phoneNumber')
+          .exists()
+          .withMessage('phone number is required')
+          .isString()
+          .withMessage('phone number must be a string'),
+      ];
+    }
   }
 };
 
