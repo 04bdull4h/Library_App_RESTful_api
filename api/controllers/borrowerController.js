@@ -7,6 +7,12 @@ const {
   notFoundLogger,
 } = require('../utils/loggerMethods');
 
+/**
+ * @description   To fetch all borrowers
+ * @route         GET => api/v1/borrowers/
+ * @access        Public
+ */
+
 const fetchAllBorrowers = async (req, res, next) => {
   try {
     const borrowers = await Borrower.findAll();
@@ -27,6 +33,12 @@ const fetchAllBorrowers = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To fetch a borrower by id
+ * @route         GET => api/v1/borrowers/:id
+ * @access        Public
+ */
 
 const fetchBorrowerById = async (req, res, next) => {
   try {
@@ -50,6 +62,12 @@ const fetchBorrowerById = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * @description   To fetch all borrowed books by borrower id
+ * @route         GET => api/v1/borrowers/:id/borrowed-books
+ * @access        Public
+ */
 
 const fetchAllBorrowedBooksByBorrowerId = async (req, res, next) => {
   try {
@@ -82,6 +100,12 @@ const fetchAllBorrowedBooksByBorrowerId = async (req, res, next) => {
   }
 };
 
+/**
+ * @description   To create a borrower
+ * @route         POST => api/v1/borrowers/
+ * @access        Private
+ */
+
 const createBorrower = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -113,7 +137,13 @@ const createBorrower = async (req, res, next) => {
   }
 };
 
-const updateBorrowerById = async () => {
+/**
+ * @description   To update a borrower
+ * @route         PUT => api/v1/borrowers/:id
+ * @access        Private
+ */
+
+const updateBorrowerById = async (req, res, next) => {
   try {
     const borrowerId = req.params.id;
     const errors = validationResult(req);
@@ -159,7 +189,13 @@ const updateBorrowerById = async () => {
   }
 };
 
-const deleteBorrowerById = async () => {
+/**
+ * @description   To delete a borrower
+ * @route         DELETE => api/v1/borrowers/:id
+ * @access        Private
+ */
+
+const deleteBorrowerById = async (req, res, next) => {
   try {
     const borrowerId = req.params.id;
     const deletedBorrower = await Borrower.destroy({
